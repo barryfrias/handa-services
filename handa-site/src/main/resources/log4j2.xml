@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="logFileName">logs/handa.log</Property>
+        <Property name="logFileNamePattern">logs/handa-%d{MM-dd-yyyy}.log.gz</Property>
+        <Property name="requestLogFileName">logs/request.log</Property>
+        <Property name="requestLogFileNamePattern">logs/request-%d{MM-dd-yyyy}.log.gz</Property>
+        <Property name="commonPatternLayout">%d{yyyy-MM-dd hh:mm:ss} %t %p %c{1.} - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile
+            name="logfile"
+            fileName="${logFileName}"
+            filePattern="${logFileNamePattern}">
+            <PatternLayout pattern="${commonPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="12"/>
+        </RollingFile>
+        <RollingFile
+            name="requestlog"
+            fileName="${requestLogFileName}"
+            filePattern="${requestLogFileNamePattern}">
+            <PatternLayout pattern="%d{yyyy-MM-dd hh:mm:ss} - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="12"/>
+        </RollingFile>
+        <Console
+            name="stdout"
+            target="SYSTEM_OUT">
+            <PatternLayout pattern="${commonPatternLayout}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger
+            name="org.glassfish.jersey.filter.LoggingFilter"
+            level="INFO"
+            additivity="false">
+            <AppenderRef ref="requestlog"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="@log.appender@"/>
+        </Root>
+    </Loggers>
+</Configuration>

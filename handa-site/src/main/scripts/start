@@ -1,0 +1,31 @@
+#resolve the full path where this script is located
+#which is under bin directory
+SCRIPT_DIR="$(cd $(dirname "$0"); pwd)";
+
+#up one directory
+cd $SCRIPT_DIR/..;
+
+HOME_DIR=`pwd`;
+
+CLASSPATH="$HOME_DIR/lib/@project.build.finalName@.jar";
+CLASSPATH="$CLASSPATH:$HOME_DIR/config";
+
+$JAVA_HOME/bin/java \
+-server \
+-Dcom.sun.management.jmxremote \
+-Dcom.sun.management.jmxremote.port=9999 \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Djava.rmi.server.hostname=@rmi.server.hostname@ \
+-DgrizzlyPort=9000 \
+-DgrizzlyHost=0.0.0.0 \
+-DgrizzlyCorePoolSize=50 \
+-DgrizzlyMaxPoolSize=50 \
+-DresourceRoot=/handa-services \
+-Xmx1024M \
+-Xms1024M \
+-XX:LargePageSizeInBytes=256M \
+-XX:+UseParallelGC \
+-XX:+UseParallelOldGC \
+-XX:+AggressiveOpts \
+-cp "$CLASSPATH" com.pldt.itmss.main.Bootstrap >logs/server.log 2>&1 &

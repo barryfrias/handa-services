@@ -1,0 +1,9 @@
+#!/bin/bash
+# desc: Perform a kill to the application which has a ShutdownHook to perform a graceful shutdown. 
+
+    jpid=`ps -ef | grep java | grep '/@project.artifactId@/' | awk '{ print $2 }'`
+    if [ -z $jpid ] ; then
+        echo "Could not find @project.artifactId@ Application running. Exiting ... "
+    else
+        kill $jpid
+    fi

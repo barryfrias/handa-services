@@ -1,0 +1,51 @@
+package handa.command;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static handa.config.HandaCommandConstants.*;
+import handa.beans.dto.AppLog;
+import handa.beans.dto.AppLog.Source;
+import handa.beans.dto.UserLogin;
+import handa.core.DBLoggerDAO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import frias.barry.LDAPController;
+
+/**
+ * @author bfrias
+ */
+@Component
+public class CommandUsersServiceImpl implements CommandUsersService
+{
+    private LDAPController ldapController;
+    private CommandUsersDAO commandUsersDAO;
+    private DBLoggerDAO dbLoggerDAO;
+
+    @Autowired
+    public CommandUsersServiceImpl(LDAPController ldapController, CommandUsersDAO commandUsersDAO, DBLoggerDAO dbLoggerDAO)
+    {
+        this.ldapController = ldapController;
+        this.commandUsersDAO = commandUsersDAO;
+        this.dbLoggerDAO = dbLoggerDAO;
+    }
+
+    @Override
+    public boolean authenticate(UserLogin userLogin)
+    {
+        checkNotNull(userLogin, "userLogin object can't be null");
+        checkNotNull(userLogin.getUsername(), "userLogin.username can't be null");
+        checkNotNull(userLogin.getPassword(), "userLogin.password can't be null");
+        String result = commandUsersDAO.checkUsername(userLogin.getUsername());
+        switch(result)
+        {
+                case OK:
+                    boolean isOk = ldapController.login(userLogin.getUsername().toLowerCase(), userLogin.getPassword());
+                    dbLoggerDAO.insertLog(new AppLog(Source.SERVER, userLogin.getUsername(), NA, "Tried to login and result was " + isOk));
+                    return isOk;
+                default:
+                    dbLoggerDAO.insertLog(new AppLog(Source.SERVER, userLogin.getUsername(), NA, "Tried to login but not found in list of allowed users."));
+                    return false;
+        }
+    }
+}

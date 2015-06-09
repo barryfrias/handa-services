@@ -1,0 +1,156 @@
+package handa.users;
+
+import static handa.config.HandaUsersConstants.OK;
+import handa.beans.dto.AuthInfo;
+import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
+import handa.config.HandaUsersConstants;
+
+import java.io.InputStream;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Optional;
+import com.pldt.itmss.core.exception.NotFoundException;
+
+@Component
+@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+@Path("users")
+public class UsersResource
+{
+    static Logger log = LoggerFactory.getLogger(UsersResource.class);
+
+    private UsersService usersService;
+
+    @Autowired
+    public UsersResource(UsersService usersService)
+    {
+        this.usersService = usersService;
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("authenticate")
+    public Response authenticate(AuthInfo authInfo)
+    {
+        String result = usersService.authByMobileNumber(authInfo);
+        switch(result)
+        {
+            case OK : return Response.ok().build();
+            default : return Response.status(Status.UNAUTHORIZED).build();
+        }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("authenticate2")
+    public Response authenticate2(AuthInfo authInfo)
+    {
+        String result = usersService.authByMobileNumberAndUsername(authInfo);
+        switch(result)
+        {
+            case OK : return Response.ok().build();
+            default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("sos")
+    public Response sos(UserPrompt usersPrompt)
+    {
+        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SOS);
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("safe")
+    public Response safe(UserPrompt usersPrompt)
+    {
+        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SAFE);
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("report")
+    public Response report(UserReport userReport)
+    {
+        String result = usersService.report(userReport);
+        return buildResponse(result);
+    }
+
+    @GET
+    public Response getUsers()
+    {
+        List<UserInfo> result = usersService.getUsers();
+        if(!result.isEmpty())
+        {
+            return Response.ok(result).build();
+        }
+        throw new NotFoundException(String.format("No users"));
+    }
+
+    @GET
+    @Path("{mobileNumber}")
+    public Response getUserInfo(@PathParam("mobileNumber") String mobileNumber)
+    {
+        Optional<UserInfo> result = usersService.getuserInfo(mobileNumber);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        throw new NotFoundException(String.format("No user info found for mobile number %s", mobileNumber));
+    }
+
+    @POST
+    @Path("upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
+                               @FormDataParam("file") FormDataContentDisposition fileDetail,
+                               @FormDataParam("filename") String name)
+    {
+        if(name == null)
+        {
+            name = fileDetail.getFileName();
+        }
+        String result = usersService.uploadFile(uploadedInputStream, name);
+        return buildResponse(result);
+    }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("app/versions/{versionString}")
+    public Response checkVersion(@PathParam("versionString") String versionString)
+    {
+        String result = usersService.checkAppVersion(versionString);
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    private Response buildResponse(String result)
+    {
+        switch(result)
+        {
+            case OK : return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+            default : return Response.status(Status.BAD_REQUEST).entity(result).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+}
