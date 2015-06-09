@@ -325,7 +325,7 @@
                         <fileset>
                             <directory>logs</directory>
                             <includes>
-                                <include>*</include>
+                                <include>*.log</include>
                             </includes>
                         </fileset>
                     </filesets>
