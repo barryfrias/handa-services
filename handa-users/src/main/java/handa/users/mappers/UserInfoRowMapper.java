@@ -18,6 +18,7 @@ implements RowMapper<UserInfo>
         userInfo.setBloodType(getString(rs, "BLOOD_TYPE"));
         userInfo.setCurrentAddress(getString(rs, "CURRENT_ADDRESS"));
         userInfo.setDepartment(getString(rs, "DEPT"));
+        userInfo.setImmediateHead(getString(rs, "IMMEDIATE_HEAD"));
         userInfo.setEmployeeNumber(getString(rs, "EMP_NO"));
         userInfo.setFirstName(getString(rs, "FIRST_NAME"));
         userInfo.setIceContactPerson(getString(rs, "ICE_CONTACT_PERSON"));
