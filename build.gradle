@@ -5,6 +5,8 @@ allprojects {
     group = 'com.pldt.itmss'
     version = '1.1-SNAPSHOT'
 
+    println name + '-' + version
+
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
 
