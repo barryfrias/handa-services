@@ -1,2 +1,4 @@
 /.settings/
 /pom.xml.versionsBackup
+/.gradle/
+/build/
