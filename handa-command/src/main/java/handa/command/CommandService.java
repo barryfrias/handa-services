@@ -5,6 +5,7 @@ import java.util.List;
 
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -32,4 +33,5 @@ public interface CommandService
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
+    int closeUserReport(int id, CloseUserReport closeUserReport);
 }
