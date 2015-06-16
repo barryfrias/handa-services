@@ -2,6 +2,7 @@ package handa.command;
 
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -10,6 +11,7 @@ import handa.beans.dto.UserReport;
 import handa.command.mappers.CityRowMapper;
 import handa.command.mappers.PromptCountRowMapper;
 import handa.command.procs.ClosePromptProcedure;
+import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
 import handa.command.procs.GenericProcedure;
 import handa.command.procs.GetNewsFeedsProcedure;
@@ -56,6 +58,7 @@ implements CommandDAO
     private GetUserLocAndPromptProcedure getUsersLocationsProcedure;
     private ClosePromptProcedure closePromptProcedure;
     private UsersCountProcedure usersCountProcedure;
+    private CloseUserReportProcedure closeUserReportProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -74,7 +77,8 @@ implements CommandDAO
                          @Value("${handa.command.events.reset.proc}") String resetEventsProcName,
                          @Value("${handa.command.get.users.locations.proc}") String getUsersLocationsProcName,
                          @Value("${handa.command.close.prompt.proc}") String closePromptProcName,
-                         @Value("${handa.command.users.count.proc}") String usersCountProcName)
+                         @Value("${handa.command.users.count.proc}") String usersCountProcName,
+                         @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -93,6 +97,7 @@ implements CommandDAO
         this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource(), getUsersLocationsProcName);
         this.closePromptProcedure = new ClosePromptProcedure(dataSource(), closePromptProcName);
         this.usersCountProcedure = new UsersCountProcedure(dataSource(), usersCountProcName);
+        this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
     }
 
     @Override
@@ -201,5 +206,11 @@ implements CommandDAO
     public int getUsersCount(String city)
     {
         return usersCountProcedure.count(city);
+    }
+
+    @Override
+    public int closeUserReport(int id, CloseUserReport closeUserReport)
+    {
+        return closeUserReportProcedure.closeUserReport(id, closeUserReport);
     }
 }
