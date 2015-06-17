@@ -42,7 +42,7 @@
             <AppenderRef ref="requestlog"/>
         </Logger>
         <Root level="INFO">
-            <AppenderRef ref="@log.appender@"/>
+            <AppenderRef ref="stdout"/>
         </Root>
     </Loggers>
 </Configuration>

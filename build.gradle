@@ -2,12 +2,8 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'java'
 
-    defaultTasks 'clean', 'assemble'
-
     group = 'com.pldt.itmss'
     version = '1.1-SNAPSHOT'
-
-    println name + '-' + version
 
     repositories { maven { url "http://wsn-blfrias:8081/nexus/content/groups/public" } }
 }
@@ -110,6 +106,15 @@ project('handa-users') {
 }
 
 project('handa-site') {
+    def environment = 'local'
+
+    if (project.hasProperty('env')) {
+        println "Target environment: ${env}"
+        environment = env
+    } else {
+        println "Using default environment '$environment'"
+    }
+
     dependencies {
         compile project(':handa-command')
         compile project(':handa-users')
@@ -130,18 +135,61 @@ project('handa-site') {
             compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.7'
     }
 
-    if (project.hasProperty('env')) {
-        println "Target environment: $env"
-        sourceSets.main.resources.srcDir "src/main/resources/$env"
-    } else {
-        println "Using default environment (local)"
+    def resourceDir = 'src/main/resources'
+    if (!environment.equals('local')) {
+        resourceDir = "src/main/resources/$environment"
     }
 
-    apply plugin: 'application'
-    mainClassName = 'com.pldt.itmss.main.Bootstrap'
-    applicationName = 'handa-site' // name of the executable file
+    task buildTar(type: Tar, dependsOn: ':handa-site:assemble') {
+        baseName = 'handa-site'
+        archiveName = "${project.name}-${version}-${environment}.tar"
+        compression = Compression.NONE
+        fileMode = 0644
+        dirMode = 0755
+        includeEmptyDirs = true
+        from("src/main/scripts") {
+            into ("${baseName}/bin")
+            if(environment.equals('dev')) {
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.124" 
+                ]
+            } else if(environment.equals('qa')){
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.126" 
+                ]
+            } else if(environment.equals('prod')){
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.122"
+                ]
+            }
+        }
 
-    distTar {
-        archiveName = 'handa-site'
+        //include my own jar
+        into ("${baseName}/libs") {
+            from ("${buildDir}/libs")
+            include '*.jar'
+        }
+
+        into ("${baseName}/libs") {
+            from configurations.runtime
+        }
+
+        into ("${baseName}/config") {
+            from ('src/main/resources')
+        }
+
+        //create empty logs directory
+        File logs = file("${destinationDir}/logs")
+        logs.mkdirs()
+        println logs
+        into("${baseName}") {
+            from logs.absolutePath
+        }
+
+        apply plugin: 'application'
+        mainClassName = 'com.pldt.itmss.main.Bootstrap'
     }
 }
