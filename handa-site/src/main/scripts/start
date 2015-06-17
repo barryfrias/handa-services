@@ -7,8 +7,7 @@ cd $SCRIPT_DIR/..;
 
 HOME_DIR=`pwd`;
 
-CLASSPATH="$HOME_DIR/lib/@project.build.finalName@.jar";
-CLASSPATH="$CLASSPATH:$HOME_DIR/config";
+CLASSPATH="$HOME_DIR/lib/*:$HOME_DIR/config";
 
 $JAVA_HOME/bin/java \
 -server \
@@ -16,8 +15,8 @@ $JAVA_HOME/bin/java \
 -Dcom.sun.management.jmxremote.port=9999 \
 -Dcom.sun.management.jmxremote.authenticate=false \
 -Dcom.sun.management.jmxremote.ssl=false \
--Djava.rmi.server.hostname=@rmi.server.hostname@ \
--DgrizzlyPort=9000 \
+-Djava.rmi.server.hostname=@rmiServerHostname@ \
+-DgrizzlyPort=@grizzlyPort@ \
 -DgrizzlyHost=0.0.0.0 \
 -DgrizzlyCorePoolSize=50 \
 -DgrizzlyMaxPoolSize=50 \
