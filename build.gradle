@@ -2,15 +2,19 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'java'
 
+    defaultTasks 'clean', 'assemble'
+
     group = 'com.pldt.itmss'
     version = '1.1-SNAPSHOT'
 
     println name + '-' + version
 
+    repositories { maven { url "http://wsn-blfrias:8081/nexus/content/groups/public" } }
+}
+
+subprojects {
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
-
-    repositories { maven { url "http://wsn-blfrias:8081/nexus/content/groups/public" } }
 
     eclipse {
         classpath { downloadSources=true }
@@ -19,6 +23,9 @@ allprojects {
     jar {
         exclude '**/*.properties'
         exclude '**/*.xml'
+        exclude '**/*dev'
+        exclude '**/*qa'
+        exclude '**/*prod'
     }
 }
 
@@ -121,5 +128,20 @@ project('handa-site') {
             compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version:'2.0.2'
             compile group: 'org.apache.logging.log4j', name: 'log4j-core', version:'2.0.2'
             compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.7'
+    }
+
+    if (project.hasProperty('env')) {
+        println "Target environment: $env"
+        sourceSets.main.resources.srcDir "src/main/resources/$env"
+    } else {
+        println "Using default environment (local)"
+    }
+
+    apply plugin: 'application'
+    mainClassName = 'com.pldt.itmss.main.Bootstrap'
+    applicationName = 'handa-site' // name of the executable file
+
+    distTar {
+        archiveName = 'handa-site'
     }
 }
