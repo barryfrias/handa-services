@@ -1,0 +1,47 @@
+def profileValues(param) {
+    def valuesMap = [
+        local: [], // intentionally blank
+        dev: [
+            appName: 'handa-site',
+            rmiServerHostname: "10.30.31.124",
+            grizzlyPort: '9000'
+        ],
+        qa: [
+            appName: 'handa-site',
+            rmiServerHostname: "10.30.31.126",
+            grizzlyPort: '9000'
+        ],
+        prod: [
+            appName: 'handa-site',
+            rmiServerHostname: "10.30.31.122",
+            grizzlyPort: '9000'
+        ]
+    ]
+    return valuesMap[param]
+}
+
+// Export methods by turning them into closures
+ext {
+    profileValues = this.&profileValues
+}
+
+/*
+
+if(environment.equals('dev')) {
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.124" 
+                ]
+            } else if(environment.equals('qa')){
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.126" 
+                ]
+            } else if(environment.equals('prod')){
+                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+                    "appName": baseName, 
+                    "rmi.server.hostname": "10.30.31.122"
+                ]
+            }
+
+*/

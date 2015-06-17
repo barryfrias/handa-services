@@ -105,6 +105,8 @@ project('handa-users') {
     }
 }
 
+apply from: 'profiles.gradle'
+
 project('handa-site') {
     def environment = 'local'
 
@@ -135,45 +137,25 @@ project('handa-site') {
             compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.7'
     }
 
-    def resourceDir = 'src/main/resources'
-    if (!environment.equals('local')) {
-        resourceDir = "src/main/resources/$environment"
-    }
-
     task buildTar(type: Tar, dependsOn: ':handa-site:assemble') {
         baseName = 'handa-site'
         archiveName = "${project.name}-${version}-${environment}.tar"
         compression = Compression.NONE
         fileMode = 0644
         dirMode = 0755
-        includeEmptyDirs = true
+
         from("src/main/scripts") {
             into ("${baseName}/bin")
-            if(environment.equals('dev')) {
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.124" 
-                ]
-            } else if(environment.equals('qa')){
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.126" 
-                ]
-            } else if(environment.equals('prod')){
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.122"
-                ]
-            }
+            filter org.apache.tools.ant.filters.ReplaceTokens, tokens: profileValues(environment)
         }
 
         //include my own jar
         into ("${baseName}/libs") {
-            from ("${buildDir}/libs")
+            from("${buildDir}/libs")
             include '*.jar'
         }
 
-        into ("${baseName}/libs") {
+        into ("${baseName}/${libsDirName}") {
             from configurations.runtime
         }
 
@@ -181,15 +163,17 @@ project('handa-site') {
             from ('src/main/resources')
         }
 
-        //create empty logs directory
-        File logs = file("${destinationDir}/logs")
-        logs.mkdirs()
-        println logs
-        into("${baseName}") {
-            from logs.absolutePath
+        into("${baseName}/logs") {
+            from("logs")
+            include '*.log'
         }
-
-        apply plugin: 'application'
-        mainClassName = 'com.pldt.itmss.main.Bootstrap'
+        def mainClass = 'com.pldt.itmss.main.Bootstrap'
+        doLast {
+            def tarFile = new File("${destinationDir}/${archiveName}")
+            if(tarFile.isFile())
+            {
+                println "Succesfully created tar ${tarFile}"
+            }
+        }
     }
 }
