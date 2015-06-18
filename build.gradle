@@ -1,27 +1,25 @@
 allprojects {
     apply plugin: 'eclipse'
-    apply plugin: 'java'
-
     group = 'com.pldt.itmss'
     version = '1.1-SNAPSHOT'
-
     repositories { maven { url "http://wsn-blfrias:8081/nexus/content/groups/public" } }
 }
 
 subprojects {
+    apply plugin: 'java'
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
 
     eclipse {
-        classpath { downloadSources=true }
+        classpath {
+            downloadSources = true
+            downloadJavadoc = false
+        }
     }
 
     jar {
         exclude '**/*.properties'
         exclude '**/*.xml'
-        exclude '**/*dev'
-        exclude '**/*qa'
-        exclude '**/*prod'
     }
 }
 
@@ -146,30 +144,27 @@ project('handa-site') {
 
         from("src/main/scripts") {
             into ("${baseName}/bin")
-            filter org.apache.tools.ant.filters.ReplaceTokens, tokens: profileValues(environment)
-        }
-
-        //include my own jar
-        into ("${baseName}/libs") {
-            from("${buildDir}/libs")
-            include '*.jar'
-        }
-
-        into ("${baseName}/${libsDirName}") {
-            from configurations.runtime
+            filter org.apache.tools.ant.filters.ReplaceTokens, tokens: valuesMap[environment]
+            fileMode = 0755
         }
 
         into ("${baseName}/config") {
-            from ('src/main/resources')
+            from ('src/main/filtered/resources')
+            filter org.apache.tools.ant.filters.ReplaceTokens, tokens: valuesMap[environment]
         }
 
+        into ("${baseName}/config") { from ('src/main/resources/handa-properties-configuration.xml') }
+
+        //copy all required jars and include this project's jar also
+        into ("${baseName}/lib") { from (jar.outputs.files.singleFile, configurations.runtime) }
+
         into("${baseName}/logs") {
-            from("logs")
-            include '*.log'
+            from ("logs/handa.log")
+            fileMode = 0777
         }
-        def mainClass = 'com.pldt.itmss.main.Bootstrap'
+
         doLast {
-            def tarFile = new File("${destinationDir}/${archiveName}")
+            def tarFile = file "${destinationDir}/${archiveName}"
             if(tarFile.isFile())
             {
                 println "Succesfully created tar ${tarFile}"

@@ -1,47 +1,77 @@
-def profileValues(param) {
-    def valuesMap = [
-        local: [], // intentionally blank
-        dev: [
-            appName: 'handa-site',
+ext {
+    defAppName = 'handa-site'
+    valuesMap = [
+        local: [
+            appName: defAppName,
             rmiServerHostname: "10.30.31.124",
-            grizzlyPort: '9000'
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
+            "jdbc.username": 'handa"/jdbc.username',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "jdbc.pool.fair.queue": 'false',
+            "jdbc.pool.max.active": '20',
+            "jdbc.pool.initial.size": '10',
+            "jdbc.pool.max.age": '300000',
+            "jdbc.pool.max.idle": '10',
+            "jdbc.pool.min.idle": '5',
+            "jdbc.pool.time.between.eviction.runs.millis": '30000',
+            "jdbc.pool.min.evictable.idle.time.millis": '60000',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+        ],
+        dev: [
+            appName: defAppName,
+            rmiServerHostname: "10.30.31.124",
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
+            "jdbc.username": 'handa"/jdbc.username',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "jdbc.pool.fair.queue": 'false',
+            "jdbc.pool.max.active": '20',
+            "jdbc.pool.initial.size": '10',
+            "jdbc.pool.max.age": '300000',
+            "jdbc.pool.max.idle": '10',
+            "jdbc.pool.min.idle": '5',
+            "jdbc.pool.time.between.eviction.runs.millis": '30000',
+            "jdbc.pool.min.evictable.idle.time.millis": '60000',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
         ],
         qa: [
-            appName: 'handa-site',
+            appName: defAppName,
             rmiServerHostname: "10.30.31.126",
-            grizzlyPort: '9000'
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
+            "jdbc.username": 'handa',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "jdbc.pool.fair.queue": 'false',
+            "jdbc.pool.max.active": '20',
+            "jdbc.pool.initial.size": '10',
+            "jdbc.pool.max.age": '300000',
+            "jdbc.pool.max.idle": '10',
+            "jdbc.pool.min.idle": '5',
+            "jdbc.pool.time.between.eviction.runs.millis": '30000',
+            "jdbc.pool.min.evictable.idle.time.millis": '60000',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
         ],
         prod: [
-            appName: 'handa-site',
+            appName: defAppName,
             rmiServerHostname: "10.30.31.122",
-            grizzlyPort: '9000'
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.120:1521:mobility',
+            "jdbc.username": 'handa',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "jdbc.pool.fair.queue": 'false',
+            "jdbc.pool.max.active": '10',
+            "jdbc.pool.initial.size": '5',
+            "jdbc.pool.max.age": '300000',
+            "jdbc.pool.max.idle": '5',
+            "jdbc.pool.min.idle": '2',
+            "jdbc.pool.time.between.eviction.runs.millis": '30000',
+            "jdbc.pool.min.evictable.idle.time.millis": '60000',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
         ]
     ]
-    return valuesMap[param]
 }
-
-// Export methods by turning them into closures
-ext {
-    profileValues = this.&profileValues
-}
-
-/*
-
-if(environment.equals('dev')) {
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.124" 
-                ]
-            } else if(environment.equals('qa')){
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.126" 
-                ]
-            } else if(environment.equals('prod')){
-                filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-                    "appName": baseName, 
-                    "rmi.server.hostname": "10.30.31.122"
-                ]
-            }
-
-*/
