@@ -3,7 +3,7 @@ ext {
     valuesMap = [
         local: [
             appName: defAppName,
-            rmiServerHostname: "10.30.31.124",
+            rmiServerHostname: "localhost",
             grizzlyPort: '9000',
             "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
             "jdbc.username": 'handa',

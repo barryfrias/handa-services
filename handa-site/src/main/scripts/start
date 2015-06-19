@@ -7,6 +7,11 @@ cd $SCRIPT_DIR/..;
 
 HOME_DIR=`pwd`;
 
+# create logs folder
+if [ ! -d logs ]; then 
+    mkdir logs;
+fi
+
 CLASSPATH="$HOME_DIR/lib/*:$HOME_DIR/config";
 
 $JAVA_HOME/bin/java \

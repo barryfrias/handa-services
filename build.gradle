@@ -158,11 +158,6 @@ project('handa-site') {
         //copy all required jars and include this project's jar also
         into ("${baseName}/lib") { from (jar.outputs.files.singleFile, configurations.runtime) }
 
-        into("${baseName}/logs") {
-            from ("logs/handa.log")
-            fileMode = 0777
-        }
-
         doLast {
             def tarFile = file "${destinationDir}/${archiveName}"
             if(tarFile.isFile())
@@ -170,5 +165,9 @@ project('handa-site') {
                 println "Succesfully created tar ${tarFile}"
             }
         }
+    }
+
+    clean {
+        delete 'logs'
     }
 }
