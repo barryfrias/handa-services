@@ -142,8 +142,8 @@ project('handa-site') {
         fileMode = 0644
         dirMode = 0755
 
-        from("src/main/scripts") {
-            into ("${baseName}/bin")
+        into ("${baseName}/bin") {
+            from("src/main/scripts")
             filter org.apache.tools.ant.filters.ReplaceTokens, tokens: valuesMap[environment]
             fileMode = 0755
         }
