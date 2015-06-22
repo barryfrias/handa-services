@@ -118,6 +118,7 @@ project('handa-users') {
 apply from: 'profiles.gradle'
 
 project('handa-site') {
+    println "Group: ${project.group}"
     println "Project: ${project.name}"
     println "Version: ${project.version}"
     dependencies {
