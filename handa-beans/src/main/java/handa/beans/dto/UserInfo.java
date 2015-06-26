@@ -13,6 +13,7 @@ public class UserInfo
     private String middleName;
     private String department;
     private String immediateHead;
+    private String company;
     private String landlineNo;
     private String mobileNumber;
     private String permanentAddress;
@@ -83,6 +84,16 @@ public class UserInfo
     public void setImmediateHead(String immediateHead)
     {
         this.immediateHead = immediateHead;
+    }
+
+    public String getCompany()
+    {
+        return company;
+    }
+
+    public void setCompany(String company)
+    {
+        this.company = company;
     }
 
     public String getLandlineNo()
