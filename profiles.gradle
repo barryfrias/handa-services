@@ -1,0 +1,39 @@
+ext {
+    defAppName = 'handa-site'
+    tokensMap =
+    [
+        dev:
+        [
+            appName: defAppName,
+            rmiServerHostname: "10.30.31.124",
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
+            "jdbc.username": 'handa',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+        ],
+        qa:
+        [
+            appName: defAppName,
+            rmiServerHostname: "10.30.31.126",
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
+            "jdbc.username": 'handa',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+        ],
+        prod:
+        [
+            appName: defAppName,
+            rmiServerHostname: "10.30.31.122",
+            grizzlyPort: '9000',
+            "jdbc.url": 'jdbc:oracle:thin:@10.30.31.120:1521:mobility',
+            "jdbc.username": 'handa',
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
+            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+        ]
+    ]
+}

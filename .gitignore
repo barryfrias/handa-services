@@ -1,2 +1,7 @@
 /.settings/
 /pom.xml.versionsBackup
+/.gradle/
+/build/
+/.classpath
+/gradle-app.setting
+/.project

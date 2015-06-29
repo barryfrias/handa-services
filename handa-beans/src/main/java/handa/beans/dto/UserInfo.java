@@ -12,6 +12,8 @@ public class UserInfo
     private String lastName;
     private String middleName;
     private String department;
+    private String immediateHead;
+    private String company;
     private String landlineNo;
     private String mobileNumber;
     private String permanentAddress;
@@ -72,6 +74,26 @@ public class UserInfo
     public void setDepartment(String department)
     {
         this.department = department;
+    }
+
+    public String getImmediateHead()
+    {
+        return immediateHead;
+    }
+
+    public void setImmediateHead(String immediateHead)
+    {
+        this.immediateHead = immediateHead;
+    }
+
+    public String getCompany()
+    {
+        return company;
+    }
+
+    public void setCompany(String company)
+    {
+        this.company = company;
     }
 
     public String getLandlineNo()
@@ -193,6 +215,7 @@ public class UserInfo
                .add("lastName", lastName)
                .add("middleName", middleName)
                .add("department", department)
+               .add("immediateHead", immediateHead)
                .add("landlineNo", landlineNo)
                .add("mobileNumber", mobileNumber)
                .add("permanentAddress", permanentAddress)

@@ -1,0 +1,5 @@
+include ':handa-beans'
+include ':handa-core'
+include ':handa-command'
+include ':handa-users'
+include ':handa-site'

@@ -5,6 +5,7 @@ import static handa.config.HandaCommandConstants.CITY;
 import static handa.config.HandaCommandConstants.OK;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -242,6 +243,14 @@ public class CommandResource
     {
         int result = commandService.getReportsCount();
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    @POST
+    @Path("reports/{id}")
+    public Response closeUserReport(@PathParam("id") int id, CloseUserReport closeUserReport)
+    {
+        int rowsAffected = commandService.closeUserReport(id, closeUserReport);
+        return Response.ok().entity(rowsAffected).build();
     }
 
     @POST
