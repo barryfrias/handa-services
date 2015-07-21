@@ -11,6 +11,7 @@ public class UserInfo
     private String firstName;
     private String lastName;
     private String middleName;
+    private String position;
     private String department;
     private String immediateHead;
     private String company;
@@ -64,6 +65,16 @@ public class UserInfo
     public void setMiddleName(String middleName)
     {
         this.middleName = middleName;
+    }
+
+    public String getPosition()
+    {
+        return position;
+    }
+
+    public void setPosition(String position)
+    {
+        this.position = position;
     }
 
     public String getDepartment()
@@ -214,6 +225,7 @@ public class UserInfo
                .add("firstName", firstName)
                .add("lastName", lastName)
                .add("middleName", middleName)
+               .add("position", position)
                .add("department", department)
                .add("immediateHead", immediateHead)
                .add("landlineNo", landlineNo)

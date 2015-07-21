@@ -32,6 +32,7 @@ implements RowMapper<UserInfo>
         userInfo.setMiddleName(getString(rs, "MIDDLE_NAME"));
         userInfo.setMobileNumber(getString(rs, "MOBILE_NO"));
         userInfo.setPermanentAddress(getString(rs, "PERMANENT_ADDRESS"));
+        userInfo.setPosition(getString(rs, "POSITION"));
         userInfo.setRemarks(getString(rs, "REMARKS"));
         return userInfo;
     }
