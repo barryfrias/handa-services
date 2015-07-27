@@ -6,6 +6,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
+import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ implements UsersDAO
     private final UserInfoProcedure userInfoProcedure;
     private final UserReportProcedure userReportProcedure;
     private final CheckMobileAppVersionProcedure checkMobileAppVersionProcedure;
+    private final SearchUserByNameProcedure searchUserByNameProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate,
@@ -35,7 +37,8 @@ implements UsersDAO
                         @Value("${handa.users.prompt.proc}") String userPromptProcName,
                         @Value("${handa.users.info.proc}") String userInfoProcName,
                         @Value("${handa.users.report.proc}") String userReportProcName,
-                        @Value("${handa.users.check.app.version.proc}") String checkMobileAppVersionProcName)
+                        @Value("${handa.users.check.app.version.proc}") String checkMobileAppVersionProcName,
+                        @Value("${handa.users.search.by.name.proc}") String searchUserByNameProcName)
     {
         super(jdbcTemplate);
         this.authByMobileProcedure = new AuthByMobileProcedure(dataSource(), authByMobileProcName);
@@ -44,6 +47,7 @@ implements UsersDAO
         this.userInfoProcedure = new UserInfoProcedure(dataSource(), userInfoProcName);
         this.userReportProcedure = new UserReportProcedure(dataSource(), userReportProcName);
         this.checkMobileAppVersionProcedure = new CheckMobileAppVersionProcedure(dataSource(), checkMobileAppVersionProcName);
+        this.searchUserByNameProcedure = new SearchUserByNameProcedure(dataSource(), searchUserByNameProcName);
     }
 
     @Override
@@ -65,7 +69,7 @@ implements UsersDAO
     }
 
     @Override
-    public Optional<UserInfo> getuserInfo(String mobileNumber)
+    public Optional<UserInfo> getUserInfo(String mobileNumber)
     {
         return userInfoProcedure.getInfo(mobileNumber);
     }
@@ -86,5 +90,11 @@ implements UsersDAO
     public String checkAppVersion(String versionString)
     {
         return checkMobileAppVersionProcedure.check(versionString);
+    }
+
+    @Override
+    public List<UserInfo> searchByName(UserSearch userSearch)
+    {
+        return searchUserByNameProcedure.search(userSearch);
     }
 }

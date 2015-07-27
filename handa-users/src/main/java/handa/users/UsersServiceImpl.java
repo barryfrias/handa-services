@@ -8,6 +8,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
+import handa.beans.dto.UserSearch;
 import handa.beans.dto.AppLog.Source;
 import handa.core.DBLoggerDAO;
 
@@ -90,9 +91,9 @@ implements UsersService
     }
 
     @Override
-    public Optional<UserInfo> getuserInfo(String mobileNumber)
+    public Optional<UserInfo> getUserInfo(String mobileNumber)
     {
-        return usersDAO.getuserInfo(mobileNumber);
+        return usersDAO.getUserInfo(mobileNumber);
     }
 
     @Override
@@ -145,5 +146,11 @@ implements UsersService
     public String checkAppVersion(String versionString)
     {
         return usersDAO.checkAppVersion(versionString);
+    }
+
+    @Override
+    public List<UserInfo> searchByName(UserSearch userSearch)
+    {
+        return usersDAO.searchByName(userSearch);
     }
 }
