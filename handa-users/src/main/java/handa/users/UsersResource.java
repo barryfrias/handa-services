@@ -1,11 +1,6 @@
 package handa.users;
 
 import static handa.config.HandaUsersConstants.OK;
-import handa.beans.dto.AuthInfo;
-import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserReport;
-import handa.config.HandaUsersConstants;
 
 import java.io.InputStream;
 import java.util.List;
@@ -29,6 +24,13 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
 import com.pldt.itmss.core.exception.NotFoundException;
+
+import handa.beans.dto.AuthInfo;
+import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
+import handa.beans.dto.UserSearch;
+import handa.config.HandaUsersConstants;
 
 @Component
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
@@ -113,12 +115,24 @@ public class UsersResource
     @Path("{mobileNumber}")
     public Response getUserInfo(@PathParam("mobileNumber") String mobileNumber)
     {
-        Optional<UserInfo> result = usersService.getuserInfo(mobileNumber);
+        Optional<UserInfo> result = usersService.getUserInfo(mobileNumber);
         if(result.isPresent())
         {
             return Response.ok(result.get()).build();
         }
         throw new NotFoundException(String.format("No user info found for mobile number %s", mobileNumber));
+    }
+
+    @POST
+    @Path("searchByName")
+    public Response searchByName(UserSearch userSearch)
+    {
+        List<UserInfo> result = usersService.searchByName(userSearch);
+        if(result != null && !result.isEmpty())
+        {
+            return Response.ok(result).build();
+        }
+        throw new NotFoundException(String.format("Search returned no results."));
     }
 
     @POST
