@@ -1,13 +1,5 @@
 package handa.sms;
 
-import handa.beans.dto.ClosePrompt;
-import handa.beans.dto.PromptCount;
-import handa.sms.mappers.PromptCountRowMapper;
-import handa.sms.procs.ClosePromptProcedure;
-import handa.sms.procs.GenericProcedure;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,33 +7,27 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.SmsInbound;
+import handa.sms.procs.ReceiveSmsProcedure;
+
 @Component
 public class SmsDAOImpl
 extends AbstractJdbcDAO
 implements SmsDAO
 {
-    private GenericProcedure<PromptCount> getSosCountPerCityProcedure;
-    private ClosePromptProcedure closePromptProcedure;
+    private ReceiveSmsProcedure receiveSmsProcedure;
 
     @Autowired
     public SmsDAOImpl(JdbcTemplate jdbcTemplate,
-                         @Value("${handa.command.sos.countPerCity.proc}") String getSosCountPerCityProcName,
-                         @Value("${handa.command.close.prompt.proc}") String closePromptProcName)
+                      @Value("${sms.receive.proc}") String smsReceiveProcName)
     {
         super(jdbcTemplate);
-        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), getSosCountPerCityProcName, new PromptCountRowMapper());
-        this.closePromptProcedure = new ClosePromptProcedure(dataSource(), closePromptProcName);
+        this.receiveSmsProcedure = new ReceiveSmsProcedure(dataSource(), smsReceiveProcName);
     }
 
     @Override
-    public List<PromptCount> getSosCountPerCity()
+    public String receive(SmsInbound smsInbound)
     {
-        return getSosCountPerCityProcedure.listValues();
-    }
-
-    @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
-    {
-        return closePromptProcedure.closePrompt(id, closePrompt);
+        return receiveSmsProcedure.receive(smsInbound);
     }
 }

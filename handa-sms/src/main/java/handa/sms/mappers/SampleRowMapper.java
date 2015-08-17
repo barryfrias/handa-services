@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class PromptCountRowMapper
+public class SampleRowMapper
 implements RowMapper<PromptCount>
 {
     @Override
