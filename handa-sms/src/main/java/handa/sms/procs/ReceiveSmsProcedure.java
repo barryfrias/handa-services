@@ -46,7 +46,7 @@ extends StoredProcedure
         checkNotNull(smsInbound.getTimestamp(), "timestamp can't be null");
         Object[] params =
         {
-            normalizeMobNum(smsInbound.getMobileNumber()),
+            smsInbound.getMobileNumber(),
             smsInbound.getMessage(),
             toDate(smsInbound.getTimestamp())
         };
@@ -71,13 +71,5 @@ extends StoredProcedure
     private boolean isNumeric(String input)
     {
       return input.matches("\\+?\\d+");
-    }
-
-    private String normalizeMobNum(String mobNum)
-    {
-        String num = mobNum.trim();
-        if(num.startsWith("+63")) { return "0" + num.substring(3); }
-        if(num.startsWith("63")) { return "0" + num.substring(2); }
-        return num;
     }
 }
