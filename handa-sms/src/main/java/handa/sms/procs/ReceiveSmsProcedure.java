@@ -32,7 +32,7 @@ extends StoredProcedure
         setFunction(false);
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("MSG_DT", OracleTypes.DATE));
+        declareParameter(new SqlParameter("MSG_DT", OracleTypes.TIMESTAMP)); // will capture time(hh:mm:ss) component
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         compile();
     }
@@ -40,7 +40,6 @@ extends StoredProcedure
     public String receive(SmsInbound smsInbound)
     {
         checkNotNull(smsInbound, "smsInbound object can't be null");
-        checkNotNull(emptyToNull(smsInbound.getMobileNumber()), "mobileNumber can't be null");
         checkArgument(isNumeric(smsInbound.getMobileNumber()), "mobileNumber not numeric");
         checkNotNull(emptyToNull(smsInbound.getMessage()), "message can't be null");
         checkNotNull(smsInbound.getTimestamp(), "timestamp can't be null");
@@ -51,9 +50,7 @@ extends StoredProcedure
             toDate(smsInbound.getTimestamp())
         };
         Map<String, Object> map = execute(params);
-        String result = (String) map.get(RESULT);
-        
-        return result;
+        return (String) map.get(RESULT);
     }
 
     private Date toDate(String timestamp)
@@ -68,8 +65,9 @@ extends StoredProcedure
         }
     }
 
-    private boolean isNumeric(String input)
+    private boolean isNumeric(String mobileNumber)
     {
-      return input.matches("\\+?\\d+");
+        checkNotNull(emptyToNull(mobileNumber), "mobileNumber can't be null");
+        return mobileNumber.matches("\\+?\\d+");
     }
 }
