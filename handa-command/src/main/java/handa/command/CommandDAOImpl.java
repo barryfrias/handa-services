@@ -1,15 +1,26 @@
 package handa.command;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.command.mappers.CityRowMapper;
 import handa.command.mappers.PromptCountRowMapper;
+import handa.command.mappers.SmsMessageRowMapper;
 import handa.command.procs.ClosePromptProcedure;
 import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
@@ -27,15 +38,6 @@ import handa.command.procs.ResetEventsProcedure;
 import handa.command.procs.UpdateNewsFeedProcedure;
 import handa.command.procs.UsersCountProcedure;
 import handa.config.HandaCommandConstants.PromptType;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
 @Component
 public class CommandDAOImpl
@@ -59,6 +61,7 @@ implements CommandDAO
     private ClosePromptProcedure closePromptProcedure;
     private UsersCountProcedure usersCountProcedure;
     private CloseUserReportProcedure closeUserReportProcedure;
+    private GenericProcedure<SmsMessage> getSmsProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -78,7 +81,8 @@ implements CommandDAO
                          @Value("${handa.command.get.users.locations.proc}") String getUsersLocationsProcName,
                          @Value("${handa.command.close.prompt.proc}") String closePromptProcName,
                          @Value("${handa.command.users.count.proc}") String usersCountProcName,
-                         @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName)
+                         @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
+                         @Value("${handa.command.get.sms.proc}") String getSmsProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -98,6 +102,7 @@ implements CommandDAO
         this.closePromptProcedure = new ClosePromptProcedure(dataSource(), closePromptProcName);
         this.usersCountProcedure = new UsersCountProcedure(dataSource(), usersCountProcName);
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
+        this.getSmsProcedure = new GenericProcedure<>(dataSource(), getSmsProcName, new SmsMessageRowMapper());
     }
 
     @Override
@@ -212,5 +217,11 @@ implements CommandDAO
     public int closeUserReport(int id, CloseUserReport closeUserReport)
     {
         return closeUserReportProcedure.closeUserReport(id, closeUserReport);
+    }
+
+    @Override
+    public List<SmsMessage> getSms()
+    {
+        return getSmsProcedure.listValues();
     }
 }
