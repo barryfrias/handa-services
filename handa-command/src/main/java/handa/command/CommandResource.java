@@ -3,15 +3,6 @@ package handa.command;
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
 import static handa.config.HandaCommandConstants.OK;
-import handa.beans.dto.City;
-import handa.beans.dto.ClosePrompt;
-import handa.beans.dto.CloseUserReport;
-import handa.beans.dto.NewsFeed;
-import handa.beans.dto.PromptCount;
-import handa.beans.dto.UserLocation;
-import handa.beans.dto.UserLogin;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserReport;
 
 import java.io.InputStream;
 import java.util.List;
@@ -36,6 +27,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import handa.beans.dto.City;
+import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.NewsFeed;
+import handa.beans.dto.PromptCount;
+import handa.beans.dto.SmsMessage;
+import handa.beans.dto.UserLocation;
+import handa.beans.dto.UserLogin;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
 
 @Component
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
@@ -266,6 +268,18 @@ public class CommandResource
         }
         String result = commandService.uploadFile(uploadedInputStream, name);
         return buildResponse(result);
+    }
+
+    @GET
+    @Path("sms")
+    public Response getSms()
+    {
+        List<SmsMessage> result = commandService.getSms();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
     }
 
     Response buildResponse(String result)
