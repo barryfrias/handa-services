@@ -14,6 +14,7 @@ import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.ReadSms;
 import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
@@ -33,6 +34,7 @@ import handa.command.procs.GetUserReportsProcedure;
 import handa.command.procs.InsertNewsFeedProcedure;
 import handa.command.procs.NoResponseCountProcedure;
 import handa.command.procs.PromptsCountProcedure;
+import handa.command.procs.ReadSmsProcedure;
 import handa.command.procs.ReportsCountProcedure;
 import handa.command.procs.ResetEventsProcedure;
 import handa.command.procs.UpdateNewsFeedProcedure;
@@ -62,6 +64,7 @@ implements CommandDAO
     private UsersCountProcedure usersCountProcedure;
     private CloseUserReportProcedure closeUserReportProcedure;
     private GenericProcedure<SmsMessage> getSmsProcedure;
+    private ReadSmsProcedure readSmsProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -82,7 +85,8 @@ implements CommandDAO
                          @Value("${handa.command.close.prompt.proc}") String closePromptProcName,
                          @Value("${handa.command.users.count.proc}") String usersCountProcName,
                          @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
-                         @Value("${handa.command.get.sms.proc}") String getSmsProcName)
+                         @Value("${handa.command.get.sms.proc}") String getSmsProcName,
+                         @Value("${handa.command.read.sms.proc}") String readSmsProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -103,6 +107,7 @@ implements CommandDAO
         this.usersCountProcedure = new UsersCountProcedure(dataSource(), usersCountProcName);
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
         this.getSmsProcedure = new GenericProcedure<>(dataSource(), getSmsProcName, new SmsMessageRowMapper());
+        this.readSmsProcedure = new ReadSmsProcedure(dataSource(), readSmsProcName);
     }
 
     @Override
@@ -223,5 +228,11 @@ implements CommandDAO
     public List<SmsMessage> getSms()
     {
         return getSmsProcedure.listValues();
+    }
+
+    @Override
+    public int readSms(int id, ReadSms readSms)
+    {
+        return readSmsProcedure.markAsRead(id, readSms);
     }
 }

@@ -21,6 +21,8 @@ implements RowMapper<SmsMessage>
         message.setMessage(rs.getString("MESSAGE"));
         message.setMobileNumber(rs.getString("MOBILE_NUMBER"));
         message.setMsgDate(rs.getString("MSG_DTTM"));
+        message.setReadBy(rs.getString("READ_BY"));
+        message.setReadDate(rs.getString("READ_DTTM"));
         message.setReadFlag(rs.getString("READ_FLAG"));
         return message;
     }

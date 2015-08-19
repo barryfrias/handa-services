@@ -33,6 +33,7 @@ import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.ReadSms;
 import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
@@ -98,12 +99,12 @@ public class CommandResource
     public Response getUsersCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getUsersCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @POST
     @Path("events/reset")
-    public Response resetEvents( @QueryParam("resetBy") String resetBy)
+    public Response resetEvents(@QueryParam("resetBy") String resetBy)
     {
         commandService.resetEvents(resetBy);
         return Response.ok().build();
@@ -138,7 +139,7 @@ public class CommandResource
     public Response closePrompt(@PathParam("id") int id, ClosePrompt closePrompt)
     {
         int rowsAffected = commandService.closePrompt(id, closePrompt);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @GET
@@ -146,7 +147,7 @@ public class CommandResource
     public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getSosCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -166,7 +167,7 @@ public class CommandResource
     public Response getSafeCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getSafeCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -186,7 +187,7 @@ public class CommandResource
     public Response getNoResponseCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getNoResponseCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -224,7 +225,7 @@ public class CommandResource
     public Response deleteNewsFeed(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
     {
         int rowsAffected = commandService.deleteNewsFeed(id, deletedBy);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @GET
@@ -244,7 +245,7 @@ public class CommandResource
     public Response getReportsCount()
     {
         int result = commandService.getReportsCount();
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @POST
@@ -252,7 +253,7 @@ public class CommandResource
     public Response closeUserReport(@PathParam("id") int id, CloseUserReport closeUserReport)
     {
         int rowsAffected = commandService.closeUserReport(id, closeUserReport);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @POST
@@ -282,11 +283,24 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
+    @POST
+    @Path("sms/{id}")
+    public Response readSms(@PathParam("id") int id, ReadSms readSms)
+    {
+        int result = commandService.readSms(id, readSms);
+        return httpOk(result);
+    }
+
+    Response httpOk(Object result)
+    {
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
     Response buildResponse(String result)
     {
         switch(result)
         {
-            case OK : return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+            case OK : return httpOk(result);
             default : return Response.status(Status.BAD_REQUEST).entity(result).type(MediaType.TEXT_PLAIN).build();
         }
     }
