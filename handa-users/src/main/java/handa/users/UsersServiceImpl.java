@@ -1,16 +1,8 @@
 package handa.users;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.config.HandaUsersConstants.*;
-import frias.barry.LDAPController;
-import handa.beans.dto.AppLog;
-import handa.beans.dto.AuthInfo;
-import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserReport;
-import handa.beans.dto.UserSearch;
-import handa.beans.dto.AppLog.Source;
-import handa.core.DBLoggerDAO;
+import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
+import static handa.config.HandaUsersConstants.OK;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +18,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
+
+import frias.barry.LDAPController;
+import handa.beans.dto.AppLog;
+import handa.beans.dto.AuthInfo;
+import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
+import handa.beans.dto.UserSearch;
+import handa.config.HandaUsersConstants.PromptType;
+import handa.core.DBLoggerDAO;
 
 @Component
 public class UsersServiceImpl
@@ -52,7 +54,7 @@ implements UsersService
     public String authByMobileNumber(AuthInfo authInfo)
     {
         String result = usersDAO.authByMobileNumber(authInfo);
-        dbLoggerDAO.insertLog(new AppLog(Source.CLIENT, NA, authInfo.getMobileNumber(), "Tried to authenticate and result was " + result));
+        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was " + result));
         return result;
     }
 
@@ -71,12 +73,12 @@ implements UsersService
                 {
                     result = INVALID_CREDENTIALS ;
                 }
-                dbLoggerDAO.insertLog(new AppLog(Source.CLIENT, authInfo.getUsername(), authInfo.getMobileNumber(),
-                                      "Tried to authenticate and result was " + result));
+                dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
+                                              "Tried to authenticate thru ldap and result was " + result));
                 return result;
             default:
-                dbLoggerDAO.insertLog(new AppLog(Source.CLIENT, authInfo.getUsername(), authInfo.getMobileNumber(),
-                                                 "Tried to authenticate but not found in list of allowed users"));
+                dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
+                                              "Tried to authenticate but not found in list of allowed users"));
                 return result;
         }
     }
@@ -85,8 +87,8 @@ implements UsersService
     public String prompt(UserPrompt userPrompt, PromptType promptType)
     {
         String result = usersDAO.prompt(userPrompt, promptType);
-        dbLoggerDAO.insertLog(new AppLog(Source.CLIENT, NA, userPrompt.getMobileNumber(),
-                                         String.format("Submitted prompt type %s and result was %s", promptType, result)));
+        dbLoggerDAO.log(AppLog.client(null, userPrompt.getMobileNumber(),
+                                      String.format("Submitted prompt type %s and result was %s", promptType, result)));
         return result;
     }
 
@@ -100,8 +102,8 @@ implements UsersService
     public String report(UserReport userReport)
     {
         String result = usersDAO.report(userReport);
-        dbLoggerDAO.insertLog(new AppLog(Source.CLIENT, NA, userReport.getMobileNumber(),
-                String.format("Submitted report and result was %s", result)));
+        dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
+                                      String.format("Submitted report and result was %s", result)));
         return result;
     }
 

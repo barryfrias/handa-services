@@ -1,16 +1,15 @@
 package handa.command;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.config.HandaCommandConstants.*;
-import handa.beans.dto.AppLog;
-import handa.beans.dto.AppLog.Source;
-import handa.beans.dto.UserLogin;
-import handa.core.DBLoggerDAO;
+import static handa.config.HandaCommandConstants.OK;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import frias.barry.LDAPController;
+import handa.beans.dto.AppLog;
+import handa.beans.dto.UserLogin;
+import handa.core.DBLoggerDAO;
 
 /**
  * @author bfrias
@@ -41,10 +40,10 @@ public class CommandUsersServiceImpl implements CommandUsersService
         {
                 case OK:
                     boolean isOk = ldapController.login(userLogin.getUsername().toLowerCase(), userLogin.getPassword());
-                    dbLoggerDAO.insertLog(new AppLog(Source.SERVER, userLogin.getUsername(), NA, "Tried to login and result was " + isOk));
+                    dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login thru ldap and result was " + isOk));
                     return isOk;
                 default:
-                    dbLoggerDAO.insertLog(new AppLog(Source.SERVER, userLogin.getUsername(), NA, "Tried to login but not found in list of allowed users."));
+                    dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login but not found in list of allowed users."));
                     return false;
         }
     }

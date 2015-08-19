@@ -24,7 +24,7 @@ implements DBLoggerDAO
     }
 
     @Override
-    public void insertLog(final AppLog applog)
+    public void log(final AppLog applog)
     {
         executor.execute(new Runnable()
         {
