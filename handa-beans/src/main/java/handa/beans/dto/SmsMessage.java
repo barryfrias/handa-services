@@ -12,6 +12,8 @@ public class SmsMessage
     private String message;
     private String folder;
     private String readFlag;
+    private String readBy;
+    private String readDate;
     private String deletedFlag;
     private String msgDate;
     private String insertedDate;
@@ -66,6 +68,26 @@ public class SmsMessage
         this.readFlag = readFlag;
     }
 
+    public String getReadBy()
+    {
+        return readBy;
+    }
+
+    public void setReadBy(String readBy)
+    {
+        this.readBy = readBy;
+    }
+
+    public String getReadDate()
+    {
+        return readDate;
+    }
+
+    public void setReadDate(String readDate)
+    {
+        this.readDate = readDate;
+    }
+
     public String getDeletedFlag()
     {
         return deletedFlag;
@@ -105,6 +127,8 @@ public class SmsMessage
                .add("message", message)
                .add("folder", folder)
                .add("readFlag", readFlag)
+               .add("readBy", readBy)
+               .add("readDate", readDate)
                .add("deletedFlag", deletedFlag)
                .add("msgDate", msgDate)
                .add("insertedDate", insertedDate)
