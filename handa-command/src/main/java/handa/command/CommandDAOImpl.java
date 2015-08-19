@@ -25,6 +25,7 @@ import handa.command.mappers.SmsMessageRowMapper;
 import handa.command.procs.ClosePromptProcedure;
 import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
+import handa.command.procs.DeleteSmsProcedure;
 import handa.command.procs.GenericProcedure;
 import handa.command.procs.GetNewsFeedsProcedure;
 import handa.command.procs.GetNoResponseProcedure;
@@ -65,6 +66,7 @@ implements CommandDAO
     private CloseUserReportProcedure closeUserReportProcedure;
     private GenericProcedure<SmsMessage> getSmsProcedure;
     private ReadSmsProcedure readSmsProcedure;
+    private DeleteSmsProcedure deleteSmsProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -86,7 +88,8 @@ implements CommandDAO
                          @Value("${handa.command.users.count.proc}") String usersCountProcName,
                          @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
                          @Value("${handa.command.get.sms.proc}") String getSmsProcName,
-                         @Value("${handa.command.read.sms.proc}") String readSmsProcName)
+                         @Value("${handa.command.read.sms.proc}") String readSmsProcName,
+                         @Value("${handa.command.delete.sms.proc}") String deleteSmsProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -108,6 +111,7 @@ implements CommandDAO
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
         this.getSmsProcedure = new GenericProcedure<>(dataSource(), getSmsProcName, new SmsMessageRowMapper());
         this.readSmsProcedure = new ReadSmsProcedure(dataSource(), readSmsProcName);
+        this.deleteSmsProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsProcName);
     }
 
     @Override
@@ -143,7 +147,7 @@ implements CommandDAO
     @Override
     public int deleteNewsFeed(int id, String deletedBy)
     {
-        return this.deleteNewsFeedProcedure.delete(id, deletedBy);
+        return deleteNewsFeedProcedure.delete(id, deletedBy);
     }
 
     @Override
@@ -234,5 +238,11 @@ implements CommandDAO
     public int readSms(int id, ReadSms readSms)
     {
         return readSmsProcedure.markAsRead(id, readSms);
+    }
+
+    @Override
+    public int deleteSms(int id, String deletedBy)
+    {
+        return deleteSmsProcedure.delete(id, deletedBy);
     }
 }

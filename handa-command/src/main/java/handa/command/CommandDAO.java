@@ -36,4 +36,5 @@ public interface CommandDAO
     int closeUserReport(int id, CloseUserReport closeUserReport);
     List<SmsMessage> getSms();
     int readSms(int id, ReadSms readSms);
+    int deleteSms(int id, String deletedBy);
 }

@@ -15,6 +15,8 @@ public class SmsMessage
     private String readBy;
     private String readDate;
     private String deletedFlag;
+    private String deletedBy;
+    private String deletedDate;
     private String msgDate;
     private String insertedDate;
 
@@ -98,6 +100,26 @@ public class SmsMessage
         this.deletedFlag = deletedFlag;
     }
 
+    public String getDeletedBy()
+    {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy)
+    {
+        this.deletedBy = deletedBy;
+    }
+
+    public String getDeletedDate()
+    {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(String deletedDate)
+    {
+        this.deletedDate = deletedDate;
+    }
+
     public String getMsgDate()
     {
         return msgDate;
@@ -130,6 +152,8 @@ public class SmsMessage
                .add("readBy", readBy)
                .add("readDate", readDate)
                .add("deletedFlag", deletedFlag)
+               .add("deletedBy", deletedBy)
+               .add("deletedDate", deletedDate)
                .add("msgDate", msgDate)
                .add("insertedDate", insertedDate)
                .toString();
