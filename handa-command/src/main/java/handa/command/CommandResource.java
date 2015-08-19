@@ -291,6 +291,14 @@ public class CommandResource
         return httpOk(result);
     }
 
+    @DELETE
+    @Path("sms/{id}")
+    public Response deleteSms(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
+    {
+        int rowsAffected = commandService.deleteSms(id, deletedBy);
+        return httpOk(rowsAffected);
+    }
+
     Response httpOk(Object result)
     {
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();

@@ -15,6 +15,8 @@ implements RowMapper<SmsMessage>
     {
         SmsMessage message = new SmsMessage();
         message.setDeletedFlag(rs.getString("DELETED_FLAG"));
+        message.setDeletedBy(rs.getString("DELETED_BY"));
+        message.setDeletedDate(rs.getString("DELETED_DTTM"));
         message.setFolder(rs.getString("FOLDER"));
         message.setId(rs.getInt("ID"));
         message.setInsertedDate(rs.getString("INSERTED_DTTM"));

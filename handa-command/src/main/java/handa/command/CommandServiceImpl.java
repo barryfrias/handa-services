@@ -219,4 +219,12 @@ implements CommandService
         dbLoggerDAO.log(AppLog.server(readSms.getReadBy(), String.format("Marked sms id %s as read and result was %s", id, result)));
         return result;
     }
+
+    @Override
+    public int deleteSms(int id, String deletedBy)
+    {
+        int result = commandDAO.deleteSms(id, deletedBy);
+        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms id %s and result was %s", id, result)));
+        return result;
+    }
 }
