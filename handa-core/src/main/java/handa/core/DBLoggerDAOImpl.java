@@ -14,18 +14,20 @@ extends AbstractJdbcDAO
 implements DBLoggerDAO
 {
     private InsertLogProcedure insertLogProcedure;
+    private final Executor executor;
 
     public DBLoggerDAOImpl(JdbcTemplate jdbcTemplate, String insertLogProcName)
     {
         super(jdbcTemplate);
         this.insertLogProcedure = new InsertLogProcedure(dataSource(), insertLogProcName);
+        executor = Executors.newCachedThreadPool();
     }
 
     @Override
     public void insertLog(final AppLog applog)
     {
-        Executor executor = Executors.newCachedThreadPool();
-        executor.execute(new Runnable(){
+        executor.execute(new Runnable()
+        {
             @Override
             public void run()
             {
