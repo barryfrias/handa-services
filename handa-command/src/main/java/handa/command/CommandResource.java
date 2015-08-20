@@ -273,7 +273,7 @@ public class CommandResource
     }
 
     @GET
-    @Path("sms")
+    @Path("sms/inbox")
     public Response getSms()
     {
         List<SmsMessage> result = commandService.getSms();
@@ -285,15 +285,7 @@ public class CommandResource
     }
 
     @POST
-    @Path("sms")
-    public Response sendSms(SendSms sendSms)
-    {
-        String result = commandService.sendSms(sendSms);
-        return httpOk(result);
-    }
-
-    @POST
-    @Path("sms/{id}")
+    @Path("sms/inbox/{id}")
     public Response readSms(@PathParam("id") int id, ReadSms readSms)
     {
         int result = commandService.readSms(id, readSms);
@@ -301,11 +293,19 @@ public class CommandResource
     }
 
     @DELETE
-    @Path("sms/{id}")
+    @Path("sms/inbox/{id}")
     public Response deleteSms(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
     {
         int rowsAffected = commandService.deleteSms(id, deletedBy);
         return httpOk(rowsAffected);
+    }
+
+    @POST
+    @Path("sms/outbox")
+    public Response sendSms(SendSms sendSms)
+    {
+        String result = commandService.sendSms(sendSms);
+        return httpOk(result);
     }
 
     Response httpOk(Object result)
