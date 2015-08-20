@@ -4,8 +4,8 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "smsMessage")
-public class SmsMessage
+@XmlRootElement(name = "smsInboxMessage")
+public class SmsInboxMessage
 {
     private int id;
     private String mobileNumber;

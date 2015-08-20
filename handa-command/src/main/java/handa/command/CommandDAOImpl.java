@@ -16,13 +16,15 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsMessage;
+import handa.beans.dto.SmsInboxMessage;
+import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.command.mappers.CityRowMapper;
 import handa.command.mappers.PromptCountRowMapper;
 import handa.command.mappers.SmsInboxRowMapper;
+import handa.command.mappers.SmsOutboxRowMapper;
 import handa.command.procs.ClosePromptProcedure;
 import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
@@ -66,10 +68,11 @@ implements CommandDAO
     private ClosePromptProcedure closePromptProcedure;
     private UsersCountProcedure usersCountProcedure;
     private CloseUserReportProcedure closeUserReportProcedure;
-    private GenericProcedure<SmsMessage> getSmsInboxProcedure;
+    private GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
     private ReadSmsInboxProcedure readSmsInboxProcedure;
     private DeleteSmsInboxProcedure deleteSmsInboxProcedure;
     private SendSmsProcedure sendSmsProcedure;
+    private GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -93,7 +96,8 @@ implements CommandDAO
                          @Value("${handa.command.get.sms.inbox.proc}") String getSmsInboxProcName,
                          @Value("${handa.command.read.sms.inbox.proc}") String readSmsInboxProcName,
                          @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
-                         @Value("${handa.command.send.sms.proc}") String sendSmsProcName)
+                         @Value("${handa.command.send.sms.proc}") String sendSmsProcName,
+                         @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -117,6 +121,7 @@ implements CommandDAO
         this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource(), readSmsInboxProcName);
         this.deleteSmsInboxProcedure = new DeleteSmsInboxProcedure(dataSource(), deleteSmsInboxProcName);
         this.sendSmsProcedure = new SendSmsProcedure(dataSource(), sendSmsProcName);
+        this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
     }
 
     @Override
@@ -234,7 +239,7 @@ implements CommandDAO
     }
 
     @Override
-    public List<SmsMessage> getSms()
+    public List<SmsInboxMessage> getSmsInbox()
     {
         return getSmsInboxProcedure.listValues();
     }
@@ -255,5 +260,11 @@ implements CommandDAO
     public String sendSms(SendSms sendSms)
     {
         return sendSmsProcedure.send(sendSms);
+    }
+
+    @Override
+    public List<SmsOutboxMessage> getSmsOutbox()
+    {
+        return getSmsOutboxProcedure.listValues();
     }
 }

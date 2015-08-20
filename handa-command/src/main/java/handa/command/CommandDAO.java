@@ -9,7 +9,8 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsMessage;
+import handa.beans.dto.SmsInboxMessage;
+import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -35,8 +36,9 @@ public interface CommandDAO
     int deleteNewsFeed(int id, String deletedBy);
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
     int closeUserReport(int id, CloseUserReport closeUserReport);
-    List<SmsMessage> getSms();
+    List<SmsInboxMessage> getSmsInbox();
     int readSms(int id, ReadSms readSms);
     int deleteSms(int id, String deletedBy);
     String sendSms(SendSms sendSms);
+    List<SmsOutboxMessage> getSmsOutbox();
 }
