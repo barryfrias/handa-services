@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import handa.beans.dto.SmsMessage;
 
-public class SmsMessageRowMapper
+public class SmsInboxRowMapper
 implements RowMapper<SmsMessage>
 {
     @Override

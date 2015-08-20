@@ -23,9 +23,6 @@ import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
-import handa.beans.dto.ReadSms;
-import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -204,36 +201,6 @@ implements CommandService
     {
         int result = commandDAO.closeUserReport(id, closeUserReport);
         dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), String.format("Closed user report id %s and result was %s", id, result)));
-        return result;
-    }
-
-    @Override
-    public List<SmsMessage> getSms()
-    {
-        return commandDAO.getSms();
-    }
-
-    @Override
-    public int readSms(int id, ReadSms readSms)
-    {
-        int result = commandDAO.readSms(id, readSms);
-        dbLoggerDAO.log(AppLog.server(readSms.getReadBy(), String.format("Marked sms id %s as read and result was %s", id, result)));
-        return result;
-    }
-
-    @Override
-    public int deleteSms(int id, String deletedBy)
-    {
-        int result = commandDAO.deleteSms(id, deletedBy);
-        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms id %s and result was %s", id, result)));
-        return result;
-    }
-
-    @Override
-    public String sendSms(SendSms sendSms)
-    {
-        String result = commandDAO.sendSms(sendSms);
-        dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms and result was %s", result)));
         return result;
     }
 }

@@ -50,12 +50,14 @@ public class CommandResource
 
     private CommandService commandService;
     private CommandUsersService usersService;
+    private CommandSmsService commandSmsService;
 
     @Autowired
-    public CommandResource(CommandService commandService, CommandUsersService usersService)
+    public CommandResource(CommandService commandService, CommandUsersService usersService, CommandSmsService commandSmsService)
     {
         this.commandService = commandService;
         this.usersService = usersService;
+        this.commandSmsService = commandSmsService;
     }
 
     @POST
@@ -274,9 +276,9 @@ public class CommandResource
 
     @GET
     @Path("sms/inbox")
-    public Response getSms()
+    public Response getSmsInbox()
     {
-        List<SmsMessage> result = commandService.getSms();
+        List<SmsMessage> result = commandSmsService.getSmsInbox();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -286,17 +288,17 @@ public class CommandResource
 
     @POST
     @Path("sms/inbox/{id}")
-    public Response readSms(@PathParam("id") int id, ReadSms readSms)
+    public Response readSmsInbox(@PathParam("id") int id, ReadSms readSms)
     {
-        int result = commandService.readSms(id, readSms);
+        int result = commandSmsService.readSmsInbox(id, readSms);
         return httpOk(result);
     }
 
     @DELETE
     @Path("sms/inbox/{id}")
-    public Response deleteSms(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
+    public Response deleteSmsInbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
     {
-        int rowsAffected = commandService.deleteSms(id, deletedBy);
+        int rowsAffected = commandSmsService.deleteSmsInbox(id, deletedBy);
         return httpOk(rowsAffected);
     }
 
@@ -304,7 +306,7 @@ public class CommandResource
     @Path("sms/outbox")
     public Response sendSms(SendSms sendSms)
     {
-        String result = commandService.sendSms(sendSms);
+        String result = commandSmsService.sendSms(sendSms);
         return httpOk(result);
     }
 

@@ -22,11 +22,11 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.command.mappers.CityRowMapper;
 import handa.command.mappers.PromptCountRowMapper;
-import handa.command.mappers.SmsMessageRowMapper;
+import handa.command.mappers.SmsInboxRowMapper;
 import handa.command.procs.ClosePromptProcedure;
 import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
-import handa.command.procs.DeleteSmsProcedure;
+import handa.command.procs.DeleteSmsInboxProcedure;
 import handa.command.procs.GenericProcedure;
 import handa.command.procs.GetNewsFeedsProcedure;
 import handa.command.procs.GetNoResponseProcedure;
@@ -36,7 +36,7 @@ import handa.command.procs.GetUserReportsProcedure;
 import handa.command.procs.InsertNewsFeedProcedure;
 import handa.command.procs.NoResponseCountProcedure;
 import handa.command.procs.PromptsCountProcedure;
-import handa.command.procs.ReadSmsProcedure;
+import handa.command.procs.ReadSmsInboxProcedure;
 import handa.command.procs.ReportsCountProcedure;
 import handa.command.procs.ResetEventsProcedure;
 import handa.command.procs.SendSmsProcedure;
@@ -66,9 +66,9 @@ implements CommandDAO
     private ClosePromptProcedure closePromptProcedure;
     private UsersCountProcedure usersCountProcedure;
     private CloseUserReportProcedure closeUserReportProcedure;
-    private GenericProcedure<SmsMessage> getSmsProcedure;
-    private ReadSmsProcedure readSmsProcedure;
-    private DeleteSmsProcedure deleteSmsProcedure;
+    private GenericProcedure<SmsMessage> getSmsInboxProcedure;
+    private ReadSmsInboxProcedure readSmsInboxProcedure;
+    private DeleteSmsInboxProcedure deleteSmsInboxProcedure;
     private SendSmsProcedure sendSmsProcedure;
 
     @Autowired
@@ -90,9 +90,9 @@ implements CommandDAO
                          @Value("${handa.command.close.prompt.proc}") String closePromptProcName,
                          @Value("${handa.command.users.count.proc}") String usersCountProcName,
                          @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
-                         @Value("${handa.command.get.sms.proc}") String getSmsProcName,
-                         @Value("${handa.command.read.sms.proc}") String readSmsProcName,
-                         @Value("${handa.command.delete.sms.proc}") String deleteSmsProcName,
+                         @Value("${handa.command.get.sms.inbox.proc}") String getSmsInboxProcName,
+                         @Value("${handa.command.read.sms.inbox.proc}") String readSmsInboxProcName,
+                         @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
                          @Value("${handa.command.send.sms.proc}") String sendSmsProcName)
     {
         super(jdbcTemplate);
@@ -113,9 +113,9 @@ implements CommandDAO
         this.closePromptProcedure = new ClosePromptProcedure(dataSource(), closePromptProcName);
         this.usersCountProcedure = new UsersCountProcedure(dataSource(), usersCountProcName);
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
-        this.getSmsProcedure = new GenericProcedure<>(dataSource(), getSmsProcName, new SmsMessageRowMapper());
-        this.readSmsProcedure = new ReadSmsProcedure(dataSource(), readSmsProcName);
-        this.deleteSmsProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsProcName);
+        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), getSmsInboxProcName, new SmsInboxRowMapper());
+        this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource(), readSmsInboxProcName);
+        this.deleteSmsInboxProcedure = new DeleteSmsInboxProcedure(dataSource(), deleteSmsInboxProcName);
         this.sendSmsProcedure = new SendSmsProcedure(dataSource(), sendSmsProcName);
     }
 
@@ -236,19 +236,19 @@ implements CommandDAO
     @Override
     public List<SmsMessage> getSms()
     {
-        return getSmsProcedure.listValues();
+        return getSmsInboxProcedure.listValues();
     }
 
     @Override
     public int readSms(int id, ReadSms readSms)
     {
-        return readSmsProcedure.markAsRead(id, readSms);
+        return readSmsInboxProcedure.markAsRead(id, readSms);
     }
 
     @Override
     public int deleteSms(int id, String deletedBy)
     {
-        return deleteSmsProcedure.delete(id, deletedBy);
+        return deleteSmsInboxProcedure.delete(id, deletedBy);
     }
 
     @Override
