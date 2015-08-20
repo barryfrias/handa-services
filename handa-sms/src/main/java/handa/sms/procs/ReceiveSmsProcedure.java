@@ -40,7 +40,7 @@ extends StoredProcedure
     public String receive(SmsInbound smsInbound)
     {
         checkNotNull(smsInbound, "smsInbound object can't be null");
-        checkArgument(isNumeric(smsInbound.getMobileNumber()), "mobileNumber not numeric");
+        validateMobNum(smsInbound.getMobileNumber());
         checkNotNull(emptyToNull(smsInbound.getMessage()), "message can't be null");
         checkNotNull(smsInbound.getTimestamp(), "timestamp can't be null");
         Object[] params =
@@ -65,9 +65,11 @@ extends StoredProcedure
         }
     }
 
-    private boolean isNumeric(String mobileNumber)
+    private void validateMobNum(String mobileNumber)
     {
         checkNotNull(emptyToNull(mobileNumber), "mobileNumber can't be null");
-        return mobileNumber.matches("\\+?\\d+");
+        checkArgument(mobileNumber.matches("\\+?\\d+"), "mobileNumber not numeric");
+        int len = mobileNumber.trim().length();
+        checkArgument(len >= 10 && len <=15, "Invalid mobileNumber length");
     }
 }
