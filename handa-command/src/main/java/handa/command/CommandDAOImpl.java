@@ -15,6 +15,7 @@ import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
+import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
@@ -38,6 +39,7 @@ import handa.command.procs.PromptsCountProcedure;
 import handa.command.procs.ReadSmsProcedure;
 import handa.command.procs.ReportsCountProcedure;
 import handa.command.procs.ResetEventsProcedure;
+import handa.command.procs.SendSmsProcedure;
 import handa.command.procs.UpdateNewsFeedProcedure;
 import handa.command.procs.UsersCountProcedure;
 import handa.config.HandaCommandConstants.PromptType;
@@ -67,6 +69,7 @@ implements CommandDAO
     private GenericProcedure<SmsMessage> getSmsProcedure;
     private ReadSmsProcedure readSmsProcedure;
     private DeleteSmsProcedure deleteSmsProcedure;
+    private SendSmsProcedure sendSmsProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -89,7 +92,8 @@ implements CommandDAO
                          @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
                          @Value("${handa.command.get.sms.proc}") String getSmsProcName,
                          @Value("${handa.command.read.sms.proc}") String readSmsProcName,
-                         @Value("${handa.command.delete.sms.proc}") String deleteSmsProcName)
+                         @Value("${handa.command.delete.sms.proc}") String deleteSmsProcName,
+                         @Value("${handa.command.send.sms.proc}") String sendSmsProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -112,6 +116,7 @@ implements CommandDAO
         this.getSmsProcedure = new GenericProcedure<>(dataSource(), getSmsProcName, new SmsMessageRowMapper());
         this.readSmsProcedure = new ReadSmsProcedure(dataSource(), readSmsProcName);
         this.deleteSmsProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsProcName);
+        this.sendSmsProcedure = new SendSmsProcedure(dataSource(), sendSmsProcName);
     }
 
     @Override
@@ -244,5 +249,11 @@ implements CommandDAO
     public int deleteSms(int id, String deletedBy)
     {
         return deleteSmsProcedure.delete(id, deletedBy);
+    }
+
+    @Override
+    public String sendSms(SendSms sendSms)
+    {
+        return sendSmsProcedure.send(sendSms);
     }
 }
