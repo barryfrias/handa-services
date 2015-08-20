@@ -9,6 +9,7 @@ import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
+import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
@@ -39,4 +40,5 @@ public interface CommandService
     List<SmsMessage> getSms();
     int readSms(int id, ReadSms readSms);
     int deleteSms(int id, String deletedBy);
+    String sendSms(SendSms sendSms);
 }

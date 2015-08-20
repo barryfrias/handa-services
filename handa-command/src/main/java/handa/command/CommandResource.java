@@ -34,6 +34,7 @@ import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
+import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
@@ -281,6 +282,14 @@ public class CommandResource
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("sms")
+    public Response sendSms(SendSms sendSms)
+    {
+        String result = commandService.sendSms(sendSms);
+        return httpOk(result);
     }
 
     @POST
