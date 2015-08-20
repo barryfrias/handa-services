@@ -35,7 +35,8 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsMessage;
+import handa.beans.dto.SmsInboxMessage;
+import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPrompt;
@@ -278,7 +279,7 @@ public class CommandResource
     @Path("sms/inbox")
     public Response getSmsInbox()
     {
-        List<SmsMessage> result = commandSmsService.getSmsInbox();
+        List<SmsInboxMessage> result = commandSmsService.getSmsInbox();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -300,6 +301,18 @@ public class CommandResource
     {
         int rowsAffected = commandSmsService.deleteSmsInbox(id, deletedBy);
         return httpOk(rowsAffected);
+    }
+
+    @GET
+    @Path("sms/outbox")
+    public Response getSmsOutbox()
+    {
+        List<SmsOutboxMessage> result = commandSmsService.getSmsOutbox();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
     }
 
     @POST

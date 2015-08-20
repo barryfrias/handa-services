@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsMessage;
+import handa.beans.dto.SmsInboxMessage;
+import handa.beans.dto.SmsOutboxMessage;
 import handa.core.DBLoggerDAO;
 
 @Component
@@ -30,9 +31,9 @@ implements CommandSmsService
     }
 
     @Override
-    public List<SmsMessage> getSmsInbox()
+    public List<SmsInboxMessage> getSmsInbox()
     {
-        return commandDAO.getSms();
+        return commandDAO.getSmsInbox();
     }
 
     @Override
@@ -57,5 +58,11 @@ implements CommandSmsService
         String result = commandDAO.sendSms(sendSms);
         dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms and result was %s", result)));
         return result;
+    }
+
+    @Override
+    public List<SmsOutboxMessage> getSmsOutbox()
+    {
+        return commandDAO.getSmsOutbox();
     }
 }

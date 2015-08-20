@@ -5,15 +5,15 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import handa.beans.dto.SmsMessage;
+import handa.beans.dto.SmsInboxMessage;
 
 public class SmsInboxRowMapper
-implements RowMapper<SmsMessage>
+implements RowMapper<SmsInboxMessage>
 {
     @Override
-    public SmsMessage mapRow(ResultSet rs, int rowNum) throws SQLException
+    public SmsInboxMessage mapRow(ResultSet rs, int rowNum) throws SQLException
     {
-        SmsMessage message = new SmsMessage();
+        SmsInboxMessage message = new SmsInboxMessage();
         message.setDeletedFlag(rs.getString("DELETED_FLAG"));
         message.setDeletedBy(rs.getString("DELETED_BY"));
         message.setDeletedDate(rs.getString("DELETED_DTTM"));
