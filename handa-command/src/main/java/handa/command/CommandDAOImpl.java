@@ -28,7 +28,7 @@ import handa.command.mappers.SmsOutboxRowMapper;
 import handa.command.procs.ClosePromptProcedure;
 import handa.command.procs.CloseUserReportProcedure;
 import handa.command.procs.DeleteNewsFeedProcedure;
-import handa.command.procs.DeleteSmsInboxProcedure;
+import handa.command.procs.DeleteSmsProcedure;
 import handa.command.procs.GenericProcedure;
 import handa.command.procs.GetNewsFeedsProcedure;
 import handa.command.procs.GetNoResponseProcedure;
@@ -70,9 +70,10 @@ implements CommandDAO
     private CloseUserReportProcedure closeUserReportProcedure;
     private GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
     private ReadSmsInboxProcedure readSmsInboxProcedure;
-    private DeleteSmsInboxProcedure deleteSmsInboxProcedure;
+    private DeleteSmsProcedure deleteSmsInboxProcedure;
     private SendSmsProcedure sendSmsProcedure;
     private GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
+    private DeleteSmsProcedure deleteSmsOutboxProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -97,7 +98,8 @@ implements CommandDAO
                          @Value("${handa.command.read.sms.inbox.proc}") String readSmsInboxProcName,
                          @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
                          @Value("${handa.command.send.sms.proc}") String sendSmsProcName,
-                         @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName)
+                         @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName,
+                         @Value("${handa.command.delete.sms.outbox.proc}") String deleteSmsOutboxProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -119,9 +121,10 @@ implements CommandDAO
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), getSmsInboxProcName, new SmsInboxRowMapper());
         this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource(), readSmsInboxProcName);
-        this.deleteSmsInboxProcedure = new DeleteSmsInboxProcedure(dataSource(), deleteSmsInboxProcName);
+        this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsInboxProcName);
         this.sendSmsProcedure = new SendSmsProcedure(dataSource(), sendSmsProcName);
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
+        this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsOutboxProcName);
     }
 
     @Override
@@ -266,5 +269,11 @@ implements CommandDAO
     public List<SmsOutboxMessage> getSmsOutbox()
     {
         return getSmsOutboxProcedure.listValues();
+    }
+
+    @Override
+    public int deleteSmsOutbox(int id, String deletedBy)
+    {
+        return deleteSmsOutboxProcedure.delete(id, deletedBy);
     }
 }

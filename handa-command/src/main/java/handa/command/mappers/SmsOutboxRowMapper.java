@@ -20,6 +20,9 @@ implements RowMapper<SmsOutboxMessage>
         message.setMessage(rs.getString("MESSAGE"));
         message.setRecipients(rs.getString("RECIPIENTS"));
         message.setStatus(rs.getString("STATUS"));
+        message.setDeletedBy(rs.getString("DELETED_BY"));
+        message.setDeletedDate(rs.getString("DELETED_DTTM"));
+        message.setDeletedFlag(rs.getString("DELETED_FLAG"));
         return message;
     }
 }

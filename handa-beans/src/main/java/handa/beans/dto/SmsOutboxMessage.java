@@ -13,6 +13,9 @@ public class SmsOutboxMessage
     private String status;
     private String createdBy;
     private String createdDate;
+    private String deletedFlag;
+    private String deletedBy;
+    private String deletedDate;
 
     public int getId()
     {
@@ -74,6 +77,36 @@ public class SmsOutboxMessage
         this.createdDate = createdDate;
     }
 
+    public String getDeletedFlag()
+    {
+        return deletedFlag;
+    }
+
+    public void setDeletedFlag(String deletedFlag)
+    {
+        this.deletedFlag = deletedFlag;
+    }
+
+    public String getDeletedBy()
+    {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy)
+    {
+        this.deletedBy = deletedBy;
+    }
+
+    public String getDeletedDate()
+    {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(String deletedDate)
+    {
+        this.deletedDate = deletedDate;
+    }
+
     @Override
     public String toString()
     {
@@ -84,6 +117,9 @@ public class SmsOutboxMessage
                .add("status", status)
                .add("createdBy", createdBy)
                .add("createdDate", createdDate)
+               .add("deletedFlag", deletedFlag)
+               .add("deletedBy", deletedBy)
+               .add("deletedDate", deletedDate)
                .toString();
     }
 }

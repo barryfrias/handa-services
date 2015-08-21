@@ -41,4 +41,5 @@ public interface CommandDAO
     int deleteSms(int id, String deletedBy);
     String sendSms(SendSms sendSms);
     List<SmsOutboxMessage> getSmsOutbox();
+    int deleteSmsOutbox(int id, String deletedBy);
 }
