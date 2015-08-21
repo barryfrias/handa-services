@@ -14,12 +14,12 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
-public class DeleteSmsInboxProcedure
+public class DeleteSmsProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public DeleteSmsInboxProcedure(DataSource dataSource, String proc)
+    public DeleteSmsProcedure(DataSource dataSource, String proc)
     {
         setDataSource(checkNotNull(dataSource));
         setSql(checkNotNull(proc));

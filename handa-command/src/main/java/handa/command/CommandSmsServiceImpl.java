@@ -65,4 +65,12 @@ implements CommandSmsService
     {
         return commandDAO.getSmsOutbox();
     }
+
+    @Override
+    public int deleteSmsOutbox(int id, String deletedBy)
+    {
+        int result = commandDAO.deleteSmsOutbox(id, deletedBy);
+        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms outbox id %s and result was %s", id, result)));
+        return result;
+    }
 }

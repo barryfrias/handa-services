@@ -323,6 +323,14 @@ public class CommandResource
         return httpOk(result);
     }
 
+    @DELETE
+    @Path("sms/outbox/{id}")
+    public Response deleteSmsOutbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
+    {
+        int rowsAffected = commandSmsService.deleteSmsOutbox(id, deletedBy);
+        return httpOk(rowsAffected);
+    }
+
     Response httpOk(Object result)
     {
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
