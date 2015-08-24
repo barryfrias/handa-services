@@ -56,7 +56,7 @@ implements CommandSmsService
     public String sendSms(SendSms sendSms)
     {
         String result = commandDAO.sendSms(sendSms);
-        dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms and result was %s", result)));
+        dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms to [%s] and result was %s", sendSms.getRecipients(), result)));
         return result;
     }
 
