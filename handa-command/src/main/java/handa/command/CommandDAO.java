@@ -9,6 +9,7 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
+import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -42,4 +43,5 @@ public interface CommandDAO
     String sendSms(SendSms sendSms);
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
+    List<SmsDistributionList> getSmsDistributionList();
 }

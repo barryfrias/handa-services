@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
+import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.core.DBLoggerDAO;
@@ -72,5 +73,11 @@ implements CommandSmsService
         int result = commandDAO.deleteSmsOutbox(id, deletedBy);
         dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms outbox id %s and result was %s", id, result)));
         return result;
+    }
+
+    @Override
+    public List<SmsDistributionList> getSmsDistributionList()
+    {
+        return commandDAO.getSmsDistributionList();
     }
 }
