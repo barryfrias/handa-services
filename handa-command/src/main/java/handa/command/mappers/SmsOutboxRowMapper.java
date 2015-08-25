@@ -23,6 +23,9 @@ implements RowMapper<SmsOutboxMessage>
         message.setDeletedBy(rs.getString("DELETED_BY"));
         message.setDeletedDate(rs.getString("DELETED_DTTM"));
         message.setDeletedFlag(rs.getString("DELETED_FLAG"));
+        message.setAnonymousNumbers(rs.getString("ANONYMOUS_NUMBERS"));
+        message.setDistributionListKey(rs.getString("DISTRIBUTION_LIST_KEY"));
+        message.setDistributionListValues(rs.getString("DISTRIBUTION_LIST_VALUES"));
         return message;
     }
 }

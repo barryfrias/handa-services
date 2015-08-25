@@ -25,6 +25,9 @@ extends StoredProcedure
         setSql(checkNotNull(proc));
         declareParameter(new SqlParameter("RCPNTS", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("DISTRIBUTION_LIST_KEY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("DISTRIBUTION_LIST_VALUES", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("ANONYMOUS_NUMBERS", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("CREATEDBY", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
@@ -38,7 +41,10 @@ extends StoredProcedure
         {
             checkNotNull(emptyToNull(sendSms.getRecipients()), "sendSms.recipients can't be null"),
             checkNotNull(emptyToNull(sendSms.getMessage()), "sendSms.message can't be null"),
-            checkNotNull(emptyToNull(sendSms.getCreatedBy()), "sendSms.createdBy can't be null"),
+            emptyToNull(sendSms.getDistributionListKey()),
+            emptyToNull(sendSms.getDistributionListValues()),
+            emptyToNull(sendSms.getAnonymousNumbers()),
+            checkNotNull(emptyToNull(sendSms.getCreatedBy()), "sendSms.createdBy can't be null")
         };
         Map<String, Object> map = execute(params);
         return (String) map.get(RESULT);

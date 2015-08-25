@@ -9,6 +9,9 @@ public class SendSms
 {
     private String recipients;
     private String message;
+    private String distributionListKey;
+    private String distributionListValues;
+    private String anonymousNumbers;
     private String createdBy;
 
     public String getRecipients()
@@ -31,6 +34,36 @@ public class SendSms
         this.message = message;
     }
 
+    public String getDistributionListKey()
+    {
+        return distributionListKey;
+    }
+
+    public void setDistributionListKey(String distributionListKey)
+    {
+        this.distributionListKey = distributionListKey;
+    }
+
+    public String getDistributionListValues()
+    {
+        return distributionListValues;
+    }
+
+    public void setDistributionListValues(String distributionListValues)
+    {
+        this.distributionListValues = distributionListValues;
+    }
+
+    public String getAnonymousNumbers()
+    {
+        return anonymousNumbers;
+    }
+
+    public void setAnonymousNumbers(String anonymousNumbers)
+    {
+        this.anonymousNumbers = anonymousNumbers;
+    }
+
     public String getCreatedBy()
     {
         return createdBy;
@@ -47,6 +80,9 @@ public class SendSms
         return toStringHelper(this)
                .add("recipients", recipients)
                .add("message", message)
+               .add("distributionListKey", distributionListKey)
+               .add("distributionListValues", distributionListValues)
+               .add("anonymousNumbers", anonymousNumbers)
                .add("createdBy", createdBy)
                .toString();
     }

@@ -10,6 +10,9 @@ public class SmsOutboxMessage
     private int id;
     private String recipients;
     private String message;
+    private String distributionListKey;
+    private String distributionListValues;
+    private String anonymousNumbers;
     private String status;
     private String createdBy;
     private String createdDate;
@@ -45,6 +48,36 @@ public class SmsOutboxMessage
     public void setMessage(String message)
     {
         this.message = message;
+    }
+
+    public String getDistributionListKey()
+    {
+        return distributionListKey;
+    }
+
+    public void setDistributionListKey(String distributionListKey)
+    {
+        this.distributionListKey = distributionListKey;
+    }
+
+    public String getDistributionListValues()
+    {
+        return distributionListValues;
+    }
+
+    public void setDistributionListValues(String distributionListValues)
+    {
+        this.distributionListValues = distributionListValues;
+    }
+
+    public String getAnonymousNumbers()
+    {
+        return anonymousNumbers;
+    }
+
+    public void setAnonymousNumbers(String anonymousNumbers)
+    {
+        this.anonymousNumbers = anonymousNumbers;
     }
 
     public String getStatus()
@@ -114,6 +147,9 @@ public class SmsOutboxMessage
                .add("id", id)
                .add("recipients", recipients)
                .add("message", message)
+               .add("distributionListKey", distributionListKey)
+               .add("distributionListValues", distributionListValues)
+               .add("anonymousNumbers", anonymousNumbers)
                .add("status", status)
                .add("createdBy", createdBy)
                .add("createdDate", createdDate)
