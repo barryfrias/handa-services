@@ -2,6 +2,7 @@ package handa.command;
 
 import java.util.List;
 
+import handa.beans.dto.LovItem;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsDistributionList;
@@ -17,4 +18,5 @@ public interface CommandSmsService
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
     List<SmsDistributionList> getSmsDistributionList();
+    List<LovItem> getSmsDistributionLov(String distributionListCode);
 }

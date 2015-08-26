@@ -12,6 +12,7 @@ import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
@@ -34,6 +35,7 @@ import handa.command.procs.DeleteSmsProcedure;
 import handa.command.procs.GenericProcedure;
 import handa.command.procs.GetNewsFeedsProcedure;
 import handa.command.procs.GetNoResponseProcedure;
+import handa.command.procs.GetSmsDistributionLovProcedure;
 import handa.command.procs.GetUserLocAndPromptProcedure;
 import handa.command.procs.GetUserPromptsProcedure;
 import handa.command.procs.GetUserReportsProcedure;
@@ -77,6 +79,7 @@ implements CommandDAO
     private GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
     private DeleteSmsProcedure deleteSmsOutboxProcedure;
     private GenericProcedure<SmsDistributionList> getSmsDistributionListProcedure;
+    private GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
@@ -103,7 +106,8 @@ implements CommandDAO
                          @Value("${handa.command.send.sms.proc}") String sendSmsProcName,
                          @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName,
                          @Value("${handa.command.delete.sms.outbox.proc}") String deleteSmsOutboxProcName,
-                         @Value("${handa.command.get.sms.distribution.list.proc}") String getSmsDistributionListProcName)
+                         @Value("${handa.command.get.sms.distribution.list.proc}") String getSmsDistributionListProcName,
+                         @Value("${handa.command.get.sms.distribution.lov.proc}") String getSmsDistributionLovProcName)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
@@ -130,6 +134,7 @@ implements CommandDAO
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsOutboxProcName);
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), getSmsDistributionListProcName, new SmsDistributionListRowMapper());
+        this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource(), getSmsDistributionLovProcName);
     }
 
     @Override
@@ -286,5 +291,11 @@ implements CommandDAO
     public List<SmsDistributionList> getSmsDistributionList()
     {
         return getSmsDistributionListProcedure.listValues();
+    }
+
+    @Override
+    public List<LovItem> getSmsDistributionLov(String distributionListCode)
+    {
+        return getSmsDistributionLovProcedure.list(distributionListCode);
     }
 }
