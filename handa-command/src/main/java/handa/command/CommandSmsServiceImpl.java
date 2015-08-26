@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsDistributionList;
@@ -79,5 +80,11 @@ implements CommandSmsService
     public List<SmsDistributionList> getSmsDistributionList()
     {
         return commandDAO.getSmsDistributionList();
+    }
+
+    @Override
+    public List<LovItem> getSmsDistributionLov(String distributionListCode)
+    {
+        return commandDAO.getSmsDistributionLov(distributionListCode);
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
@@ -44,4 +45,5 @@ public interface CommandDAO
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
     List<SmsDistributionList> getSmsDistributionList();
+    List<LovItem> getSmsDistributionLov(String distributionListCode);
 }

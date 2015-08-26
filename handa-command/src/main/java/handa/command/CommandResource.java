@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
@@ -337,6 +338,18 @@ public class CommandResource
     public Response getSmsDistributionList()
     {
         List<SmsDistributionList> result = commandSmsService.getSmsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("sms/distributionList/{distributionListCode}")
+    public Response getSmsDistributionLov(@PathParam("distributionListCode") String distributionListCode)
+    {
+        List<LovItem> result = commandSmsService.getSmsDistributionLov(distributionListCode);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
