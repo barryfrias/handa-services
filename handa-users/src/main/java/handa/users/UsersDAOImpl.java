@@ -2,20 +2,19 @@ package handa.users;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Optional;
+import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
-import com.google.common.base.Optional;
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
 @Component
 public class UsersDAOImpl
@@ -31,23 +30,16 @@ implements UsersDAO
     private final SearchUserByNameProcedure searchUserByNameProcedure;
 
     @Autowired
-    public UsersDAOImpl(JdbcTemplate jdbcTemplate,
-                        @Value("${handa.users.auth.proc}") String authByMobileProcName,
-                        @Value("${handa.users.auth2.proc}") String authByMobileAndUsernameProcName,
-                        @Value("${handa.users.prompt.proc}") String userPromptProcName,
-                        @Value("${handa.users.info.proc}") String userInfoProcName,
-                        @Value("${handa.users.report.proc}") String userReportProcName,
-                        @Value("${handa.users.check.app.version.proc}") String checkMobileAppVersionProcName,
-                        @Value("${handa.users.search.by.name.proc}") String searchUserByNameProcName)
+    public UsersDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
-        this.authByMobileProcedure = new AuthByMobileProcedure(dataSource(), authByMobileProcName);
-        this.authByMobileAndUsernameProcedure = new AuthByMobileAndUsernameProcedure(dataSource(), authByMobileAndUsernameProcName);
-        this.userPromptProcedure = new UserPromptProcedure(dataSource(), userPromptProcName);
-        this.userInfoProcedure = new UserInfoProcedure(dataSource(), userInfoProcName);
-        this.userReportProcedure = new UserReportProcedure(dataSource(), userReportProcName);
-        this.checkMobileAppVersionProcedure = new CheckMobileAppVersionProcedure(dataSource(), checkMobileAppVersionProcName);
-        this.searchUserByNameProcedure = new SearchUserByNameProcedure(dataSource(), searchUserByNameProcName);
+        this.authByMobileProcedure = new AuthByMobileProcedure(dataSource());
+        this.authByMobileAndUsernameProcedure = new AuthByMobileAndUsernameProcedure(dataSource());
+        this.userPromptProcedure = new UserPromptProcedure(dataSource());
+        this.userInfoProcedure = new UserInfoProcedure(dataSource());
+        this.userReportProcedure = new UserReportProcedure(dataSource());
+        this.checkMobileAppVersionProcedure = new CheckMobileAppVersionProcedure(dataSource());
+        this.searchUserByNameProcedure = new SearchUserByNameProcedure(dataSource());
     }
 
     @Override

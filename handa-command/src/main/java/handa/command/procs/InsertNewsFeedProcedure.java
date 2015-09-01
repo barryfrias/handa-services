@@ -22,10 +22,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public InsertNewsFeedProcedure(DataSource dataSource, String proc)
+    public InsertNewsFeedProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("INSERT_NEWS_FEED");
         declareParameter(new SqlParameter("TTL", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG_TYPE", OracleTypes.VARCHAR));

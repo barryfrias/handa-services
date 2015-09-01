@@ -7,20 +7,20 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import oracle.jdbc.OracleTypes;
 
 public class ReportsCountProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public ReportsCountProcedure(DataSource dataSource, String proc)
+    public ReportsCountProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_USER_REPORTS_COUNT");
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.NUMBER));
         setFunction(false);
         compile();

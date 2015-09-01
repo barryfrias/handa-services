@@ -20,10 +20,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public ReadSmsInboxProcedure(DataSource dataSource, String proc)
+    public ReadSmsInboxProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("READ_SMS_INBOX");
         setFunction(false);
         declareParameter(new SqlParameter("MSG_ID", OracleTypes.NUMBER));
         declareParameter(new SqlParameter("READBY", OracleTypes.VARCHAR));

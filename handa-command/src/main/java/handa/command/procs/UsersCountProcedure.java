@@ -8,21 +8,21 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import oracle.jdbc.OracleTypes;
 
 public class UsersCountProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public UsersCountProcedure(DataSource dataSource, String proc)
+    public UsersCountProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_USERS_COUNT");
         declareParameter(new SqlParameter("CITY", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.NUMBER));
         setFunction(false);

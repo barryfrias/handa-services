@@ -8,21 +8,21 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import oracle.jdbc.OracleTypes;
 
 public class DeleteNewsFeedProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public DeleteNewsFeedProcedure(DataSource dataSource, String proc)
+    public DeleteNewsFeedProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("DELETE_NEWS_FEED");
         setFunction(false);
         declareParameter(new SqlParameter("P_ID", OracleTypes.NUMBER));
         declareParameter(new SqlParameter("DELETED_BY", OracleTypes.VARCHAR));

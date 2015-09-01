@@ -1,7 +1,6 @@
 package handa.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +19,11 @@ implements CommandSmsProcessor
     private DBLoggerDAO dbLoggerDAO;
 
     @Autowired
-    public CommandSmsProcessorImpl(JdbcTemplate jdbcTemplate,
-                                   DBLoggerDAO dbLoggerDAO,
-                                   @Value("${handa.command.process.sms.outbox.proc}") String processSmsOutboxProcName)
+    public CommandSmsProcessorImpl(JdbcTemplate jdbcTemplate, DBLoggerDAO dbLoggerDAO)
     {
         super(jdbcTemplate);
         this.dbLoggerDAO = dbLoggerDAO;
-        this.processSmsOutboxProcedure = new ProcessSmsOutboxProcedure(dataSource(), processSmsOutboxProcName);
+        this.processSmsOutboxProcedure = new ProcessSmsOutboxProcedure(dataSource());
     }
 
     @Override

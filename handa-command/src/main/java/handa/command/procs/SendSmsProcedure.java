@@ -21,10 +21,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public SendSmsProcedure(DataSource dataSource, String proc)
+    public SendSmsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("SEND_SMS");
         declareParameter(new SqlParameter("RCPNTS", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("DISTRIBUTION_LIST_KEY", OracleTypes.VARCHAR));

@@ -83,58 +83,41 @@ implements CommandDAO
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate,
-                         @Value("${handa.command.prompts.count.proc}") String promptsCountProcName,
-                         @Value("${handa.command.insert.news.feed.proc}") String insertNewsFeedProcName,
-                         @Value("${handa.command.update.news.feed.proc}") String updateNewsFeedProcName,
-                         @Value("${handa.command.get.news.feed.proc}") String getNewsFeedsProcName,
-                         @Value("${handa.command.delete.news.feed.proc}") String deleteNewsFeedProcName,
-                         @Value("${handa.command.get.user.prompts.proc}") String getUserPromptsProcName,
-                         @Value("${handa.command.get.user.reports.proc}") String getUserReportsProcName,
-                         @Value("${handa.command.reports.count.proc}") String reportsCountProcName,
-                         @Value("${handa.command.cities.proc}") String citiesProcName,
-                         @Value("${handa.command.noresponse.count.proc}") String noResponseCountProcName,
-                         @Value("${handa.command.get.noresponse.proc}") String getNoResponseProcName,
-                         @Value("${handa.command.sos.countPerCity.proc}") String getSosCountPerCityProcName,
-                         @Value("${handa.command.events.reset.proc}") String resetEventsProcName,
-                         @Value("${handa.command.get.users.locations.proc}") String getUsersLocationsProcName,
-                         @Value("${handa.command.close.prompt.proc}") String closePromptProcName,
-                         @Value("${handa.command.users.count.proc}") String usersCountProcName,
-                         @Value("${handa.command.close.user.report.proc}") String closeUserReportProcName,
-                         @Value("${handa.command.get.sms.inbox.proc}") String getSmsInboxProcName,
-                         @Value("${handa.command.read.sms.inbox.proc}") String readSmsInboxProcName,
-                         @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
-                         @Value("${handa.command.send.sms.proc}") String sendSmsProcName,
                          @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName,
-                         @Value("${handa.command.delete.sms.outbox.proc}") String deleteSmsOutboxProcName,
                          @Value("${handa.command.get.sms.distribution.list.proc}") String getSmsDistributionListProcName,
-                         @Value("${handa.command.get.sms.distribution.lov.proc}") String getSmsDistributionLovProcName)
+                         @Value("${handa.command.cities.proc}") String citiesProcName,
+                         @Value("${handa.command.sos.countPerCity.proc}") String getSosCountPerCityProcName,
+                         @Value("${handa.command.get.sms.inbox.proc}") String getSmsInboxProcName,
+                         @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
+                         @Value("${handa.command.delete.sms.outbox.proc}") String deleteSmsOutboxProcName)
     {
         super(jdbcTemplate);
-        this.promptsCountProcedure = new PromptsCountProcedure(dataSource(), promptsCountProcName);
-        this.insertNewsFeedProcedure = new InsertNewsFeedProcedure(dataSource(), insertNewsFeedProcName);
-        this.updateNewsFeedProcedure = new UpdateNewsFeedProcedure(dataSource(), updateNewsFeedProcName);
-        this.getNewsFeedsProcedure = new GetNewsFeedsProcedure(dataSource(), getNewsFeedsProcName);
-        this.deleteNewsFeedProcedure = new DeleteNewsFeedProcedure(dataSource(), deleteNewsFeedProcName);
-        this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource(), getUserPromptsProcName);
-        this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource(), getUserReportsProcName);
-        this.reportsCountProcedure = new ReportsCountProcedure(dataSource(), reportsCountProcName);
-        this.citiesProcedure = new GenericProcedure<>(dataSource(), citiesProcName, new CityRowMapper());
-        this.noResponseCountProcedure = new NoResponseCountProcedure(dataSource(), noResponseCountProcName);
-        this.getNoResponseProcedure = new GetNoResponseProcedure(dataSource(), getNoResponseProcName);
-        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), getSosCountPerCityProcName, new PromptCountRowMapper());
-        this.resetEventsProcedure = new ResetEventsProcedure(dataSource(), resetEventsProcName);
-        this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource(), getUsersLocationsProcName);
-        this.closePromptProcedure = new ClosePromptProcedure(dataSource(), closePromptProcName);
-        this.usersCountProcedure = new UsersCountProcedure(dataSource(), usersCountProcName);
-        this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource(), closeUserReportProcName);
-        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), getSmsInboxProcName, new SmsInboxRowMapper());
-        this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource(), readSmsInboxProcName);
+        this.promptsCountProcedure = new PromptsCountProcedure(dataSource());
+        this.insertNewsFeedProcedure = new InsertNewsFeedProcedure(dataSource());
+        this.updateNewsFeedProcedure = new UpdateNewsFeedProcedure(dataSource());
+        this.getNewsFeedsProcedure = new GetNewsFeedsProcedure(dataSource());
+        this.deleteNewsFeedProcedure = new DeleteNewsFeedProcedure(dataSource());
+        this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
+        this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
+        this.reportsCountProcedure = new ReportsCountProcedure(dataSource());
+        this.noResponseCountProcedure = new NoResponseCountProcedure(dataSource());
+        this.getNoResponseProcedure = new GetNoResponseProcedure(dataSource());
+        this.resetEventsProcedure = new ResetEventsProcedure(dataSource());
+        this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource());
+        this.closePromptProcedure = new ClosePromptProcedure(dataSource());
+        this.usersCountProcedure = new UsersCountProcedure(dataSource());
+        this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource());
+        this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource());
+        this.sendSmsProcedure = new SendSmsProcedure(dataSource());
+        this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource());
+
         this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsInboxProcName);
-        this.sendSmsProcedure = new SendSmsProcedure(dataSource(), sendSmsProcName);
-        this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsOutboxProcName);
+        this.citiesProcedure = new GenericProcedure<>(dataSource(), citiesProcName, new CityRowMapper());
+        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), getSosCountPerCityProcName, new PromptCountRowMapper());
+        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), getSmsInboxProcName, new SmsInboxRowMapper());
+        this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), getSmsDistributionListProcName, new SmsDistributionListRowMapper());
-        this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource(), getSmsDistributionLovProcName);
     }
 
     @Override
