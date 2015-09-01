@@ -6,21 +6,21 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import oracle.jdbc.OracleTypes;
 
 public class CheckUsernameProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public CheckUsernameProcedure(DataSource dataSource, String proc)
+    public CheckUsernameProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("CHECK_USERNAME");
         declareParameter(new SqlParameter("USERNAME", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);

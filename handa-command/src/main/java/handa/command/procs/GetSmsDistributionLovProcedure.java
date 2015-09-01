@@ -20,10 +20,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "out";
 
-    public GetSmsDistributionLovProcedure(DataSource dataSource, String procName)
+    public GetSmsDistributionLovProcedure(DataSource dataSource)
     {
-        setSql(checkNotNull(procName));
         setDataSource(checkNotNull(dataSource));
+        setSql("GET_SMS_DISTRIBUTION_LOV");
         declareParameter(new SqlParameter("DIST_LIST_CODE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new SmsDistributionLovRowMapper()));
         setFunction(false);

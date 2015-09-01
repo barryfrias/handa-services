@@ -16,10 +16,10 @@ implements DBLoggerDAO
     private InsertLogProcedure insertLogProcedure;
     private final Executor executor;
 
-    public DBLoggerDAOImpl(JdbcTemplate jdbcTemplate, String insertLogProcName)
+    public DBLoggerDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
-        this.insertLogProcedure = new InsertLogProcedure(dataSource(), insertLogProcName);
+        this.insertLogProcedure = new InsertLogProcedure(dataSource());
         executor = Executors.newCachedThreadPool();
     }
 

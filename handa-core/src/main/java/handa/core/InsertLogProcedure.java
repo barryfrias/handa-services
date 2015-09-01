@@ -13,9 +13,9 @@ import org.springframework.jdbc.object.StoredProcedure;
 public class InsertLogProcedure
 extends StoredProcedure
 {
-    public InsertLogProcedure(DataSource dataSource, String procName)
+    public InsertLogProcedure(DataSource dataSource)
     {
-        setSql(checkNotNull(procName));
+        setSql("INSERT_LOG");
         setDataSource(checkNotNull(dataSource));
         setFunction(false);
         declareParameter(new SqlParameter("SOURCE", Types.VARCHAR));

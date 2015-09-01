@@ -21,10 +21,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public SearchUserByNameProcedure(DataSource dataSource, String proc)
+    public SearchUserByNameProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("SEARCH_USER_BY_NAME");
         declareParameter(new SqlParameter("KEYWORD", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new UserInfoRowMapper()));
         setFunction(false);

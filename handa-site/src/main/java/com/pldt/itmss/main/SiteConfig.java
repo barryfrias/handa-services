@@ -31,9 +31,6 @@ import frias.barry.LDAPController;
 @EnableMBeanExport
 public class SiteConfig
 {
-    @Value("${handa.core.insert.log.proc}")
-    private String insertLogProcName;
-
     @PostConstruct
     private void postConstruct()
     {
@@ -119,6 +116,6 @@ public class SiteConfig
     @Bean
     DBLoggerDAO dbLoggerDAO(JdbcTemplate jdbcTemplate)
     {
-        return new DBLoggerDAOImpl(jdbcTemplate, insertLogProcName);
+        return new DBLoggerDAOImpl(jdbcTemplate);
     }
 }

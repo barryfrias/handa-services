@@ -1,27 +1,27 @@
 package handa.users;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import handa.beans.dto.AuthInfo;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import handa.beans.dto.AuthInfo;
+import oracle.jdbc.OracleTypes;
 
 public class AuthByMobileAndUsernameProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public AuthByMobileAndUsernameProcedure(DataSource dataSource, String proc)
+    public AuthByMobileAndUsernameProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("AUTH_BY_MOBILE_AND_USERNAME");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("USERNAME", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));

@@ -20,10 +20,10 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public PromptsCountProcedure(DataSource dataSource, String proc)
+    public PromptsCountProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_PROMPT_COUNT");
         declareParameter(new SqlParameter("PR_TYPE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("CITY", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.NUMBER));

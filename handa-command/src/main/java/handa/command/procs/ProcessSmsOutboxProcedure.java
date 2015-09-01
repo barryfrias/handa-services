@@ -17,10 +17,10 @@ extends StoredProcedure
 {
     private static final String PROCESSED_CNT = "PROCESSED_CNT";
 
-    public ProcessSmsOutboxProcedure(DataSource dataSource, String proc)
+    public ProcessSmsOutboxProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("PROCESS_SMS_OUTBOX");
         setFunction(false);
         declareParameter(new SqlOutParameter(PROCESSED_CNT, OracleTypes.NUMBER));
         compile();

@@ -1,14 +1,10 @@
 package handa.users;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import handa.beans.dto.UserReport;
-import handa.config.HandaUsersConstants;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
-
-import oracle.jdbc.OracleTypes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +13,20 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
+import handa.beans.dto.UserReport;
+import handa.config.HandaUsersConstants;
+import oracle.jdbc.OracleTypes;
+
 public class UserReportProcedure
 extends StoredProcedure
 {
     static Logger log = LoggerFactory.getLogger(UserReportProcedure.class);
     private static final String RESULT = "RESULT";
 
-    public UserReportProcedure(DataSource dataSource, String proc)
+    public UserReportProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("USER_REPORT");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MAC_ADD", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("OS_VER", OracleTypes.VARCHAR));

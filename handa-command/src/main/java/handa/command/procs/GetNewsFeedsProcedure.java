@@ -1,28 +1,28 @@
 package handa.command.procs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import handa.beans.dto.NewsFeed;
-import handa.command.mappers.NewsFeedRowMapper;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import handa.beans.dto.NewsFeed;
+import handa.command.mappers.NewsFeedRowMapper;
+import oracle.jdbc.OracleTypes;
 
 public class GetNewsFeedsProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public GetNewsFeedsProcedure(DataSource dataSource, String proc)
+    public GetNewsFeedsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_NEWS_FEEDS");
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new NewsFeedRowMapper()));
         setFunction(false);
         compile();
