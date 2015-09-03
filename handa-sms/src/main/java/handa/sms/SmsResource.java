@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+
+import handa.beans.dto.SendSmsInput;
+import handa.beans.dto.SendSmsOutput;
 import handa.beans.dto.SmsInbound;
 
 @Component
@@ -37,6 +41,14 @@ public class SmsResource
     {
         String result = smsService.receive(smsInbound);
         return buildResponse(result);
+    }
+
+    @POST
+    @Path("send")
+    public Response send(SendSmsInput sendSmsInput)
+    {
+        Optional<SendSmsOutput> result = smsService.send(sendSmsInput);
+        return Response.ok(result.get()).build();
     }
 
     Response buildResponse(String result)

@@ -13,7 +13,12 @@ ext {
             "jdbc.username": 'handa',
             "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
             "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
-            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
+            "handa.sms.keyword": '5010',
+            "handa.sms.charge.id": '0000',
+            "handa.sms.queue.path": '.\\new5010sender',
+            "sms.smart.ws.url": 'http://10.124.1.56:8081/RC2SMS/Service.asmx',
+            "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ],
         qa:
         [
@@ -26,7 +31,12 @@ ext {
             "jdbc.username": 'handa',
             "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
             "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
-            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
+            "handa.sms.keyword": '5010',
+            "handa.sms.charge.id": '0000',
+            "handa.sms.queue.path": '.\\new5010sender',
+            "sms.smart.ws.url": 'http://10.124.1.56:8081/RC2SMS/Service.asmx',
+            "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ],
         prod:
         [
@@ -39,7 +49,12 @@ ext {
             "jdbc.username": 'handa',
             "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
             "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
-            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds'
+            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
+            "handa.sms.keyword": 'xxxx',
+            "handa.sms.charge.id": 'xxxx',
+            "handa.sms.queue.path": 'xxxx',
+            "sms.smart.ws.url": 'xxxxx',
+            "sms.smart.ws.soap.action": 'xxxxx'
         ]
     ]
 }

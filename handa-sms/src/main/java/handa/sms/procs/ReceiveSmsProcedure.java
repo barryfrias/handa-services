@@ -25,10 +25,10 @@ extends StoredProcedure
     private static final String RESULT = "RESULT";
     private static final SimpleDateFormat SDF = new SimpleDateFormat(DATE_FORMAT);
 
-    public ReceiveSmsProcedure(DataSource dataSource, String proc)
+    public ReceiveSmsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("RECEIVE_SMS");
         setFunction(false);
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("MSG", OracleTypes.VARCHAR));
