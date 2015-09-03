@@ -30,9 +30,6 @@ implements CommandSmsProcessor
     public void processOutbox()
     {
         int processedCount = processSmsOutboxProcedure.call();
-        if(processedCount > 0)
-        {
-            dbLoggerDAO.log(AppLog.server("CommandSmsProcessor", String.format("Processed sms outbox. Count: %s", processedCount)));
-        }
+        dbLoggerDAO.log(AppLog.server("CommandSmsProcessor", String.format("Processed sms outbox. Count: %s", processedCount)));
     }
 }
