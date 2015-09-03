@@ -16,7 +16,7 @@ ext {
             "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
             "handa.sms.keyword": '5010',
             "handa.sms.charge.id": '0000',
-            "handa.sms.queue.path": '.\\new5010sender',
+            "handa.sms.queue.path": '.\\\\new5010sender',
             "sms.smart.ws.url": 'http://10.124.1.56:8081/RC2SMS/Service.asmx',
             "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ],
@@ -34,7 +34,7 @@ ext {
             "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
             "handa.sms.keyword": '5010',
             "handa.sms.charge.id": '0000',
-            "handa.sms.queue.path": '.\\new5010sender',
+            "handa.sms.queue.path": '.\\\\new5010sender',
             "sms.smart.ws.url": 'http://10.124.1.56:8081/RC2SMS/Service.asmx',
             "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ],
