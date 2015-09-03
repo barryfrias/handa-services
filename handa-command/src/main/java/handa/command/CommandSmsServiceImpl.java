@@ -1,6 +1,8 @@
 package handa.command;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +25,18 @@ implements CommandSmsService
     final static Logger log = LoggerFactory.getLogger(CommandSmsServiceImpl.class);
 
     private CommandDAO commandDAO;
+    private CommandSmsProcessor commandSmsProcessor;
     private DBLoggerDAO dbLoggerDAO;
+    private ExecutorService executor;
+    
 
     @Autowired
-    public CommandSmsServiceImpl(CommandDAO commandDAO, DBLoggerDAO dbLoggerDAO)
+    public CommandSmsServiceImpl(CommandDAO commandDAO, DBLoggerDAO dbLoggerDAO, CommandSmsProcessor commandSmsProcessor)
     {
         this.commandDAO = commandDAO;
         this.dbLoggerDAO = dbLoggerDAO;
+        this.commandSmsProcessor = commandSmsProcessor;
+        executor = Executors.newCachedThreadPool();
     }
 
     @Override
@@ -59,7 +66,17 @@ implements CommandSmsService
     {
         String result = commandDAO.sendSms(sendSms);
         dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms to [%s] and result was %s", sendSms.getRecipients(), result)));
+        runOutboxProcessor();
         return result;
+    }
+
+    private void runOutboxProcessor()
+    {
+        executor.execute(new Runnable()
+        {
+            @Override
+            public void run() { commandSmsProcessor.processOutbox(); }
+        });
     }
 
     @Override
