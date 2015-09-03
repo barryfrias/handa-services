@@ -66,10 +66,10 @@ implements HandaSmsSender
         {
             wsInput.setMobile(item.getMobileNo());
             wsInput.setMessage(item.getMessage());
+            update.setQueueId(item.getId());
             Optional<SendSmsOutput> result = smsService.send(wsInput);
             if(result.isPresent())
             {
-                update.setQueueId(item.getId());
                 if("1".equals(result.get().getResult()))
                 {
                     update.setUpdateStatus("processed");
@@ -81,8 +81,14 @@ implements HandaSmsSender
                     failed++;
                 }
                 update.setResponseMessage(result.get().toString());
-                updateSmsOutboundQueueProcedure.update(update);
             }
+            else
+            {
+                update.setUpdateStatus("failed");
+                update.setResponseMessage("empty response");
+                failed++;
+            }
+            updateSmsOutboundQueueProcedure.update(update);
         }
         dbLogger.log(AppLog.server("HandaSmsSender", String.format("Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed)));
     }
