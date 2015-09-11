@@ -53,8 +53,8 @@ ext {
             "handa.sms.keyword": '7538',
             "handa.sms.charge.id": 'xxxx',
             "handa.sms.queue.path": 'xxxx',
-            "sms.smart.ws.url": 'xxxxx',
-            "sms.smart.ws.soap.action": 'xxxxx'
+            "sms.smart.ws.url": 'http://10.110.23.238:8001/PLDTHANDASMSWS/Service.asmx',
+            "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ]
     ]
 }
