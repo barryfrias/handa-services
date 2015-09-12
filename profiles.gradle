@@ -51,8 +51,8 @@ ext {
             "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
             "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
             "handa.sms.keyword": '7538',
-            "handa.sms.charge.id": 'xxxx',
-            "handa.sms.queue.path": 'xxxx',
+            "handa.sms.charge.id": '0000',
+            "handa.sms.queue.path": 'sci8-msmq02\\\\public-pldthanda-sender01',
             "sms.smart.ws.url": 'http://10.110.23.238:8001/PLDTHANDASMSWS/Service.asmx',
             "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
         ]
