@@ -28,7 +28,6 @@ implements CommandSmsService
     private CommandSmsProcessor commandSmsProcessor;
     private DBLoggerDAO dbLoggerDAO;
     private ExecutorService executor;
-    
 
     @Autowired
     public CommandSmsServiceImpl(CommandDAO commandDAO, DBLoggerDAO dbLoggerDAO, CommandSmsProcessor commandSmsProcessor)
