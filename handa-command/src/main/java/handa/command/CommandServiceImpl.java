@@ -14,7 +14,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
@@ -27,6 +26,7 @@ import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.core.DBLoggerDAO;
+import handa.core.HandaProperties;
 
 @Component
 public class CommandServiceImpl
@@ -34,17 +34,17 @@ implements CommandService
 {
     final static Logger log = LoggerFactory.getLogger(CommandServiceImpl.class);
 
-    @Value("${handa.command.upload.directory}")
     private String uploadDirectory;
 
     private CommandDAO commandDAO;
     private DBLoggerDAO dbLoggerDAO;
 
     @Autowired
-    public CommandServiceImpl(CommandDAO commandDAO, DBLoggerDAO dbLoggerDAO)
+    public CommandServiceImpl(CommandDAO commandDAO, DBLoggerDAO dbLoggerDAO, HandaProperties handaProperties)
     {
         this.commandDAO = commandDAO;
         this.dbLoggerDAO = dbLoggerDAO;
+        this.uploadDirectory = handaProperties.get("handa.command.upload.directory");
     }
 
     @Override

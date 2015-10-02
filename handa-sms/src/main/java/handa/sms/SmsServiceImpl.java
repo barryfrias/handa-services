@@ -5,16 +5,16 @@ import javax.xml.soap.SOAPBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
 import com.pldt.itmss.core.utils.SoapWsCaller;
 import com.pldt.itmss.core.utils.SoapWsCaller.WSParams;
 
-import handa.beans.dto.SmsInbound;
-import com.google.common.base.Optional;
 import handa.beans.dto.SendSmsInput;
 import handa.beans.dto.SendSmsOutput;
+import handa.beans.dto.SmsInbound;
+import handa.core.HandaProperties;
 
 @Component
 public class SmsServiceImpl
@@ -26,11 +26,11 @@ implements SmsService
     private SoapWsCaller<SendSmsInput, SendSmsOutput, SOAPBody> sendSmsWsCaller;
 
     @Autowired
-    public SmsServiceImpl(SmsDAO commandDAO,
-                          @Value("${sms.smart.ws.url}") String smartWsUrl,
-                          @Value("${sms.smart.ws.soap.action}") String smartWsSoapAction)
+    public SmsServiceImpl(SmsDAO commandDAO, HandaProperties handaProperties)
     {
         this.smsDAO = commandDAO;
+        String smartWsUrl = handaProperties.get("sms.smart.ws.url");
+        String smartWsSoapAction = handaProperties.get("sms.smart.ws.soap.action");
         this.sendSmsWsCaller = new SendSmsWsCaller(new WSParams(smartWsUrl, smartWsSoapAction));
     }
 

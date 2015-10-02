@@ -3,7 +3,6 @@ package handa.sms;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +15,7 @@ import handa.beans.dto.SendSmsOutput;
 import handa.beans.dto.SmsOutboundQueue;
 import handa.beans.dto.UpdateSmsOutboundQueue;
 import handa.core.DBLoggerDAO;
+import handa.core.HandaProperties;
 import handa.sms.procs.GetSmsOutboundQueueProcedure;
 import handa.sms.procs.UpdateSmsOutboundQueueProcedure;
 
@@ -34,18 +34,16 @@ implements HandaSmsSender
 
     @Autowired
     public HandaSmsSenderImpl(JdbcTemplate jdbcTemplate,
-                         SmsService smsService,
-                         DBLoggerDAO dbLoggerDAO,
-                         @Value("${handa.sms.keyword}") String keyword,
-                         @Value("${handa.sms.charge.id}") String chargeId,
-                         @Value("${handa.sms.queue.path}") String queuePath)
+                              SmsService smsService,
+                              DBLoggerDAO dbLoggerDAO,
+                              HandaProperties handaProperties)
     {
         super(jdbcTemplate);
         this.smsService = smsService;
         this.dbLogger = dbLoggerDAO;
-        this.keyword = keyword;
-        this.chargeId = chargeId;
-        this.queuePath = queuePath;
+        this.keyword = handaProperties.get("handa.sms.keyword");
+        this.chargeId = handaProperties.get("handa.sms.charge.id");
+        this.queuePath = handaProperties.get("handa.sms.queue.path");
         this.getSmsOutboundQueueProcedure = new GetSmsOutboundQueueProcedure(dataSource());
         this.updateSmsOutboundQueueProcedure = new UpdateSmsOutboundQueueProcedure(dataSource());
     }
