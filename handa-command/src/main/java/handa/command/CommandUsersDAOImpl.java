@@ -1,13 +1,12 @@
 package handa.command;
 
-import handa.command.procs.CheckUsernameProcedure;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+
+import handa.command.procs.CheckUsernameProcedure;
 
 @Component
 public class CommandUsersDAOImpl
@@ -17,11 +16,10 @@ implements CommandUsersDAO
     private CheckUsernameProcedure checkUsernameProcedure;
 
     @Autowired
-    public CommandUsersDAOImpl(JdbcTemplate jdbcTemplate,
-                         @Value("${handa.command.users.check.username.proc}") String checkUsernameProcName)
+    public CommandUsersDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
-        this.checkUsernameProcedure = new CheckUsernameProcedure(dataSource(), checkUsernameProcName);
+        this.checkUsernameProcedure = new CheckUsernameProcedure(dataSource());
     }
 
     @Override

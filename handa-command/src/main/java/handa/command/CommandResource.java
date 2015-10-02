@@ -3,15 +3,6 @@ package handa.command;
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
 import static handa.config.HandaCommandConstants.OK;
-import handa.beans.dto.City;
-import handa.beans.dto.ClosePrompt;
-import handa.beans.dto.CloseUserReport;
-import handa.beans.dto.NewsFeed;
-import handa.beans.dto.PromptCount;
-import handa.beans.dto.UserLocation;
-import handa.beans.dto.UserLogin;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserReport;
 
 import java.io.InputStream;
 import java.util.List;
@@ -37,6 +28,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import handa.beans.dto.City;
+import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.LovItem;
+import handa.beans.dto.NewsFeed;
+import handa.beans.dto.PromptCount;
+import handa.beans.dto.ReadSms;
+import handa.beans.dto.SendSms;
+import handa.beans.dto.SmsDistributionList;
+import handa.beans.dto.SmsInboxMessage;
+import handa.beans.dto.SmsOutboxMessage;
+import handa.beans.dto.UserLocation;
+import handa.beans.dto.UserLogin;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
+
 @Component
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
 @Path("command")
@@ -46,12 +53,14 @@ public class CommandResource
 
     private CommandService commandService;
     private CommandUsersService usersService;
+    private CommandSmsService commandSmsService;
 
     @Autowired
-    public CommandResource(CommandService commandService, CommandUsersService usersService)
+    public CommandResource(CommandService commandService, CommandUsersService usersService, CommandSmsService commandSmsService)
     {
         this.commandService = commandService;
         this.usersService = usersService;
+        this.commandSmsService = commandSmsService;
     }
 
     @POST
@@ -96,12 +105,12 @@ public class CommandResource
     public Response getUsersCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getUsersCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @POST
     @Path("events/reset")
-    public Response resetEvents( @QueryParam("resetBy") String resetBy)
+    public Response resetEvents(@QueryParam("resetBy") String resetBy)
     {
         commandService.resetEvents(resetBy);
         return Response.ok().build();
@@ -136,7 +145,7 @@ public class CommandResource
     public Response closePrompt(@PathParam("id") int id, ClosePrompt closePrompt)
     {
         int rowsAffected = commandService.closePrompt(id, closePrompt);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @GET
@@ -144,7 +153,7 @@ public class CommandResource
     public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getSosCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -164,7 +173,7 @@ public class CommandResource
     public Response getSafeCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getSafeCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -184,7 +193,7 @@ public class CommandResource
     public Response getNoResponseCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
     {
         int result = commandService.getNoResponseCount(city);
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @GET
@@ -222,7 +231,7 @@ public class CommandResource
     public Response deleteNewsFeed(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
     {
         int rowsAffected = commandService.deleteNewsFeed(id, deletedBy);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @GET
@@ -242,7 +251,7 @@ public class CommandResource
     public Response getReportsCount()
     {
         int result = commandService.getReportsCount();
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        return httpOk(result);
     }
 
     @POST
@@ -250,7 +259,7 @@ public class CommandResource
     public Response closeUserReport(@PathParam("id") int id, CloseUserReport closeUserReport)
     {
         int rowsAffected = commandService.closeUserReport(id, closeUserReport);
-        return Response.ok().entity(rowsAffected).build();
+        return httpOk(rowsAffected);
     }
 
     @POST
@@ -268,11 +277,96 @@ public class CommandResource
         return buildResponse(result);
     }
 
+    @GET
+    @Path("sms/inbox")
+    public Response getSmsInbox()
+    {
+        List<SmsInboxMessage> result = commandSmsService.getSmsInbox();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("sms/inbox/{id}")
+    public Response readSmsInbox(@PathParam("id") int id, ReadSms readSms)
+    {
+        int result = commandSmsService.readSmsInbox(id, readSms);
+        return httpOk(result);
+    }
+
+    @DELETE
+    @Path("sms/inbox/{id}")
+    public Response deleteSmsInbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
+    {
+        int rowsAffected = commandSmsService.deleteSmsInbox(id, deletedBy);
+        return httpOk(rowsAffected);
+    }
+
+    @GET
+    @Path("sms/outbox")
+    public Response getSmsOutbox()
+    {
+        List<SmsOutboxMessage> result = commandSmsService.getSmsOutbox();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("sms/outbox")
+    public Response sendSms(SendSms sendSms)
+    {
+        String result = commandSmsService.sendSms(sendSms);
+        return httpOk(result);
+    }
+
+    @DELETE
+    @Path("sms/outbox/{id}")
+    public Response deleteSmsOutbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
+    {
+        int rowsAffected = commandSmsService.deleteSmsOutbox(id, deletedBy);
+        return httpOk(rowsAffected);
+    }
+
+    @GET
+    @Path("sms/distributionList")
+    public Response getSmsDistributionList()
+    {
+        List<SmsDistributionList> result = commandSmsService.getSmsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("sms/distributionList/{distributionListCode}")
+    public Response getSmsDistributionLov(@PathParam("distributionListCode") String distributionListCode)
+    {
+        List<LovItem> result = commandSmsService.getSmsDistributionLov(distributionListCode);
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    Response httpOk(Object result)
+    {
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
     Response buildResponse(String result)
     {
         switch(result)
         {
-            case OK : return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+            case OK : return httpOk(result);
             default : return Response.status(Status.BAD_REQUEST).entity(result).type(MediaType.TEXT_PLAIN).build();
         }
     }

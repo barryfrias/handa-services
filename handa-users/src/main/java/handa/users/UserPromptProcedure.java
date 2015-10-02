@@ -1,28 +1,28 @@
 package handa.users;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import handa.beans.dto.UserPrompt;
-import handa.config.HandaUsersConstants;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import handa.beans.dto.UserPrompt;
+import handa.config.HandaUsersConstants;
+import oracle.jdbc.OracleTypes;
 
 public class UserPromptProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public UserPromptProcedure(DataSource dataSource, String proc)
+    public UserPromptProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("USER_PROMPT");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("PR_TYPE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("DEVICE_INFO", OracleTypes.VARCHAR));

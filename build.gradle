@@ -1,7 +1,7 @@
 allprojects {
     apply plugin: 'eclipse'
     group = 'com.pldt.itmss'
-    version = '1.1'
+    version = '1.2'
     repositories { maven { url repoUrl } }
 }
 
@@ -50,7 +50,6 @@ project('handa-beans') {
 project('handa-core') {
     dependencies {
         compile project(':handa-beans')
-            compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
             compile group: 'org.springframework', name: 'spring-core', version: springVersion
             compile group: 'org.springframework', name: 'spring-context', version: springVersion
             compile group: 'org.springframework', name: 'spring-context-support', version: springVersion
@@ -115,6 +114,25 @@ project('handa-users') {
     }
 }
 
+project('handa-sms') {
+    dependencies {
+        compile project(':handa-beans')
+        compile project(':handa-core')
+            compile group: 'org.springframework', name: 'spring-context', version: springVersion
+            compile group: 'org.springframework', name: 'spring-core', version: springVersion
+            compile group: 'org.springframework.ws', name: 'spring-ws-core', version: springWsVersion
+            compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
+            compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
+            compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+            compile group: 'com.pldt.itmss', name: 'itmss-core', version: itmssCoreVersion
+            compile group: 'frias.barry', name: 'ldap', version: '1.1'
+            compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+            compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+            compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+            compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+    }
+}
+
 apply from: 'profiles.gradle'
 
 project('handa-site') {
@@ -124,6 +142,7 @@ project('handa-site') {
     dependencies {
         compile project(':handa-command')
         compile project(':handa-users')
+        compile project(':handa-sms')
             compile group: 'org.glassfish.grizzly', name: 'grizzly-http-servlet', version: grizzlyVersion
             compile group: 'org.glassfish.grizzly', name: 'grizzly-http-server-monitoring', version: grizzlyVersion
             compile group: 'org.glassfish.grizzly', name: 'grizzly-http-monitoring', version: grizzlyVersion

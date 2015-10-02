@@ -3,15 +3,11 @@ package handa.users;
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkNotNull;
-import handa.beans.dto.UserInfo;
-import handa.users.mappers.UserInfoRowMapper;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
-
-import oracle.jdbc.OracleTypes;
 
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
@@ -20,15 +16,19 @@ import org.springframework.jdbc.object.StoredProcedure;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
+import handa.beans.dto.UserInfo;
+import handa.users.mappers.UserInfoRowMapper;
+import oracle.jdbc.OracleTypes;
+
 public class UserInfoProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public UserInfoProcedure(DataSource dataSource, String proc)
+    public UserInfoProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_USER_INFO");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new UserInfoRowMapper()));
         setFunction(false);

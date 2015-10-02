@@ -1,28 +1,28 @@
 package handa.command.procs;
 
-import static handa.config.HandaCommandConstants.ALL;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static handa.config.HandaCommandConstants.ALL;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleTypes;
-
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import oracle.jdbc.OracleTypes;
 
 public class NoResponseCountProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public NoResponseCountProcedure(DataSource dataSource, String proc)
+    public NoResponseCountProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("GET_NORESPONSE_COUNT");
         declareParameter(new SqlParameter("CITY", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.NUMBER));
         setFunction(false);

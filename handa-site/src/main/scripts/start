@@ -23,8 +23,8 @@ $JAVA_HOME/bin/java \
 -Djava.rmi.server.hostname=@rmiServerHostname@ \
 -DgrizzlyPort=@grizzlyPort@ \
 -DgrizzlyHost=0.0.0.0 \
--DgrizzlyCorePoolSize=50 \
--DgrizzlyMaxPoolSize=50 \
+-DgrizzlyCorePoolSize=@grizzlyCorePoolSize@ \
+-DgrizzlyMaxPoolSize=@grizzlyMaxPoolSize@ \
 -DresourceRoot=/handa-services \
 -Xmx1024M \
 -Xms1024M \

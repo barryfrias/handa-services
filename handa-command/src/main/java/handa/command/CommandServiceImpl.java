@@ -2,19 +2,7 @@ package handa.command;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
-import static handa.config.HandaCommandConstants.NA;
 import static handa.config.HandaCommandConstants.OK;
-import handa.beans.dto.AppLog;
-import handa.beans.dto.AppLog.Source;
-import handa.beans.dto.City;
-import handa.beans.dto.ClosePrompt;
-import handa.beans.dto.CloseUserReport;
-import handa.beans.dto.NewsFeed;
-import handa.beans.dto.PromptCount;
-import handa.beans.dto.UserLocation;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserReport;
-import handa.core.DBLoggerDAO;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,6 +16,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import handa.beans.dto.AppLog;
+import handa.beans.dto.City;
+import handa.beans.dto.ClosePrompt;
+import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.NewsFeed;
+import handa.beans.dto.PromptCount;
+import handa.beans.dto.UserLocation;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserReport;
+import handa.core.DBLoggerDAO;
 
 @Component
 public class CommandServiceImpl
@@ -64,8 +63,7 @@ implements CommandService
     public NewsFeed postNewsFeed(NewsFeed newsFeed)
     {
         NewsFeed feed = commandDAO.postNewsFeed(newsFeed);
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, newsFeed.getUsername(), NA,
-                                         String.format("Posted news feed entry id %s", feed.getId())));
+        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), String.format("Posted news feed entry id %s", feed.getId())));
         return feed;
     }
 
@@ -73,8 +71,7 @@ implements CommandService
     public NewsFeed updateNewsFeed(NewsFeed newsFeed)
     {
         NewsFeed feed = commandDAO.updateNewsFeed(newsFeed);
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, newsFeed.getUsername(), NA,
-                                         String.format("Updated news feed entry id %s", feed.getId())));
+        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), String.format("Updated news feed entry id %s", feed.getId())));
         return feed;
     }
 
@@ -88,8 +85,7 @@ implements CommandService
     public int deleteNewsFeed(int id, String deletedBy)
     {
         int result = commandDAO.deleteNewsFeed(id, deletedBy);
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, deletedBy, NA,
-                                         String.format("Deleted news feed id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted news feed id %s and result was %s", id, result)));
         return result;
     }
 
@@ -177,8 +173,7 @@ implements CommandService
     {
         checkNotNull(emptyToNull(resetBy), "resetBy can't be null");
         commandDAO.resetEvents();
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, resetBy, NA,
-                                         String.format("Events was reset by %s", resetBy)));
+        dbLoggerDAO.log(AppLog.server(resetBy, String.format("Events was reset by %s", resetBy)));
     }
 
     @Override
@@ -191,8 +186,7 @@ implements CommandService
     public int closePrompt(int id, ClosePrompt closePrompt)
     {
         int result = commandDAO.closePrompt(id, closePrompt);
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, closePrompt.getUsername(), NA,
-                              String.format("Closed prompt id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), String.format("Closed prompt id %s and result was %s", id, result)));
         return result;
     }
 
@@ -206,8 +200,7 @@ implements CommandService
     public int closeUserReport(int id, CloseUserReport closeUserReport)
     {
         int result = commandDAO.closeUserReport(id, closeUserReport);
-        dbLoggerDAO.insertLog(new AppLog(Source.SERVER, closeUserReport.getUsername(), NA,
-                              String.format("Closed user report id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), String.format("Closed user report id %s and result was %s", id, result)));
         return result;
     }
 }

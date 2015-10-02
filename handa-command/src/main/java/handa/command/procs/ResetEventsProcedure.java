@@ -9,10 +9,10 @@ import org.springframework.jdbc.object.StoredProcedure;
 public class ResetEventsProcedure
 extends StoredProcedure
 {
-    public ResetEventsProcedure(DataSource dataSource, String proc)
+    public ResetEventsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql(checkNotNull(proc));
+        setSql("RESET_USERS_PROMPT");
         setFunction(false);
         compile();
     }
