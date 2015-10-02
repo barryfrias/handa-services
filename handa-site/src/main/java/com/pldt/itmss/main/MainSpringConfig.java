@@ -1,14 +1,11 @@
 package com.pldt.itmss.main;
 
-import java.sql.SQLException;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.apache.tomcat.jdbc.pool.jmx.ConnectionPool;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -28,8 +24,7 @@ import handa.core.HandaProperties;
 @ImportResource({ "classpath*:handa-properties-configuration.xml" })
 @ComponentScan(basePackages = { "handa.config" }) // contains the class that has the @Configuration annotation for each modules
 @Configuration
-@EnableMBeanExport
-public class SiteConfig
+public class MainSpringConfig
 {
     @PostConstruct
     private void postConstruct()
@@ -80,7 +75,7 @@ public class SiteConfig
             setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
             setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
             setRemoveAbandoned(true);
-            setJmxEnabled(true);
+            setJmxEnabled(false);
         }};
         DataSource dataSource = new DataSource()
         {{
@@ -110,12 +105,6 @@ public class SiteConfig
     {
         JdbcTemplate template = new JdbcTemplate(dataSource);
         return template;
-    }
-
-    @Bean
-    public ConnectionPool tomcatJdbcPoolJmx(DataSource dataSource) throws SQLException 
-    {
-        return dataSource.createPool().getJmxPool();
     }
 
     @Bean

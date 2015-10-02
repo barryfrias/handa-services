@@ -16,11 +16,6 @@ CLASSPATH="$HOME_DIR/lib/*:$HOME_DIR/config";
 
 $JAVA_HOME/bin/java \
 -server \
--Dcom.sun.management.jmxremote \
--Dcom.sun.management.jmxremote.port=9999 \
--Dcom.sun.management.jmxremote.authenticate=false \
--Dcom.sun.management.jmxremote.ssl=false \
--Djava.rmi.server.hostname=@rmiServerHostname@ \
 -DgrizzlyPort=@grizzlyPort@ \
 -DgrizzlyHost=0.0.0.0 \
 -DgrizzlyCorePoolSize=@grizzlyCorePoolSize@ \
@@ -32,4 +27,4 @@ $JAVA_HOME/bin/java \
 -XX:+UseParallelGC \
 -XX:+UseParallelOldGC \
 -XX:+AggressiveOpts \
--cp "$CLASSPATH" com.pldt.itmss.main.Bootstrap >logs/server.log 2>&1 &
+-cp "$CLASSPATH" com.pldt.itmss.main.Bootstrap >logs/handa.log 2>&1 &
