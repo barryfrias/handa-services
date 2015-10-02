@@ -82,6 +82,12 @@ implements CommandService
     }
 
     @Override
+    public List<NewsFeed> getNewsFeeds(int pageNo)
+    {
+        return commandDAO.getNewsFeeds(pageNo);
+    }
+
+    @Override
     public int deleteNewsFeed(int id, String deletedBy)
     {
         int result = commandDAO.deleteNewsFeed(id, deletedBy);
