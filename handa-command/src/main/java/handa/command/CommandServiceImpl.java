@@ -114,6 +114,12 @@ implements CommandService
     }
 
     @Override
+    public List<UserReport> getUserReports(int pageNo)
+    {
+        return commandDAO.getUserReports(pageNo);
+    }
+
+    @Override
     public int getReportsCount()
     {
         return commandDAO.getReportsCount();

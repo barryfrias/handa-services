@@ -27,6 +27,7 @@ public interface CommandDAO
     List<UserPrompt> getSos(String city);
     List<UserPrompt> getSafe(String city);
     List<UserReport> getUserReports();
+    List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
     int getNoResponseCount(String city);

@@ -243,10 +243,14 @@ public class CommandResource
     public Response getUserReports()
     {
         List<UserReport> result = commandService.getUserReports();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("reports/{pageNo}")
+    public Response getUserReports(@PathParam("pageNo") int pageNo)
+    {
+        List<UserReport> result = commandService.getUserReports(pageNo);
         return Response.ok().entity(result).build();
     }
 
