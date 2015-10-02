@@ -3,7 +3,6 @@ package handa.command;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -82,14 +81,7 @@ implements CommandDAO
     private GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
 
     @Autowired
-    public CommandDAOImpl(JdbcTemplate jdbcTemplate,
-                         @Value("${handa.command.get.sms.outbox.proc}") String getSmsOutboxProcName,
-                         @Value("${handa.command.get.sms.distribution.list.proc}") String getSmsDistributionListProcName,
-                         @Value("${handa.command.cities.proc}") String citiesProcName,
-                         @Value("${handa.command.sos.countPerCity.proc}") String getSosCountPerCityProcName,
-                         @Value("${handa.command.get.sms.inbox.proc}") String getSmsInboxProcName,
-                         @Value("${handa.command.delete.sms.inbox.proc}") String deleteSmsInboxProcName,
-                         @Value("${handa.command.delete.sms.outbox.proc}") String deleteSmsOutboxProcName)
+    public CommandDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
         this.promptsCountProcedure = new PromptsCountProcedure(dataSource());
@@ -110,14 +102,13 @@ implements CommandDAO
         this.readSmsInboxProcedure = new ReadSmsInboxProcedure(dataSource());
         this.sendSmsProcedure = new SendSmsProcedure(dataSource());
         this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource());
-
-        this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsInboxProcName);
-        this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), deleteSmsOutboxProcName);
-        this.citiesProcedure = new GenericProcedure<>(dataSource(), citiesProcName, new CityRowMapper());
-        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), getSosCountPerCityProcName, new PromptCountRowMapper());
-        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), getSmsInboxProcName, new SmsInboxRowMapper());
-        this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), getSmsOutboxProcName, new SmsOutboxRowMapper());
-        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), getSmsDistributionListProcName, new SmsDistributionListRowMapper());
+        this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_INBOX");
+        this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
+        this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
+        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
+        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
+        this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
+        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new SmsDistributionListRowMapper());
     }
 
     @Override

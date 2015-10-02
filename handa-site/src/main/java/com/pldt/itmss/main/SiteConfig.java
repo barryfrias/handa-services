@@ -1,8 +1,5 @@
 package com.pldt.itmss.main;
 
-import handa.core.DBLoggerDAO;
-import handa.core.DBLoggerDAOImpl;
-
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +21,9 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import frias.barry.LDAPController;
+import handa.core.DBLoggerDAO;
+import handa.core.DBLoggerDAOImpl;
+import handa.core.HandaProperties;
 
 @ImportResource({ "classpath*:handa-properties-configuration.xml" })
 @ComponentScan(basePackages = { "handa.config" }) // contains the class that has the @Configuration annotation for each modules
@@ -38,16 +38,6 @@ public class SiteConfig
         // which was used by jersey to slf4j
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
-    }
-
-    @Bean
-    LDAPController ldapAuthenticatorImpl(@Value("${ldap.servers}") String[] ldapServers,
-                                         @Value("${ldap.domains}") String[] domains)
-    {
-        LDAPController controller = new LDAPController();
-        controller.setLdapServers(ldapServers);
-        controller.setDomainNames(domains);
-        return controller;
     }
 
     @Bean
@@ -98,6 +88,21 @@ public class SiteConfig
             setDefaultAutoCommit(false);
         }};
         return dataSource;
+    }
+
+    @Bean
+    HandaProperties handaProperties(DataSource dataSource)
+    {
+        return new HandaProperties(dataSource);
+    }
+
+    @Bean
+    LDAPController ldapAuthenticatorImpl(HandaProperties properties)
+    {
+        LDAPController controller = new LDAPController();
+        controller.setLdapServers(properties.getArray("ldap.servers"));
+        controller.setDomainNames(properties.getArray("ldap.domains"));
+        return controller;
     }
 
     @Bean
