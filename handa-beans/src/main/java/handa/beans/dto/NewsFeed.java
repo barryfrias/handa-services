@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class NewsFeed
 {
+    private int rowNum;
     private int id;
     private String title;
     private String message;
@@ -17,6 +18,16 @@ public class NewsFeed
     private String messageType;
     private String createdDate;
     private String username;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public int getId()
     {
@@ -92,6 +103,7 @@ public class NewsFeed
     public String toString()
     {
         return toStringHelper(this)
+                .add("rowNum", rowNum)
                 .add("id", id)
                 .add("title", title)
                 .add("message", message)
