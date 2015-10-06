@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
+import com.google.common.collect.ImmutableList;
+
 import handa.beans.dto.LovItem;
 import handa.command.mappers.SmsDistributionLovRowMapper;
 import oracle.jdbc.OracleTypes;
@@ -39,6 +41,7 @@ extends StoredProcedure
         };
         Map<String, Object> map = execute(params);
         List<LovItem> list = (List<LovItem>) map.get(RESULT);
+        if(list == null) return ImmutableList.of();
         return list;
     }
 }
