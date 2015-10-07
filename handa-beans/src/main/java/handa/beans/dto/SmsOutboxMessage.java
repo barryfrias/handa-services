@@ -11,8 +11,8 @@ public class SmsOutboxMessage
     private String recipients;
     private String message;
     private String distributionListKey;
-    private String distributionListValues;
-    private String anonymousNumbers;
+    private String[] distributionListValues;
+    private String[] anonymousNumbers;
     private String status;
     private String createdBy;
     private String createdDate;
@@ -60,22 +60,22 @@ public class SmsOutboxMessage
         this.distributionListKey = distributionListKey;
     }
 
-    public String getDistributionListValues()
+    public String[] getDistributionListValues()
     {
         return distributionListValues;
     }
 
-    public void setDistributionListValues(String distributionListValues)
+    public void setDistributionListValues(String[] distributionListValues)
     {
         this.distributionListValues = distributionListValues;
     }
 
-    public String getAnonymousNumbers()
+    public String[] getAnonymousNumbers()
     {
         return anonymousNumbers;
     }
 
-    public void setAnonymousNumbers(String anonymousNumbers)
+    public void setAnonymousNumbers(String[] anonymousNumbers)
     {
         this.anonymousNumbers = anonymousNumbers;
     }
