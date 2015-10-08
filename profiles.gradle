@@ -5,7 +5,6 @@ ext {
         dev:
         [
             appName: defAppName,
-            rmiServerHostname: "10.30.31.124",
             grizzlyPort: '9000',
             grizzlyCorePoolSize: '5',
             grizzlyMaxPoolSize: '5',
@@ -23,25 +22,16 @@ ext {
         qa:
         [
             appName: defAppName,
-            rmiServerHostname: "10.30.31.126",
             grizzlyPort: '9000',
             grizzlyCorePoolSize: '5',
             grizzlyMaxPoolSize: '5',
             "jdbc.url": 'jdbc:oracle:thin:@10.30.31.124:1521:mobility',
             "jdbc.username": 'handa',
-            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)',
-            "handa.users.upload.directory": '/home/handa/apps/uploads/userreports',
-            "handa.command.upload.directory": '/home/handa/apps/uploads/newsfeeds',
-            "handa.sms.keyword": '7538',
-            "handa.sms.charge.id": '0000',
-            "handa.sms.queue.path": '.\\\\new5010sender',
-            "sms.smart.ws.url": 'http://10.124.1.56:8081/RC2SMS/Service.asmx',
-            "sms.smart.ws.soap.action": 'http://smart/services/messaging/SendSMS'
+            "jdbc.password": 'ENC(O9TP/S8o4KXPcwuPgh6+vw==)'
         ],
         prod:
         [
             appName: defAppName,
-            rmiServerHostname: "10.30.31.122",
             grizzlyPort: '9000',
             grizzlyCorePoolSize: '10',
             grizzlyMaxPoolSize: '50',

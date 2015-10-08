@@ -1,5 +1,6 @@
 package handa.command.mappers;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -23,9 +24,11 @@ implements RowMapper<SmsOutboxMessage>
         message.setDeletedBy(rs.getString("DELETED_BY"));
         message.setDeletedDate(rs.getString("DELETED_DTTM"));
         message.setDeletedFlag(rs.getString("DELETED_FLAG"));
-        message.setAnonymousNumbers(rs.getString("ANONYMOUS_NUMBERS"));
+        Array array = rs.getArray("ANONYMOUS_NUMBERS");
+        message.setAnonymousNumbers((array == null? new String[0] : (String[]) array.getArray()));
         message.setDistributionListKey(rs.getString("DISTRIBUTION_LIST_KEY"));
-        message.setDistributionListValues(rs.getString("DISTRIBUTION_LIST_VALUES"));
+        array = rs.getArray("DISTRIBUTION_LIST_VALUES");
+        message.setDistributionListValues((array == null? new String[0] : (String[]) array.getArray()));
         return message;
     }
 }

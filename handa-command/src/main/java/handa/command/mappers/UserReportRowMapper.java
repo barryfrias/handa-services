@@ -14,6 +14,7 @@ implements RowMapper<UserReport>
     public UserReport mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         UserReport userReport = new UserReport();
+        userReport.setRowNum(rs.getInt("RNUM"));
         userReport.setBatteryLevel(rs.getString("BATTERY_LEVEL"));
         userReport.setCreatedDate(rs.getString("CREATED_DTTM"));
         userReport.setEventType(rs.getString("EVENT_TYPE"));

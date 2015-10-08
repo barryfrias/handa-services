@@ -2,8 +2,6 @@ package handa.beans.dto;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "sendSms")
@@ -12,8 +10,8 @@ public class SendSms
     private String recipients;
     private String message;
     private String distributionListKey;
-    private List<String> distributionListValues;
-    private List<String> anonymousNumbers;
+    private String[] distributionListValues;
+    private String[] anonymousNumbers;
     private String createdBy;
 
     public String getRecipients()
@@ -46,22 +44,22 @@ public class SendSms
         this.distributionListKey = distributionListKey;
     }
 
-    public List<String> getDistributionListValues()
+    public String[] getDistributionListValues()
     {
         return distributionListValues;
     }
 
-    public void setDistributionListValues(List<String> distributionListValues)
+    public void setDistributionListValues(String[] distributionListValues)
     {
         this.distributionListValues = distributionListValues;
     }
 
-    public List<String> getAnonymousNumbers()
+    public String[] getAnonymousNumbers()
     {
         return anonymousNumbers;
     }
 
-    public void setAnonymousNumbers(List<String> anonymousNumbers)
+    public void setAnonymousNumbers(String[] anonymousNumbers)
     {
         this.anonymousNumbers = anonymousNumbers;
     }

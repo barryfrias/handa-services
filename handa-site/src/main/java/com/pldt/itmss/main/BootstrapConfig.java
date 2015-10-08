@@ -31,7 +31,6 @@ extends ResourceConfig
         this.register(RequestContextFilter.class);
         this.register(JacksonFeature.class);
         this.register(MultiPartFeature.class);
-//        this.register(CORSResponseFilter.class);
     }
 
     @Bean
@@ -53,11 +52,10 @@ extends ResourceConfig
         WebappContext webappContext = new WebappContext(resourceRoot, resourceRoot)
         {{
             addContextInitParameter("contextClass", AnnotationConfigWebApplicationContext.class.getName());
-            addContextInitParameter("contextConfigLocation", SiteConfig.class.getName());
+            addContextInitParameter("contextConfigLocation", MainSpringConfig.class.getName());
             addListener(ContextLoaderListener.class);
         }};
         registerJerseyRestServlet(webappContext);
-        server.getServerConfiguration().setJmxEnabled(true);
         webappContext.deploy(server);
         return server;
     }
@@ -69,7 +67,6 @@ extends ResourceConfig
         servletRegistration.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, this.getClass().getName());
         servletRegistration.setInitParameter(ServerProperties.PROVIDER_PACKAGES, "com.pldt.itmss.core.exception.mappers,handa");
         servletRegistration.setInitParameter(ServerProperties.RESPONSE_SET_STATUS_OVER_SEND_ERROR, "true");
-//        servletRegistration.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
         servletRegistration.addMapping("/*");
         servletRegistration.setLoadOnStartup(1);
     }

@@ -201,10 +201,14 @@ public class CommandResource
     public Response getNewsFeeds()
     {
         List<NewsFeed> result = commandService.getNewsFeeds();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("newsfeeds/{pageNo}")
+    public Response getNewsFeeds(@PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = commandService.getNewsFeeds(pageNo);
         return Response.ok().entity(result).build();
     }
 
@@ -239,10 +243,14 @@ public class CommandResource
     public Response getUserReports()
     {
         List<UserReport> result = commandService.getUserReports();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("reports/{pageNo}")
+    public Response getUserReports(@PathParam("pageNo") int pageNo)
+    {
+        List<UserReport> result = commandService.getUserReports(pageNo);
         return Response.ok().entity(result).build();
     }
 

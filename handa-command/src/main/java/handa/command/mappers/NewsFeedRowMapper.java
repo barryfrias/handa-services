@@ -14,6 +14,7 @@ implements RowMapper<NewsFeed>
     public NewsFeed mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         NewsFeed newsFeed = new NewsFeed();
+        newsFeed.setRowNum(rs.getInt("RNUM"));
         newsFeed.setId(rs.getInt("ID"));
         newsFeed.setTitle(rs.getString("TITLE"));
         newsFeed.setMessage(rs.getString("MESSAGE"));

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "userReport")
 public class UserReport
 {
+    private int rowNum;
     private int id;
     private String name;
     private String mobileNumber;
@@ -21,6 +22,16 @@ public class UserReport
     private String imageFilename;
     private String status;
     private String createdDate;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public int getId()
     {
@@ -166,6 +177,7 @@ public class UserReport
     public String toString()
     {
         return toStringHelper(this)
+               .add("rowNum", rowNum)
                .add("id", id)
                .add("name", name)
                .add("mobileNumber", mobileNumber)

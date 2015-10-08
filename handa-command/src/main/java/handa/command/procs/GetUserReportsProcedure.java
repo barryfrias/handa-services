@@ -8,7 +8,10 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import com.google.common.collect.ImmutableList;
 
 import handa.beans.dto.UserReport;
 import handa.command.mappers.UserReportRowMapper;
@@ -23,17 +26,24 @@ extends StoredProcedure
     {
         setDataSource(checkNotNull(dataSource));
         setSql("GET_USER_REPORTS");
+        declareParameter(new SqlParameter("PAGINATE", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("PAGE_NO", OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new UserReportRowMapper()));
         setFunction(false);
         compile();
     }
 
     @SuppressWarnings("unchecked")
-    public List<UserReport> list()
+    public List<UserReport> list(boolean paginate, int pageNo)
     {
-        Object[] params = new Object[] {};
+        Object[] params = new Object[]
+        {
+                String.valueOf(paginate),
+                pageNo
+        };
         Map<String, Object> map = execute(params);
         List<UserReport> list = (List<UserReport>) map.get(RESULT);
+        if(list == null || list.isEmpty()) return ImmutableList.of();
         return list;
     }
 }

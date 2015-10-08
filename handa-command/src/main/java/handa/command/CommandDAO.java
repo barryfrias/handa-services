@@ -23,9 +23,11 @@ public interface CommandDAO
     int getSafeCount(String city);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds();
+    List<NewsFeed> getNewsFeeds(int pageNo);
     List<UserPrompt> getSos(String city);
     List<UserPrompt> getSafe(String city);
     List<UserReport> getUserReports();
+    List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
     int getNoResponseCount(String city);

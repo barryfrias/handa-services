@@ -14,7 +14,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
@@ -28,6 +27,7 @@ import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
 import handa.core.DBLoggerDAO;
+import handa.core.HandaProperties;
 
 @Component
 public class UsersServiceImpl
@@ -38,16 +38,15 @@ implements UsersService
     private UsersDAO usersDAO;
     private LDAPController ldapController;
     private DBLoggerDAO dbLoggerDAO;
-
-    @Value("${handa.users.upload.directory}")
     private String uploadDirectory;
 
     @Autowired
-    public UsersServiceImpl(UsersDAO usersDAO, LDAPController ldapController, DBLoggerDAO dbLoggerDAO)
+    public UsersServiceImpl(UsersDAO usersDAO, LDAPController ldapController, DBLoggerDAO dbLoggerDAO, HandaProperties handaProperties)
     {
         this.usersDAO = usersDAO;
         this.ldapController = ldapController;
         this.dbLoggerDAO = dbLoggerDAO;
+        this.uploadDirectory = handaProperties.get("handa.users.upload.directory");
     }
 
     @Override
