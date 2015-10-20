@@ -88,6 +88,6 @@ implements HandaSmsSender
             }
             updateSmsOutboundQueueProcedure.update(update);
         }
-        dbLogger.log(AppLog.server("HandaSmsSender", String.format("Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed)));
+        dbLogger.log(AppLog.server("HandaSmsSender", "Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed));
     }
 }

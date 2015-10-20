@@ -40,7 +40,7 @@ public class CommandUsersServiceImpl implements CommandUsersService
         {
                 case OK:
                     boolean isOk = ldapController.login(userLogin.getUsername().toLowerCase(), userLogin.getPassword());
-                    dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login thru ldap and result was " + isOk));
+                    dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login thru ldap and result was %s", isOk));
                     return isOk;
                 default:
                     dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login but not found in list of allowed users."));

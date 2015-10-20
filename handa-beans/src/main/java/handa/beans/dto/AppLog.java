@@ -9,22 +9,22 @@ public class AppLog
     private String mobileNumber;
     private String message;
 
-    public static AppLog server(String username, String message)
+    public static AppLog server(String username, String message, Object ... args)
     {
-        return new AppLog(Source.SERVER, username, null, message);
+        return new AppLog(Source.SERVER, username, null, message, args);
     }
 
-    public static AppLog client(String username, String mobileNumber, String message)
+    public static AppLog client(String username, String mobileNumber, String message, Object ... args)
     {
-        return new AppLog(Source.CLIENT, username, mobileNumber, message);
+        return new AppLog(Source.CLIENT, username, mobileNumber, message, args);
     }
 
-    private AppLog(Source source, String username, String mobileNumber, String message)
+    private AppLog(Source source, String username, String mobileNumber, String message, Object ... args)
     {
         this.source = source;
         this.username = (username == null? "N/A" : username);
         this.mobileNumber = (mobileNumber == null? "N/A" : mobileNumber);
-        this.message = message;
+        this.message = String.format((message == null? "N/A" : message), args);
     }
 
     public Source getSource()

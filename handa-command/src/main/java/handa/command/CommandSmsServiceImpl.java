@@ -48,7 +48,7 @@ implements CommandSmsService
     public int readSmsInbox(int id, ReadSms readSms)
     {
         int result = commandDAO.readSms(id, readSms);
-        dbLoggerDAO.log(AppLog.server(readSms.getReadBy(), String.format("Marked sms id %s as read and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(readSms.getReadBy(), "Marked sms id %s as read and result was %s", id, result));
         return result;
     }
 
@@ -56,7 +56,7 @@ implements CommandSmsService
     public int deleteSmsInbox(int id, String deletedBy)
     {
         int result = commandDAO.deleteSms(id, deletedBy);
-        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted sms id %s and result was %s", id, result));
         return result;
     }
 
@@ -64,7 +64,7 @@ implements CommandSmsService
     public String sendSms(SendSms sendSms)
     {
         String result = commandDAO.sendSms(sendSms);
-        dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), String.format("Tried to send sms to [%s] and result was %s", sendSms.getRecipients(), result)));
+        dbLoggerDAO.log(AppLog.server(sendSms.getCreatedBy(), "Tried to send sms to [%s] and result was %s", sendSms.getRecipients(), result));
         runOutboxProcessor();
         return result;
     }
@@ -88,7 +88,7 @@ implements CommandSmsService
     public int deleteSmsOutbox(int id, String deletedBy)
     {
         int result = commandDAO.deleteSmsOutbox(id, deletedBy);
-        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted sms outbox id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted sms outbox id %s and result was %s", id, result));
         return result;
     }
 

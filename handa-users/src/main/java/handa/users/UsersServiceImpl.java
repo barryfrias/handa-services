@@ -53,7 +53,7 @@ implements UsersService
     public String authByMobileNumber(AuthInfo authInfo)
     {
         String result = usersDAO.authByMobileNumber(authInfo);
-        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was " + result));
+        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was %s", result));
         return result;
     }
 
@@ -73,7 +73,7 @@ implements UsersService
                     result = INVALID_CREDENTIALS ;
                 }
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
-                                              "Tried to authenticate thru ldap and result was " + result));
+                                              "Tried to authenticate thru ldap and result was %s", result));
                 return result;
             default:
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
@@ -87,7 +87,7 @@ implements UsersService
     {
         String result = usersDAO.prompt(userPrompt, promptType);
         dbLoggerDAO.log(AppLog.client(null, userPrompt.getMobileNumber(),
-                                      String.format("Submitted prompt type %s and result was %s", promptType, result)));
+                                      "Submitted prompt type %s and result was %s", promptType, result));
         return result;
     }
 
@@ -102,7 +102,7 @@ implements UsersService
     {
         String result = usersDAO.report(userReport);
         dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
-                                      String.format("Submitted report and result was %s", result)));
+                                      "Submitted report and result was %s", result));
         return result;
     }
 

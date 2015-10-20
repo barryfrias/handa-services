@@ -38,7 +38,7 @@ implements SmsService
     public String receive(SmsInbound smsInbound)
     {
         String result = smsDAO.receive(smsInbound);
-        dbLog.log(AppLog.server("SmsService", String.format("Received inbound sms from [%s]", smsInbound.getMobileNumber())));
+        dbLog.log(AppLog.server("SmsService", "Received inbound sms from %s", smsInbound.getMobileNumber()));
         return result;
     }
 
