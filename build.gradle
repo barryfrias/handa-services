@@ -28,7 +28,7 @@ ext {
     guavaVersion = '18.0'
     hamcrestVersion = '1.3'
     itmssCoreVersion = '1.1'
-    jerseyVersion = '2.12'
+    jerseyVersion = '2.22.1'
     junitVersion = '4.11'
     log4jVersion = '2.0.2'
     oracleDriverVersion = '11.2.0.4'
