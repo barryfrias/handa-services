@@ -15,6 +15,13 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
+import handa.procs.AuthByMobileAndUsernameProcedure;
+import handa.procs.AuthByMobileProcedure;
+import handa.procs.CheckMobileAppVersionProcedure;
+import handa.procs.SearchUserByNameProcedure;
+import handa.procs.UserInfoProcedure;
+import handa.procs.UserPromptProcedure;
+import handa.procs.UserReportProcedure;
 
 @Component
 public class UsersDAOImpl

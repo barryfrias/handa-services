@@ -1,4 +1,4 @@
-package handa.users;
+package handa.procs;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
@@ -17,7 +17,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
 import handa.beans.dto.UserInfo;
-import handa.users.mappers.UserInfoRowMapper;
+import handa.mappers.UserInfoRowMapper;
 import oracle.jdbc.OracleTypes;
 
 public class UserInfoProcedure

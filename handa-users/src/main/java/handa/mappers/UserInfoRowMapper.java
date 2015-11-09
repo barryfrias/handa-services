@@ -1,4 +1,4 @@
-package handa.users.mappers;
+package handa.mappers;
 
 import static handa.core.ResultSetHelper.getString;
 import handa.beans.dto.UserInfo;

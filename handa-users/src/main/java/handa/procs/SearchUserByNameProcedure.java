@@ -1,4 +1,4 @@
-package handa.users;
+package handa.procs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -13,7 +13,7 @@ import org.springframework.jdbc.object.StoredProcedure;
 
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserSearch;
-import handa.users.mappers.UserInfoRowMapper;
+import handa.mappers.UserInfoRowMapper;
 import oracle.jdbc.OracleTypes;
 
 public class SearchUserByNameProcedure

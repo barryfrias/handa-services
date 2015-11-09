@@ -1,4 +1,4 @@
-package handa.users;
+package handa.procs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -13,16 +13,17 @@ import org.springframework.jdbc.object.StoredProcedure;
 import handa.beans.dto.AuthInfo;
 import oracle.jdbc.OracleTypes;
 
-public class AuthByMobileProcedure
+public class AuthByMobileAndUsernameProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public AuthByMobileProcedure(DataSource dataSource)
+    public AuthByMobileAndUsernameProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("AUTH_BY_MOBILE");
+        setSql("AUTH_BY_MOBILE_AND_USERNAME");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("USERNAME", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
@@ -31,7 +32,12 @@ extends StoredProcedure
     public String authenticate(AuthInfo authInfo)
     {
         checkNotNull(authInfo, "authInfo object can't be null");
-        Map<String, Object> map = execute(checkNotNull(authInfo.getMobileNumber(), "authInfo.mobileNumber can't be null"));
+        Object[] params =
+        {
+                checkNotNull(authInfo.getMobileNumber(), "authInfo.mobileNumber can't be null"),
+                checkNotNull(authInfo.getUsername(), "authInfo.username can't be null"),
+        };
+        Map<String, Object> map = execute(params);
         return (String) map.get(RESULT);
     }
 }
