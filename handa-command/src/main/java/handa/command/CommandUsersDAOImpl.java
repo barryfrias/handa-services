@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
-import handa.command.procs.CheckUsernameProcedure;
+import handa.procs.CheckUsernameProcedure;
 
 @Component
 public class CommandUsersDAOImpl

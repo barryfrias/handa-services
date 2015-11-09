@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AppLog;
-import handa.command.procs.ProcessSmsOutboxProcedure;
 import handa.core.DBLoggerDAO;
+import handa.procs.ProcessSmsOutboxProcedure;
 
 @Component
 public class CommandSmsProcessorImpl
