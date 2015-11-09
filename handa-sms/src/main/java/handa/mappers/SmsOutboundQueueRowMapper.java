@@ -1,4 +1,4 @@
-package handa.sms.mappers;
+package handa.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

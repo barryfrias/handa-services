@@ -16,8 +16,8 @@ import handa.beans.dto.SmsOutboundQueue;
 import handa.beans.dto.UpdateSmsOutboundQueue;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
-import handa.sms.procs.GetSmsOutboundQueueProcedure;
-import handa.sms.procs.UpdateSmsOutboundQueueProcedure;
+import handa.procs.GetSmsOutboundQueueProcedure;
+import handa.procs.UpdateSmsOutboundQueueProcedure;
 
 @Component
 public class HandaSmsSenderImpl

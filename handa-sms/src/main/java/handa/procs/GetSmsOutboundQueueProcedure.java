@@ -1,4 +1,4 @@
-package handa.sms.procs;
+package handa.procs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
 import handa.beans.dto.SmsOutboundQueue;
-import handa.sms.mappers.SmsOutboundQueueRowMapper;
+import handa.mappers.SmsOutboundQueueRowMapper;
 import oracle.jdbc.OracleTypes;
 
 public class GetSmsOutboundQueueProcedure

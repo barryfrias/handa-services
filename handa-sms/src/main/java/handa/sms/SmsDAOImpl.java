@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.pldt.itmss.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.SmsInbound;
-import handa.sms.procs.ReceiveSmsProcedure;
+import handa.procs.ReceiveSmsProcedure;
 
 @Component
 public class SmsDAOImpl
