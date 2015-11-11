@@ -23,6 +23,7 @@ import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -167,5 +168,13 @@ implements UsersService
     public List<Province> getProvincesLov()
     {
         return usersDAO.getProvincesLov();
+    }
+
+    @Override
+    public String addUser(User user)
+    {
+        String result = usersDAO.addUser(user);
+        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to add user %s, result was %s", user.getUsername(), result));
+        return result;
     }
 }
