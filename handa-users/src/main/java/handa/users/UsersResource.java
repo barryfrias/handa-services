@@ -26,6 +26,8 @@ import com.google.common.base.Optional;
 import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.City;
+import handa.beans.dto.Province;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -157,6 +159,22 @@ public class UsersResource
     {
         String result = usersService.checkAppVersion(versionString);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    @GET
+    @Path("cities")
+    public Response getCitiesLov()
+    {
+        List<City> result = usersService.getCitiesLov();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("provinces")
+    public Response getProvincesLov()
+    {
+        List<Province> result = usersService.getProvincesLov();
+        return Response.ok(result).build();
     }
 
     private Response buildResponse(String result)
