@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.SendSmsInput;

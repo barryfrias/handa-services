@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
-import com.pldt.itmss.core.utils.SoapWsCaller;
-import com.pldt.itmss.core.utils.SoapWsCaller.WSParams;
+import com.pldt.itidm.core.utils.SoapWsCaller;
+import com.pldt.itidm.core.utils.SoapWsCaller.WSParams;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.SendSmsInput;

@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
 import com.google.common.collect.Iterables;
-import com.pldt.itmss.core.exception.NotFoundException;
+import com.pldt.itidm.core.exception.NotFoundException;
 
 public class UpdateNewsFeedProcedure
 extends StoredProcedure

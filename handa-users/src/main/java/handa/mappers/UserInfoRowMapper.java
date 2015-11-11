@@ -1,6 +1,6 @@
 package handa.mappers;
 
-import static handa.core.ResultSetHelper.getString;
+import static com.pldt.itidm.core.utils.ResultSetHelper.getString;
 import handa.beans.dto.UserInfo;
 
 import java.sql.ResultSet;

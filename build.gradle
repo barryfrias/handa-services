@@ -27,7 +27,7 @@ ext {
     grizzlyVersion = '2.3.19'
     guavaVersion = '18.0'
     hamcrestVersion = '1.3'
-    itmssCoreVersion = '1.1'
+    itidmCoreVersion = '1.0'
     jerseyVersion = '2.22.1'
     junitVersion = '4.11'
     log4jVersion = '2.0.2'
@@ -55,7 +55,7 @@ project('handa-core') {
             compile group: 'org.springframework', name: 'spring-jdbc', version: springVersion
             compile group: 'org.springframework', name: 'spring-tx', version: springVersion
             compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
-            compile (group: 'com.pldt.itmss', name: 'itmss-core', version: itmssCoreVersion) {
+            compile (group: 'com.pldt.itidm', name: 'itidm-core', version: itidmCoreVersion) {
                 exclude(module: 'mail')
                 exclude(module: 'activation')
                 exclude(module: 'spring-ws-core')
@@ -74,7 +74,7 @@ project('handa-command') {
             compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
             compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
             compile group: 'com.google.guava', name: 'guava', version: guavaVersion
-            compile (group: 'com.pldt.itmss', name: 'itmss-core', version: itmssCoreVersion) {
+            compile (group: 'com.pldt.itidm', name: 'itidm-core', version: itidmCoreVersion) {
                 exclude(module: 'mail')
                 exclude(module: 'activation')
                 exclude(module: 'spring-ws-core')
@@ -105,7 +105,7 @@ project('handa-users') {
             compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
             compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
             compile group: 'com.google.guava', name: 'guava', version: guavaVersion
-            compile (group: 'com.pldt.itmss', name: 'itmss-core', version: itmssCoreVersion) {
+            compile (group: 'com.pldt.itidm', name: 'itidm-core', version: itidmCoreVersion) {
                 exclude(module: 'mail')
                 exclude(module: 'activation')
                 exclude(module: 'spring-ws-core')
@@ -132,7 +132,7 @@ project('handa-sms') {
             compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
             compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
             compile group: 'com.google.guava', name: 'guava', version: guavaVersion
-            compile (group: 'com.pldt.itmss', name: 'itmss-core', version: itmssCoreVersion) {
+            compile (group: 'com.pldt.itidm', name: 'itidm-core', version: itidmCoreVersion) {
                 exclude(module: 'mail')
                 exclude(module: 'activation')
                 exclude(module: 'spring-ws-core')
