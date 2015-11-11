@@ -1,6 +1,7 @@
 package handa.users;
 
 import static handa.config.HandaUsersConstants.OK;
+import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
 
 import java.io.InputStream;
 import java.util.List;
@@ -175,14 +176,5 @@ public class UsersResource
     {
         List<Province> result = usersService.getProvincesLov();
         return Response.ok(result).build();
-    }
-
-    private Response buildResponse(String result)
-    {
-        switch(result)
-        {
-            case OK : return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
-            default : return Response.status(Status.BAD_REQUEST).entity(result).type(MediaType.TEXT_PLAIN).build();
-        }
     }
 }
