@@ -4,8 +4,8 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "city")
-public class City
+@XmlRootElement(name = "province")
+public class Province
 {
     private int rowNum;
     private String name;

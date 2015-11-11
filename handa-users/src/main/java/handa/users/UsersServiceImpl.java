@@ -21,6 +21,8 @@ import com.google.common.base.Optional;
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.City;
+import handa.beans.dto.Province;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -153,5 +155,17 @@ implements UsersService
     public List<UserInfo> searchByName(UserSearch userSearch)
     {
         return usersDAO.searchByName(userSearch);
+    }
+
+    @Override
+    public List<City> getCitiesLov()
+    {
+        return usersDAO.getCitiesLov();
+    }
+
+    @Override
+    public List<Province> getProvincesLov()
+    {
+        return usersDAO.getProvincesLov();
     }
 }
