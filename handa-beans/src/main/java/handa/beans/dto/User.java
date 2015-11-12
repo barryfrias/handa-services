@@ -16,23 +16,25 @@ implements SQLData
     private String middleName;
     private String department;
     private String landlineNo;
-    private String mobileNo;
+    private String mobileNumber;
     private String permanentAddress;
     private String currentAddress;
     private String city;
     private String iceContactPerson;
-    private String iceLandlineNo;
-    private String iceMobileNo;
+    private String iceLandlineNumber;
+    private String iceMobileNumber;
     private String bloodType;
     private String remarks;
     private String latitude;
     private String longitude;
-    private String username;
+    private String adUsername;
     private String immediateHead;
     private String company;
     private String position;
     private String province;
     private String modifiedBy;
+    private String createdDate;
+    private String key;
 
     public long getEmployeeNumber()
     {
@@ -94,14 +96,14 @@ implements SQLData
         this.landlineNo = landlineNo;
     }
 
-    public String getMobileNo()
+    public String getMobileNumber()
     {
-        return mobileNo;
+        return mobileNumber;
     }
 
-    public void setMobileNo(String mobileNo)
+    public void setMobileNumber(String mobileNumber)
     {
-        this.mobileNo = mobileNo;
+        this.mobileNumber = mobileNumber;
     }
 
     public String getPermanentAddress()
@@ -144,24 +146,24 @@ implements SQLData
         this.iceContactPerson = iceContactPerson;
     }
 
-    public String getIceLandlineNo()
+    public String getIceLandlineNumber()
     {
-        return iceLandlineNo;
+        return iceLandlineNumber;
     }
 
-    public void setIceLandlineNo(String iceLandlineNo)
+    public void setIceLandlineNumber(String iceLandlineNumber)
     {
-        this.iceLandlineNo = iceLandlineNo;
+        this.iceLandlineNumber = iceLandlineNumber;
     }
 
-    public String getIceMobileNo()
+    public String getIceMobileNumber()
     {
-        return iceMobileNo;
+        return iceMobileNumber;
     }
 
-    public void setIceMobileNo(String iceMobileNo)
+    public void setIceMobileNumber(String iceMobileNumber)
     {
-        this.iceMobileNo = iceMobileNo;
+        this.iceMobileNumber = iceMobileNumber;
     }
 
     public String getBloodType()
@@ -204,14 +206,14 @@ implements SQLData
         this.longitude = longitude;
     }
 
-    public String getUsername()
+    public String getAdUsername()
     {
-        return username;
+        return adUsername;
     }
 
-    public void setUsername(String username)
+    public void setAdUsername(String adUsername)
     {
-        this.username = username;
+        this.adUsername = adUsername;
     }
 
     public String getImmediateHead()
@@ -264,6 +266,26 @@ implements SQLData
         this.modifiedBy = modifiedBy;
     }
 
+    public String getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate)
+    {
+        this.createdDate = createdDate;
+    }
+
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(String key)
+    {
+        this.key = key;
+    }
+
     @JsonIgnore @Override
     public String getSQLTypeName() throws SQLException
     {
@@ -285,22 +307,24 @@ implements SQLData
         stream.writeString(getMiddleName());
         stream.writeString(getDepartment());
         stream.writeString(getLandlineNo());
-        stream.writeString(getMobileNo());
+        stream.writeString(getMobileNumber());
         stream.writeString(getPermanentAddress());
         stream.writeString(getCurrentAddress());
         stream.writeString(getCity());
         stream.writeString(getIceContactPerson());
-        stream.writeString(getIceLandlineNo());
-        stream.writeString(getIceMobileNo());
+        stream.writeString(getIceLandlineNumber());
+        stream.writeString(getIceMobileNumber());
         stream.writeString(getBloodType());
         stream.writeString(getRemarks());
         stream.writeString(getLatitude());
         stream.writeString(getLongitude());
-        stream.writeString(getUsername());
+        stream.writeString(getAdUsername());
         stream.writeString(getImmediateHead());
         stream.writeString(getCompany());
         stream.writeString(getPosition());
         stream.writeString(getProvince());
         stream.writeString(getModifiedBy());
+        stream.writeString(getCreatedDate());
+        stream.writeString(getKey());
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -53,7 +54,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate")
     public Response authenticate(AuthInfo authInfo)
     {
@@ -66,7 +67,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     public Response addUser(User user)
     {
         String result = usersService.addUser(user);
@@ -78,8 +79,21 @@ public class UsersResource
         return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
     }
 
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response editUser(User user)
+    {
+        String result = usersService.editUser(user);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully modified".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+    }
+
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate2")
     public Response authenticate2(AuthInfo authInfo)
     {
@@ -92,7 +106,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("sos")
     public Response sos(UserPrompt usersPrompt)
     {
@@ -101,7 +115,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("safe")
     public Response safe(UserPrompt usersPrompt)
     {
@@ -110,7 +124,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("report")
     public Response report(UserReport userReport)
     {
@@ -169,7 +183,7 @@ public class UsersResource
     }
 
     @GET
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("app/versions/{versionString}")
     public Response checkVersion(@PathParam("versionString") String versionString)
     {

@@ -174,7 +174,15 @@ implements UsersService
     public String addUser(User user)
     {
         String result = usersDAO.addUser(user);
-        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to add user %s, result was %s", user.getUsername(), result));
+        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to add user %s, result was %s", user.getAdUsername(), result));
+        return result;
+    }
+
+    @Override
+    public String editUser(User user)
+    {
+        String result = usersDAO.editUser(user);
+        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to modify user %s, result was %s", user.getAdUsername(), result));
         return result;
     }
 }

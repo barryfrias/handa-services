@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserInfo
 {
     private int rowNum;
-    private String rowId;
+    private String key;
     private String employeeNumber;
     private String firstName;
     private String lastName;
@@ -44,14 +44,14 @@ public class UserInfo
         this.rowNum = rowNum;
     }
 
-    public String getRowId()
+    public String getKey()
     {
-        return rowId;
+        return key;
     }
 
-    public void setRowId(String rowId)
+    public void setKey(String key)
     {
-        this.rowId = rowId;
+        this.key = key;
     }
 
     public String getEmployeeNumber()
@@ -299,6 +299,7 @@ public class UserInfo
     {
         return toStringHelper(this)
                .add("rowNum", rowNum)
+               .add("key", key)
                .add("employeeNumber", employeeNumber)
                .add("firstName", firstName)
                .add("lastName", lastName)

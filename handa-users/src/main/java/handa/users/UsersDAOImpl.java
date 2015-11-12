@@ -22,6 +22,7 @@ import handa.procs.AddUserProcedure;
 import handa.procs.AuthByMobileAndUsernameProcedure;
 import handa.procs.AuthByMobileProcedure;
 import handa.procs.CheckMobileAppVersionProcedure;
+import handa.procs.EditUserProcedure;
 import handa.procs.GetCitiesLovProcedure;
 import handa.procs.GetProvincesLovProcedure;
 import handa.procs.SearchUserByNameProcedure;
@@ -44,6 +45,7 @@ implements UsersDAO
     private final GetCitiesLovProcedure getCitiesLovProcedure;
     private final GetProvincesLovProcedure getProvincesLovProcedure;
     private final AddUserProcedure addUserProcedure;
+    private final EditUserProcedure editUserProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -59,6 +61,7 @@ implements UsersDAO
         this.getCitiesLovProcedure = new GetCitiesLovProcedure(dataSource());
         this.getProvincesLovProcedure = new GetProvincesLovProcedure(dataSource());
         this.addUserProcedure = new AddUserProcedure(dataSource());
+        this.editUserProcedure = new EditUserProcedure(dataSource());
     }
 
     @Override
@@ -125,5 +128,11 @@ implements UsersDAO
     public String addUser(User user)
     {
         return addUserProcedure.add(user);
+    }
+
+    @Override
+    public String editUser(User user)
+    {
+        return editUserProcedure.edit(user);
     }
 }
