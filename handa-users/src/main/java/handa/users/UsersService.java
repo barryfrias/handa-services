@@ -29,4 +29,5 @@ public interface UsersService
     List<City> getCitiesLov();
     List<Province> getProvincesLov();
     String addUser(User user);
+    String editUser(User user);
 }

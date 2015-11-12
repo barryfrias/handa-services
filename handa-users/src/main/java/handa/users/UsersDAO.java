@@ -27,4 +27,5 @@ public interface UsersDAO
     List<City> getCitiesLov();
     List<Province> getProvincesLov();
     String addUser(User user);
+    String editUser(User user);
 }

@@ -14,24 +14,25 @@ import org.springframework.jdbc.object.StoredProcedure;
 import handa.beans.dto.User;
 import oracle.jdbc.OracleTypes;
 
-public class AddUserProcedure
+public class EditUserProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public AddUserProcedure(DataSource dataSource)
+    public EditUserProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("ADD_USER");
+        setSql("EDIT_USER");
         declareParameter(new SqlParameter("P_USER", OracleTypes.STRUCT));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
     }
 
-    public String add(User user)
+    public String edit(User user)
     {
         checkNotNull(user, "user object should not be null");
+        checkNotNull(user.getKey(), "key should not be null");
         checkNotNull(user.getFirstName(), "firstName should not be null");
         checkNotNull(user.getLastName(), "lastName should not be null");
         checkNotNull(user.getAdUsername(), "adUsername should not be null");
@@ -41,6 +42,7 @@ extends StoredProcedure
         checkNotNull(user.getCurrentAddress(), "current address should not be null");
         checkNotNull(user.getPermanentAddress(), "permanent address should not be null");
         checkNotNull(user.getModifiedBy(), "modifiedBy should not be null");
+        checkNotNull(user.getCreatedDate(), "createdDate should not be null");
         Object[] params = { user };
         try
         {

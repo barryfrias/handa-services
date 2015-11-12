@@ -16,6 +16,7 @@ implements RowMapper<UserInfo>
     {
         UserInfo userInfo = new UserInfo();
         userInfo.setRowNum(++rowNum);
+        userInfo.setKey(getString(rs, "ROWID"));
         userInfo.setAdUsername(getString(rs, "AD_USERNAME"));
         userInfo.setBloodType(getString(rs, "BLOOD_TYPE"));
         userInfo.setCity(getString(rs, "CITY"));
