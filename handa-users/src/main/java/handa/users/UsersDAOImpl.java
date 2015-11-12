@@ -12,11 +12,13 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
+import handa.procs.AddUserProcedure;
 import handa.procs.AuthByMobileAndUsernameProcedure;
 import handa.procs.AuthByMobileProcedure;
 import handa.procs.CheckMobileAppVersionProcedure;
@@ -41,6 +43,7 @@ implements UsersDAO
     private final SearchUserByNameProcedure searchUserByNameProcedure;
     private final GetCitiesLovProcedure getCitiesLovProcedure;
     private final GetProvincesLovProcedure getProvincesLovProcedure;
+    private final AddUserProcedure addUserProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -55,6 +58,7 @@ implements UsersDAO
         this.searchUserByNameProcedure = new SearchUserByNameProcedure(dataSource());
         this.getCitiesLovProcedure = new GetCitiesLovProcedure(dataSource());
         this.getProvincesLovProcedure = new GetProvincesLovProcedure(dataSource());
+        this.addUserProcedure = new AddUserProcedure(dataSource());
     }
 
     @Override
@@ -115,5 +119,11 @@ implements UsersDAO
     public List<Province> getProvincesLov()
     {
         return getProvincesLovProcedure.list();
+    }
+
+    @Override
+    public String addUser(User user)
+    {
+        return addUserProcedure.add(user);
     }
 }

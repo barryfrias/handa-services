@@ -10,6 +10,7 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -27,4 +28,5 @@ public interface UsersService
     List<UserInfo> searchByName(UserSearch userSearch);
     List<City> getCitiesLov();
     List<Province> getProvincesLov();
+    String addUser(User user);
 }

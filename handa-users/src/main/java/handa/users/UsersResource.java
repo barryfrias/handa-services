@@ -1,7 +1,7 @@
 package handa.users;
 
-import static handa.config.HandaUsersConstants.OK;
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
@@ -24,11 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -61,6 +63,19 @@ public class UsersResource
             case OK : return Response.ok().build();
             default : return Response.status(Status.UNAUTHORIZED).build();
         }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response addUser(User user)
+    {
+        String result = usersService.addUser(user);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully added".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
     }
 
     @POST
