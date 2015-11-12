@@ -30,6 +30,8 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.LdapUser;
+import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -153,6 +155,19 @@ public class UsersResource
             return Response.ok(result.get()).build();
         }
         throw new NotFoundException(String.format("No user info found for mobile number %s", mobileNumber));
+    }
+
+    @POST
+    @Path("ldap/search")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response ldapSearchUser(LdapUserSearch userSearch)
+    {
+        Optional<LdapUser> result = usersService.ldapSearchUser(userSearch);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        throw new NotFoundException(String.format("Search returned no results."));
     }
 
     @POST
