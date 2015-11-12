@@ -20,7 +20,7 @@ implements RowMapper<UserInfo>
         userInfo.setBloodType(getString(rs, "BLOOD_TYPE"));
         userInfo.setCity(getString(rs, "CITY"));
         userInfo.setCompany(getString(rs, "COMPANY"));
-        userInfo.setCreatedDate(getString(rs, "CREATED_DTTM"));
+        userInfo.setCreatedDate(getString(rs, "CREATED_DATE"));
         userInfo.setCurrentAddress(getString(rs, "CURRENT_ADDRESS"));
         userInfo.setDepartment(getString(rs, "DEPT"));
         userInfo.setEmployeeNumber(getString(rs, "EMP_NO"));
@@ -39,6 +39,7 @@ implements RowMapper<UserInfo>
         userInfo.setPosition(getString(rs, "POSITION"));
         userInfo.setProvince(getString(rs, "PROVINCE"));
         userInfo.setRemarks(getString(rs, "REMARKS"));
+        userInfo.setModifiedBy(getString(rs, "MODIFIED_BY"));
         return userInfo;
     }
 }

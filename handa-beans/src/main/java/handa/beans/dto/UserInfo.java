@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserInfo
 {
     private int rowNum;
+    private String rowId;
     private String employeeNumber;
     private String firstName;
     private String lastName;
@@ -31,6 +32,7 @@ public class UserInfo
     private String createdDate;
     private String adUsername;
     private String province;
+    private String modifiedBy;
 
     public int getRowNum()
     {
@@ -40,6 +42,16 @@ public class UserInfo
     public void setRowNum(int rowNum)
     {
         this.rowNum = rowNum;
+    }
+
+    public String getRowId()
+    {
+        return rowId;
+    }
+
+    public void setRowId(String rowId)
+    {
+        this.rowId = rowId;
     }
 
     public String getEmployeeNumber()
@@ -272,6 +284,16 @@ public class UserInfo
         this.province = province;
     }
 
+    public String getModifiedBy()
+    {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy)
+    {
+        this.modifiedBy = modifiedBy;
+    }
+
     @Override
     public String toString()
     {
@@ -299,6 +321,7 @@ public class UserInfo
                .add("createdDate", createdDate)
                .add("adUsername", adUsername)
                .add("province", province)
+               .add("modifiedBy", modifiedBy)
                .toString();
     }
 }
