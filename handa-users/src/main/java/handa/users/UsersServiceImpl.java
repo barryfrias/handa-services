@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.LdapUser;
+import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -40,16 +44,22 @@ implements UsersService
 
     private UsersDAO usersDAO;
     private LDAPController ldapController;
+    private LdapSearchUserRestClient ldapSearchUserRestClient;
     private DBLoggerDAO dbLoggerDAO;
     private String uploadDirectory;
 
     @Autowired
-    public UsersServiceImpl(UsersDAO usersDAO, LDAPController ldapController, DBLoggerDAO dbLoggerDAO, HandaProperties handaProperties)
+    public UsersServiceImpl(UsersDAO usersDAO,
+                            LDAPController ldapController,
+                            DBLoggerDAO dbLoggerDAO,
+                            HandaProperties handaProperties,
+                            Client jerseyClient)
     {
         this.usersDAO = usersDAO;
         this.ldapController = ldapController;
         this.dbLoggerDAO = dbLoggerDAO;
         this.uploadDirectory = handaProperties.get("handa.users.upload.directory");
+        this.ldapSearchUserRestClient = new LdapSearchUserRestClient(jerseyClient, handaProperties.get("ldap.search.user.ws.url"));
     }
 
     @Override
@@ -184,5 +194,11 @@ implements UsersService
         String result = usersDAO.editUser(user);
         dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to modify user %s, result was %s", user.getAdUsername(), result));
         return result;
+    }
+
+    @Override
+    public Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch)
+    {
+        return ldapSearchUserRestClient.search(userSearch);
     }
 }
