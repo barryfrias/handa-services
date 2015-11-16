@@ -1,12 +1,11 @@
 package handa.hrlink;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
-import handa.beans.dto.User;
+import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.DtrInput;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
 
@@ -14,8 +13,6 @@ import handa.core.HandaProperties;
 public class HrLinkServiceImpl
 implements HrLinkService
 {
-    final static Logger log = LoggerFactory.getLogger(HrLinkServiceImpl.class);
-
     private HrLinkDAO hrLinkDAO;
     private DBLoggerDAO dbLoggerDAO;
 
@@ -29,10 +26,22 @@ implements HrLinkService
     }
 
     @Override
-    public String addUser(User user)
+    public String timeIn(DeviceInfo deviceInfo, DtrInput dtrInput)
     {
-        String result = hrLinkDAO.addUser(user);
-        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to add user %s, result was %s", user.getAdUsername(), result));
+        String result = hrLinkDAO.timeIn(dtrInput);
+        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time In activity. %s, %s, result=%s",
+                                      deviceInfo, dtrInput, result);
+        dbLoggerDAO.log(applog);
+        return result;
+    }
+
+    @Override
+    public String timeOut(DeviceInfo deviceInfo, DtrInput dtrInput)
+    {
+        String result = hrLinkDAO.timeOut(dtrInput);
+        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time Out activity. %s, %s, result=%s",
+                                      deviceInfo, dtrInput, result);
+        dbLoggerDAO.log(applog);
         return result;
     }
 }

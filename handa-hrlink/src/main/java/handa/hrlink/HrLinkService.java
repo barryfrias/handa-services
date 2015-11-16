@@ -1,8 +1,10 @@
 package handa.hrlink;
 
-import handa.beans.dto.User;
+import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.DtrInput;
 
 public interface HrLinkService
 {
-    String addUser(User user);
+    String timeIn(DeviceInfo deviceInfo, DtrInput dtrInput);
+    String timeOut(DeviceInfo deviceInfo, DtrInput dtrInput);
 }

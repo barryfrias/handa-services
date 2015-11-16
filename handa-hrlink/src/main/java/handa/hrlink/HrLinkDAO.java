@@ -1,8 +1,9 @@
 package handa.hrlink;
 
-import handa.beans.dto.User;
+import handa.beans.dto.DtrInput;
 
 public interface HrLinkDAO
 {
-    String addUser(User user);
+    String timeIn(DtrInput dtrInput);
+    String timeOut(DtrInput dtrInput);
 }

@@ -6,27 +6,32 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
-import handa.beans.dto.User;
-import handa.procs.AddUserProcedure;
+import handa.beans.dto.DtrInput;
+import handa.procs.HrLinkTimeInOrOutProcedure;
 
 @Component
 public class HrLinkDAOImpl
 extends AbstractJdbcDAO
 implements HrLinkDAO
 {
-    private final AddUserProcedure addUserProcedure;
+    private final HrLinkTimeInOrOutProcedure hrLinkTimeInOrOutProcedure;
 
     @Autowired
     public HrLinkDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
-        this.addUserProcedure = new AddUserProcedure(dataSource());
+        this.hrLinkTimeInOrOutProcedure = new HrLinkTimeInOrOutProcedure(dataSource());
     }
 
+    @Override
+    public String timeIn(DtrInput dtrInput)
+    {
+        return hrLinkTimeInOrOutProcedure.timeIn(dtrInput);
+    }
 
     @Override
-    public String addUser(User user)
+    public String timeOut(DtrInput dtrInput)
     {
-        return addUserProcedure.add(user);
+        return hrLinkTimeInOrOutProcedure.timeOut(dtrInput);
     }
 }

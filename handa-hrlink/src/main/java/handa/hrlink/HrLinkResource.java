@@ -1,34 +1,29 @@
 package handa.hrlink;
 
-import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
-
-import java.io.InputStream;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.ImmutableMap;
 
-import handa.beans.dto.User;
+import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.DtrInput;
 
 @Component
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
 @Path("hrlink")
 public class HrLinkResource
 {
-    static Logger log = LoggerFactory.getLogger(HrLinkResource.class);
+    private static final String MESSAGE = "message";
 
     private HrLinkService hrLinkService;
 
@@ -40,28 +35,31 @@ public class HrLinkResource
 
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response addUser(User user)
+    @Path("dtr/in")
+    public Response dtrIn(@Context HttpHeaders headers, DtrInput dtrInput)
     {
-        String result = hrLinkService.addUser(user);
-        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
-        if("Successfully added".equals(result))
-        {
-            return Response.ok(jsonMessage).build();
-        }
-        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = hrLinkService.timeIn(deviceInfo, dtrInput);
+        return buildResponse(result);
     }
 
     @POST
-    @Path("upload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
-                               @FormDataParam("file") FormDataContentDisposition fileDetail,
-                               @FormDataParam("filename") String name)
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("dtr/out")
+    public Response dtrOut(@Context HttpHeaders headers, DtrInput dtrInput)
     {
-        if(name == null)
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = hrLinkService.timeOut(deviceInfo, dtrInput);
+        return buildResponse(result);
+    }
+
+    public Response buildResponse(String result)
+    {
+        switch(result)
         {
-            name = fileDetail.getFileName();
+            case "Mobile number not registered": return Response.status(Status.UNAUTHORIZED).entity(ImmutableMap.of(MESSAGE, result)).build();
+            case "Success": return Response.ok(ImmutableMap.of(MESSAGE, result)).build();
+            default: throw new RuntimeException(result);
         }
-        return buildResponse((String)null);
     }
 }
