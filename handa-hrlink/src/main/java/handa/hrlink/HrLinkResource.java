@@ -55,11 +55,14 @@ public class HrLinkResource
 
     public Response buildResponse(String result)
     {
-        switch(result)
+        if("Mobile number not registered".equals(result))
         {
-            case "Mobile number not registered": return Response.status(Status.UNAUTHORIZED).entity(ImmutableMap.of(MESSAGE, result)).build();
-            case "Success": return Response.ok(ImmutableMap.of(MESSAGE, result)).build();
-            default: throw new RuntimeException(result);
+            return Response.status(Status.UNAUTHORIZED).entity(ImmutableMap.of(MESSAGE, result)).build();
         }
+        if(result != null && result.startsWith("Success"))
+        {
+            return Response.ok(ImmutableMap.of(MESSAGE, result)).build();
+        }
+        throw new RuntimeException(result);
     }
 }
