@@ -1,7 +1,7 @@
 allprojects {
     apply plugin: 'eclipse'
     group = 'com.pldt.itidm'
-    version = '1.4'
+    version = '1.5-SNAPSHOT'
     repositories { maven { url repoUrl } }
 }
 
