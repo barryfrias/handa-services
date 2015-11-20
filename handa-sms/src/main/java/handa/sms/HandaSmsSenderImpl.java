@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.SendSmsInput;
@@ -16,8 +16,8 @@ import handa.beans.dto.SmsOutboundQueue;
 import handa.beans.dto.UpdateSmsOutboundQueue;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
-import handa.sms.procs.GetSmsOutboundQueueProcedure;
-import handa.sms.procs.UpdateSmsOutboundQueueProcedure;
+import handa.procs.GetSmsOutboundQueueProcedure;
+import handa.procs.UpdateSmsOutboundQueueProcedure;
 
 @Component
 public class HandaSmsSenderImpl
@@ -88,6 +88,6 @@ implements HandaSmsSender
             }
             updateSmsOutboundQueueProcedure.update(update);
         }
-        dbLogger.log(AppLog.server("HandaSmsSender", String.format("Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed)));
+        dbLogger.log(AppLog.server("HandaSmsSender", "Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed));
     }
 }

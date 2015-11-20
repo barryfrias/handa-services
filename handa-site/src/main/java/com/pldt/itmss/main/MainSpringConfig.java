@@ -7,7 +7,6 @@ import javax.ws.rs.client.ClientBuilder;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +38,6 @@ public class MainSpringConfig
     public Client jerseyClient()
     {
         ClientConfig clientConfig = new ClientConfig();
-        clientConfig.register(HttpAuthenticationFeature.basicBuilder().build());
         return ClientBuilder.newClient(clientConfig);
     }
 

@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.SmsInbound;
-import handa.sms.procs.ReceiveSmsProcedure;
+import handa.procs.ReceiveSmsProcedure;
 
 @Component
 public class SmsDAOImpl

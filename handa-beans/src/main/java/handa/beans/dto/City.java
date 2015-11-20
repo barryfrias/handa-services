@@ -7,7 +7,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "city")
 public class City
 {
+    private int rowNum;
     private String name;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public String getName()
     {
@@ -23,6 +34,7 @@ public class City
     public String toString()
     {
         return toStringHelper(this)
+                .add("rowNum", rowNum)
                 .add("name", name)
                 .toString();
     }

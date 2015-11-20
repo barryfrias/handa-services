@@ -7,7 +7,7 @@ import handa.beans.dto.AppLog;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 public class DBLoggerDAOImpl
 extends AbstractJdbcDAO

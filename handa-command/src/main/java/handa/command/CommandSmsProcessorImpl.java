@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.pldt.itmss.core.utils.AbstractJdbcDAO;
+import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AppLog;
-import handa.command.procs.ProcessSmsOutboxProcedure;
 import handa.core.DBLoggerDAO;
+import handa.procs.ProcessSmsOutboxProcedure;
 
 @Component
 public class CommandSmsProcessorImpl
@@ -30,6 +30,6 @@ implements CommandSmsProcessor
     public void processOutbox()
     {
         int processedCount = processSmsOutboxProcedure.call();
-        dbLoggerDAO.log(AppLog.server("CommandSmsProcessor", String.format("Processed sms outbox. Count: %s", processedCount)));
+        dbLoggerDAO.log(AppLog.server("CommandSmsProcessor", "Processed sms outbox. Count: %s", processedCount));
     }
 }

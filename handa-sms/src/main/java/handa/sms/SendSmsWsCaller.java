@@ -4,8 +4,8 @@ import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
-import static com.pldt.itmss.core.utils.SoapUtils.getFirstText;
-import static com.pldt.itmss.core.utils.SoapUtils.hasTag;
+import static com.pldt.itidm.core.utils.SoapUtils.getFirstText;
+import static com.pldt.itidm.core.utils.SoapUtils.hasTag;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MimeHeaders;
@@ -22,7 +22,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.common.base.Optional;
-import com.pldt.itmss.core.utils.SoapWsCaller;
+import com.pldt.itidm.core.utils.SoapWsCaller;
 
 import handa.beans.dto.SendSmsInput;
 import handa.beans.dto.SendSmsOutput;

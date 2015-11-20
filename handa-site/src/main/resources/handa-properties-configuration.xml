@@ -28,5 +28,5 @@
     </bean>
     <bean
         id="textEncryptor"
-        class="com.pldt.itmss.core.utils.JasyptTextEncryptor"/>
+        class="com.pldt.itidm.core.utils.JasyptTextEncryptor"/>
 </beans>

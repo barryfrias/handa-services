@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "userInfo")
 public class UserInfo
 {
+    private int rowNum;
+    private String key;
     private String employeeNumber;
     private String firstName;
     private String lastName;
@@ -26,6 +28,31 @@ public class UserInfo
     private String remarks;
     private String longitude;
     private String latitude;
+    private String city;
+    private String createdDate;
+    private String adUsername;
+    private String province;
+    private String modifiedBy;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
+
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(String key)
+    {
+        this.key = key;
+    }
 
     public String getEmployeeNumber()
     {
@@ -217,10 +244,62 @@ public class UserInfo
         this.latitude = latitude;
     }
 
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate)
+    {
+        this.createdDate = createdDate;
+    }
+
+    public String getAdUsername()
+    {
+        return adUsername;
+    }
+
+    public void setAdUsername(String adUsername)
+    {
+        this.adUsername = adUsername;
+    }
+
+    public String getProvince()
+    {
+        return province;
+    }
+
+    public void setProvince(String province)
+    {
+        this.province = province;
+    }
+
+    public String getModifiedBy()
+    {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy)
+    {
+        this.modifiedBy = modifiedBy;
+    }
+
     @Override
     public String toString()
     {
         return toStringHelper(this)
+               .add("rowNum", rowNum)
+               .add("key", key)
                .add("employeeNumber", employeeNumber)
                .add("firstName", firstName)
                .add("lastName", lastName)
@@ -239,6 +318,11 @@ public class UserInfo
                .add("remarks", remarks)
                .add("longitude", longitude)
                .add("latitude", latitude)
+               .add("city", city)
+               .add("createdDate", createdDate)
+               .add("adUsername", adUsername)
+               .add("province", province)
+               .add("modifiedBy", modifiedBy)
                .toString();
     }
 }

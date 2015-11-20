@@ -1,5 +1,6 @@
 package handa.users;
 
+import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
 import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,9 +25,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
-import com.pldt.itmss.core.exception.NotFoundException;
+import com.google.common.collect.ImmutableMap;
+import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.City;
+import handa.beans.dto.LdapUser;
+import handa.beans.dto.LdapUserSearch;
+import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -48,7 +56,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate")
     public Response authenticate(AuthInfo authInfo)
     {
@@ -61,7 +69,33 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response addUser(User user)
+    {
+        String result = usersService.addUser(user);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully added".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+    }
+
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response editUser(User user)
+    {
+        String result = usersService.editUser(user);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully modified".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate2")
     public Response authenticate2(AuthInfo authInfo)
     {
@@ -74,7 +108,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("sos")
     public Response sos(UserPrompt usersPrompt)
     {
@@ -83,7 +117,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("safe")
     public Response safe(UserPrompt usersPrompt)
     {
@@ -92,7 +126,7 @@ public class UsersResource
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("report")
     public Response report(UserReport userReport)
     {
@@ -124,6 +158,19 @@ public class UsersResource
     }
 
     @POST
+    @Path("ldap/search")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response ldapSearchUser(LdapUserSearch userSearch)
+    {
+        Optional<LdapUser> result = usersService.ldapSearchUser(userSearch);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        throw new NotFoundException(String.format("Search returned no results."));
+    }
+
+    @POST
     @Path("searchByName")
     public Response searchByName(UserSearch userSearch)
     {
@@ -151,7 +198,7 @@ public class UsersResource
     }
 
     @GET
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("app/versions/{versionString}")
     public Response checkVersion(@PathParam("versionString") String versionString)
     {
@@ -159,12 +206,19 @@ public class UsersResource
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 
-    private Response buildResponse(String result)
+    @GET
+    @Path("cities")
+    public Response getCitiesLov()
     {
-        switch(result)
-        {
-            case OK : return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
-            default : return Response.status(Status.BAD_REQUEST).entity(result).type(MediaType.TEXT_PLAIN).build();
-        }
+        List<City> result = usersService.getCitiesLov();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("provinces")
+    public Response getProvincesLov()
+    {
+        List<Province> result = usersService.getProvincesLov();
+        return Response.ok(result).build();
     }
 }

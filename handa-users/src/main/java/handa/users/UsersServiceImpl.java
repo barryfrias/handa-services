@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,11 @@ import com.google.common.base.Optional;
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.City;
+import handa.beans.dto.LdapUser;
+import handa.beans.dto.LdapUserSearch;
+import handa.beans.dto.Province;
+import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -37,23 +44,29 @@ implements UsersService
 
     private UsersDAO usersDAO;
     private LDAPController ldapController;
+    private LdapSearchUserRestClient ldapSearchUserRestClient;
     private DBLoggerDAO dbLoggerDAO;
     private String uploadDirectory;
 
     @Autowired
-    public UsersServiceImpl(UsersDAO usersDAO, LDAPController ldapController, DBLoggerDAO dbLoggerDAO, HandaProperties handaProperties)
+    public UsersServiceImpl(UsersDAO usersDAO,
+                            LDAPController ldapController,
+                            DBLoggerDAO dbLoggerDAO,
+                            HandaProperties handaProperties,
+                            Client jerseyClient)
     {
         this.usersDAO = usersDAO;
         this.ldapController = ldapController;
         this.dbLoggerDAO = dbLoggerDAO;
         this.uploadDirectory = handaProperties.get("handa.users.upload.directory");
+        this.ldapSearchUserRestClient = new LdapSearchUserRestClient(jerseyClient, handaProperties.get("ldap.search.user.ws.url"));
     }
 
     @Override
     public String authByMobileNumber(AuthInfo authInfo)
     {
         String result = usersDAO.authByMobileNumber(authInfo);
-        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was " + result));
+        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was %s", result));
         return result;
     }
 
@@ -73,7 +86,7 @@ implements UsersService
                     result = INVALID_CREDENTIALS ;
                 }
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
-                                              "Tried to authenticate thru ldap and result was " + result));
+                                              "Tried to authenticate thru ldap and result was %s", result));
                 return result;
             default:
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
@@ -87,7 +100,7 @@ implements UsersService
     {
         String result = usersDAO.prompt(userPrompt, promptType);
         dbLoggerDAO.log(AppLog.client(null, userPrompt.getMobileNumber(),
-                                      String.format("Submitted prompt type %s and result was %s", promptType, result)));
+                                      "Submitted prompt type %s and result was %s", promptType, result));
         return result;
     }
 
@@ -102,7 +115,7 @@ implements UsersService
     {
         String result = usersDAO.report(userReport);
         dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
-                                      String.format("Submitted report and result was %s", result)));
+                                      "Submitted report and result was %s", result));
         return result;
     }
 
@@ -153,5 +166,39 @@ implements UsersService
     public List<UserInfo> searchByName(UserSearch userSearch)
     {
         return usersDAO.searchByName(userSearch);
+    }
+
+    @Override
+    public List<City> getCitiesLov()
+    {
+        return usersDAO.getCitiesLov();
+    }
+
+    @Override
+    public List<Province> getProvincesLov()
+    {
+        return usersDAO.getProvincesLov();
+    }
+
+    @Override
+    public String addUser(User user)
+    {
+        String result = usersDAO.addUser(user);
+        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to add user %s, result was %s", user.getAdUsername(), result));
+        return result;
+    }
+
+    @Override
+    public String editUser(User user)
+    {
+        String result = usersDAO.editUser(user);
+        dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to modify user %s, result was %s", user.getAdUsername(), result));
+        return result;
+    }
+
+    @Override
+    public Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch)
+    {
+        return ldapSearchUserRestClient.search(userSearch);
     }
 }

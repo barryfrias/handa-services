@@ -63,7 +63,7 @@ implements CommandService
     public NewsFeed postNewsFeed(NewsFeed newsFeed)
     {
         NewsFeed feed = commandDAO.postNewsFeed(newsFeed);
-        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), String.format("Posted news feed entry id %s", feed.getId())));
+        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(),"Posted news feed entry id %s", feed.getId()));
         return feed;
     }
 
@@ -71,7 +71,7 @@ implements CommandService
     public NewsFeed updateNewsFeed(NewsFeed newsFeed)
     {
         NewsFeed feed = commandDAO.updateNewsFeed(newsFeed);
-        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), String.format("Updated news feed entry id %s", feed.getId())));
+        dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), "Updated news feed entry id %s", feed.getId()));
         return feed;
     }
 
@@ -91,7 +91,7 @@ implements CommandService
     public int deleteNewsFeed(int id, String deletedBy)
     {
         int result = commandDAO.deleteNewsFeed(id, deletedBy);
-        dbLoggerDAO.log(AppLog.server(deletedBy, String.format("Deleted news feed id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted news feed id %s and result was %s", id, result));
         return result;
     }
 
@@ -185,7 +185,7 @@ implements CommandService
     {
         checkNotNull(emptyToNull(resetBy), "resetBy can't be null");
         commandDAO.resetEvents();
-        dbLoggerDAO.log(AppLog.server(resetBy, String.format("Events was reset by %s", resetBy)));
+        dbLoggerDAO.log(AppLog.server(resetBy, "Events was reset by %s", resetBy));
     }
 
     @Override
@@ -198,7 +198,7 @@ implements CommandService
     public int closePrompt(int id, ClosePrompt closePrompt)
     {
         int result = commandDAO.closePrompt(id, closePrompt);
-        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), String.format("Closed prompt id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was %s", id, result));
         return result;
     }
 
@@ -212,7 +212,7 @@ implements CommandService
     public int closeUserReport(int id, CloseUserReport closeUserReport)
     {
         int result = commandDAO.closeUserReport(id, closeUserReport);
-        dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), String.format("Closed user report id %s and result was %s", id, result)));
+        dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), "Closed user report id %s and result was %s", id, result));
         return result;
     }
 }

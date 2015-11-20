@@ -65,7 +65,7 @@ extends ResourceConfig
         // wire up Spring managed collaborators to Jersey resources.
         ServletRegistration servletRegistration = webappContext.addServlet("jersey-servlet", ServletContainer.class);
         servletRegistration.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, this.getClass().getName());
-        servletRegistration.setInitParameter(ServerProperties.PROVIDER_PACKAGES, "com.pldt.itmss.core.exception.mappers,handa");
+        servletRegistration.setInitParameter(ServerProperties.PROVIDER_PACKAGES, "com.pldt.itidm.core.exception.mappers,handa");
         servletRegistration.setInitParameter(ServerProperties.RESPONSE_SET_STATUS_OVER_SEND_ERROR, "true");
         servletRegistration.addMapping("/*");
         servletRegistration.setLoadOnStartup(1);
