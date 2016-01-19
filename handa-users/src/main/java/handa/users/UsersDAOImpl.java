@@ -11,6 +11,7 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -89,9 +90,9 @@ implements UsersDAO
     }
 
     @Override
-    public String report(UserReport userReport)
+    public String report(DeviceInfo deviceInfo, UserReport userReport)
     {
-        return userReportProcedure.report(userReport);
+        return userReportProcedure.report(deviceInfo, userReport);
     }
 
     @Override

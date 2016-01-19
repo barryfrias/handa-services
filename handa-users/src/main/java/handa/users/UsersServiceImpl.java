@@ -24,6 +24,7 @@ import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
@@ -111,9 +112,9 @@ implements UsersService
     }
 
     @Override
-    public String report(UserReport userReport)
+    public String report(DeviceInfo deviceInfo, UserReport userReport)
     {
-        String result = usersDAO.report(userReport);
+        String result = usersDAO.report(deviceInfo, userReport);
         dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
                                       "Submitted report and result was %s", result));
         return result;

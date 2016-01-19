@@ -29,6 +29,7 @@ implements RowMapper<UserReport>
         userReport.setName(rs.getString("NAME"));
         userReport.setOsVersion(rs.getString("OS_VERSION"));
         userReport.setStatus(rs.getString("STATUS"));
+        userReport.setAppVersion(rs.getString("APP_VERSION"));
         return userReport;
     }
 }

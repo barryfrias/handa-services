@@ -13,6 +13,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -30,6 +32,7 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
@@ -128,9 +131,9 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("report")
-    public Response report(UserReport userReport)
+    public Response report(@Context HttpHeaders headers, UserReport userReport)
     {
-        String result = usersService.report(userReport);
+        String result = usersService.report(DeviceInfo.from(headers), userReport);
         return buildResponse(result);
     }
 
