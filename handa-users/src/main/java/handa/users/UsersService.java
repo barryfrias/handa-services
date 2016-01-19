@@ -9,6 +9,7 @@ import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
@@ -23,7 +24,7 @@ public interface UsersService
     String authByMobileNumberAndUsername(AuthInfo authInfo);
     String prompt(UserPrompt userPrompt, PromptType promptType);
     Optional<UserInfo> getUserInfo(String mobileNumber);
-    String report(UserReport userReport);
+    String report(DeviceInfo deviceInfo, UserReport userReport);
     String uploadFile(InputStream uploadedInputStream, String fileName);
     List<UserInfo> getUsers();
     String checkAppVersion(String versionString);

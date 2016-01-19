@@ -6,6 +6,7 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -20,7 +21,7 @@ public interface UsersDAO
     String authByMobileNumberAndUsername(AuthInfo authInfo);
     String prompt(UserPrompt userPrompt, PromptType promptType);
     Optional<UserInfo> getUserInfo(String mobileNumber);
-    String report(UserReport userReport);
+    String report(DeviceInfo deviceInfo, UserReport userReport);
     List<UserInfo> getUsers();
     String checkAppVersion(String versionString);
     List<UserInfo> searchByName(UserSearch userSearch);
