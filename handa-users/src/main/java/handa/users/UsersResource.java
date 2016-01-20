@@ -5,6 +5,7 @@ import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -39,6 +40,7 @@ import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants;
@@ -227,5 +229,23 @@ public class UsersResource
     {
         List<Province> result = usersService.getProvincesLov();
         return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("companies")
+    public Response getCompaniesLov()
+    {
+        List<Map<String,String>> result = usersService.getCompaniesLov();
+        return Response.ok(result).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("registration")
+    public Response register(@Context HttpHeaders headers, UserRegistration registration)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.register(registration, deviceInfo);
+        return Response.ok(ImmutableMap.of("message", result)).build();
     }
 }

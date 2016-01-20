@@ -1,6 +1,7 @@
 package handa.users;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -11,6 +12,7 @@ import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -29,4 +31,6 @@ public interface UsersDAO
     List<Province> getProvincesLov();
     String addUser(User user);
     String editUser(User user);
+    List<Map<String, String>> getCompaniesLov();
+    String register(UserRegistration registration);
 }

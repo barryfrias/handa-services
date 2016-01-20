@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Client;
 
@@ -31,6 +32,7 @@ import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -201,5 +203,20 @@ implements UsersService
     public Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch)
     {
         return ldapSearchUserRestClient.search(userSearch);
+    }
+
+    @Override
+    public String register(UserRegistration registration, DeviceInfo deviceInfo)
+    {
+        String result = usersDAO.register(registration);
+        dbLoggerDAO.log(AppLog.client(null, registration.getMobileNumber(),
+                                     "Registration activity. Input: %s, Result was %s [%s]", registration, result , deviceInfo));
+        return result;
+    }
+
+    @Override
+    public List<Map<String, String>> getCompaniesLov()
+    {
+        return usersDAO.getCompaniesLov();
     }
 }
