@@ -29,8 +29,8 @@ implements HrLinkService
     public String timeIn(DeviceInfo deviceInfo, DtrInput dtrInput)
     {
         String result = hrLinkDAO.timeIn(dtrInput);
-        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time In activity. %s, %s, result=%s",
-                                      deviceInfo, dtrInput, result);
+        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time In activity. %s, result=%s [%s]",
+                                      dtrInput, result, deviceInfo);
         dbLoggerDAO.log(applog);
         return result;
     }
@@ -39,8 +39,8 @@ implements HrLinkService
     public String timeOut(DeviceInfo deviceInfo, DtrInput dtrInput)
     {
         String result = hrLinkDAO.timeOut(dtrInput);
-        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time Out activity. %s, %s, result=%s",
-                                      deviceInfo, dtrInput, result);
+        AppLog applog = AppLog.client("N/A", dtrInput.getMobileNumber(), "HrLink: Time Out activity. %s, result=%s [%s]",
+                                      dtrInput, result, deviceInfo);
         dbLoggerDAO.log(applog);
         return result;
     }

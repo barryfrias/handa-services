@@ -64,15 +64,15 @@ implements UsersService
     }
 
     @Override
-    public String authByMobileNumber(AuthInfo authInfo)
+    public String authByMobileNumber(AuthInfo authInfo, DeviceInfo deviceInfo)
     {
         String result = usersDAO.authByMobileNumber(authInfo);
-        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was %s", result));
+        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(), "Tried to authenticate and result was %s [%s]", result, deviceInfo));
         return result;
     }
 
     @Override
-    public String authByMobileNumberAndUsername(AuthInfo authInfo)
+    public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
     {
         checkNotNull(authInfo, "authInfo object can't be null");
         checkNotNull(authInfo.getUsername(), "authInfo.username object can't be null");
@@ -87,21 +87,21 @@ implements UsersService
                     result = INVALID_CREDENTIALS ;
                 }
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
-                                              "Tried to authenticate thru ldap and result was %s", result));
+                                              "Tried to authenticate thru ldap and result was %s [%s]", result, deviceInfo));
                 return result;
             default:
                 dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
-                                              "Tried to authenticate but not found in list of allowed users"));
+                                              "Tried to authenticate but not found in list of allowed users  [%s]", deviceInfo));
                 return result;
         }
     }
 
     @Override
-    public String prompt(UserPrompt userPrompt, PromptType promptType)
+    public String prompt(UserPrompt userPrompt, PromptType promptType, DeviceInfo deviceInfo)
     {
         String result = usersDAO.prompt(userPrompt, promptType);
         dbLoggerDAO.log(AppLog.client(null, userPrompt.getMobileNumber(),
-                                      "Submitted prompt type %s and result was %s", promptType, result));
+                                      "Submitted prompt type %s and result was %s [%s]", promptType, result, deviceInfo));
         return result;
     }
 
@@ -116,7 +116,7 @@ implements UsersService
     {
         String result = usersDAO.report(deviceInfo, userReport);
         dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
-                                      "Submitted report and result was %s", result));
+                                      "Submitted report and result was %s [%s]", result, deviceInfo));
         return result;
     }
 

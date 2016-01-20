@@ -61,9 +61,10 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate")
-    public Response authenticate(AuthInfo authInfo)
+    public Response authenticate(@Context HttpHeaders headers, AuthInfo authInfo)
     {
-        String result = usersService.authByMobileNumber(authInfo);
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.authByMobileNumber(authInfo, deviceInfo);
         switch(result)
         {
             case OK : return Response.ok().build();
@@ -100,9 +101,10 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("authenticate2")
-    public Response authenticate2(AuthInfo authInfo)
+    public Response authenticate2(@Context HttpHeaders headers, AuthInfo authInfo)
     {
-        String result = usersService.authByMobileNumberAndUsername(authInfo);
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.authByMobileNumberAndUsername(authInfo, deviceInfo);
         switch(result)
         {
             case OK : return Response.ok().build();
@@ -113,18 +115,20 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("sos")
-    public Response sos(UserPrompt usersPrompt)
+    public Response sos(@Context HttpHeaders headers, UserPrompt usersPrompt)
     {
-        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SOS);
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SOS, deviceInfo);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("safe")
-    public Response safe(UserPrompt usersPrompt)
+    public Response safe(@Context HttpHeaders headers, UserPrompt usersPrompt)
     {
-        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SAFE);
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SAFE, deviceInfo);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 

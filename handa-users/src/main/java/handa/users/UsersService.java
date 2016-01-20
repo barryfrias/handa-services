@@ -20,9 +20,9 @@ import handa.config.HandaUsersConstants.PromptType;
 
 public interface UsersService
 {
-    String authByMobileNumber(AuthInfo authInfo);
-    String authByMobileNumberAndUsername(AuthInfo authInfo);
-    String prompt(UserPrompt userPrompt, PromptType promptType);
+    String authByMobileNumber(AuthInfo authInfo, DeviceInfo deviceInfo);
+    String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo);
+    String prompt(UserPrompt userPrompt, PromptType promptType, DeviceInfo deviceInfo);
     Optional<UserInfo> getUserInfo(String mobileNumber);
     String report(DeviceInfo deviceInfo, UserReport userReport);
     String uploadFile(InputStream uploadedInputStream, String fileName);
