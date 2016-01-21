@@ -8,4 +8,5 @@ public final class HandaUsersConstants
     public static enum PromptType { SOS, SAFE }
     public static final String DATABASE_ERROR = "Database Error encountered.";
     public static final String INVALID_CREDENTIALS = "INVALID USERNAME AND/OR PASSWORD";
+    public static final String USER_NOT_FOUND = "User not found.";
 }

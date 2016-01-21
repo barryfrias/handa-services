@@ -1,10 +1,13 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
+import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -151,7 +154,7 @@ public class UsersResource
         {
             return Response.ok(result).build();
         }
-        throw new NotFoundException(String.format("No users"));
+        throw new NotFoundException("No users");
     }
 
     @GET
@@ -176,7 +179,7 @@ public class UsersResource
         {
             return Response.ok(result.get()).build();
         }
-        throw new NotFoundException(String.format("Search returned no results."));
+        throw new NotFoundException("Search returned no results.");
     }
 
     @POST
@@ -188,7 +191,7 @@ public class UsersResource
         {
             return Response.ok(result).build();
         }
-        throw new NotFoundException(String.format("Search returned no results."));
+        throw new NotFoundException("Search returned no results.");
     }
 
     @POST
@@ -247,5 +250,24 @@ public class UsersResource
         DeviceInfo deviceInfo = DeviceInfo.from(headers);
         String result = usersService.register(registration, deviceInfo);
         return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("registration/domainUser")
+    public Response registerDomainUser(@Context HttpHeaders headers, UserRegistration userRegistration)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.registerDomainUser(userRegistration, deviceInfo);
+        Map<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if(INVALID_CREDENTIALS.equals(result))
+        {
+            return Response.status(Status.UNAUTHORIZED).entity(jsonMessage).build();
+        }
+        if(USER_NOT_FOUND.equals(result))
+        {
+            return Response.status(Status.NOT_FOUND).entity(jsonMessage).build();
+        }
+        return Response.ok(jsonMessage).build();
     }
 }

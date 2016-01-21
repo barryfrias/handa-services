@@ -42,11 +42,11 @@ extends StoredProcedure
         checkNotNull(userRegistration.getFirstName(), "firstName can't be null");
         checkNotNull(userRegistration.getLastName(), "lastName can't be null");
         checkNotNull(userRegistration.getMobileNumber(), "mobileNumber can't be null");
-        checkNotNull(userRegistration. getUsernameOrEmail(), "usernameOrEmail can't be null");
+        checkNotNull(userRegistration. getEmail(), "email can't be null");
 
         Object[] params = new Object[]
         {
-            userRegistration.getUsernameOrEmail(),
+            userRegistration.getEmail(),
             userRegistration.getFirstName(),
             userRegistration.getLastName(),
             userRegistration.getCompanyCode(),

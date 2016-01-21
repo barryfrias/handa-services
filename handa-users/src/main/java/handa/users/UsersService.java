@@ -38,4 +38,5 @@ public interface UsersService
     Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch);
     String register(UserRegistration registration, DeviceInfo deviceInfo);
     List<Company> getCompaniesLov();
+    String registerDomainUser(UserRegistration userRegistration, DeviceInfo deviceInfo);
 }

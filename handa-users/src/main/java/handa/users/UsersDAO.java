@@ -33,4 +33,5 @@ public interface UsersDAO
     String editUser(User user);
     List<Company> getCompaniesLov();
     String register(UserRegistration registration);
+    String registerDomainUser(UserRegistration userRegistration);
 }
