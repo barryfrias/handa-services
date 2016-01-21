@@ -1,7 +1,6 @@
 package handa.users;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +11,7 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
@@ -146,7 +146,7 @@ implements UsersDAO
     }
 
     @Override
-    public List<Map<String, String>> getCompaniesLov()
+    public List<Company> getCompaniesLov()
     {
         return getCompaniesLovProcedure.list();
     }

@@ -1,12 +1,12 @@
 package handa.users;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.base.Optional;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
@@ -31,6 +31,6 @@ public interface UsersDAO
     List<Province> getProvincesLov();
     String addUser(User user);
     String editUser(User user);
-    List<Map<String, String>> getCompaniesLov();
+    List<Company> getCompaniesLov();
     String register(UserRegistration registration);
 }

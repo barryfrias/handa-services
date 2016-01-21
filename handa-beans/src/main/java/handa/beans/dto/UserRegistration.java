@@ -7,20 +7,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "userRegistration")
 public class UserRegistration
 {
-    private String usernameOrEmailAdd;
+    private String usernameOrEmail;
     private String firstName;
     private String lastName;
     private String companyCode;
     private String mobileNumber;
 
-    public String getUsernameOrEmailAdd()
+    public String getUsernameOrEmail()
     {
-        return usernameOrEmailAdd;
+        return usernameOrEmail;
     }
 
-    public void setUsernameOrEmailAdd(String usernameOrEmailAdd)
+    public void setUsernameOrEmail(String usernameOrEmail)
     {
-        this.usernameOrEmailAdd = usernameOrEmailAdd;
+        this.usernameOrEmail = usernameOrEmail;
     }
 
     public String getFirstName()
@@ -67,7 +67,7 @@ public class UserRegistration
     public String toString()
     {
         return toStringHelper(this)
-               .add("usernameOrEmailAdd", usernameOrEmailAdd)
+               .add("usernameOrEmail", usernameOrEmail)
                .add("firstName", firstName)
                .add("lastName", lastName)
                .add("mobileNumber", mobileNumber)

@@ -2,20 +2,20 @@ package handa.users;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.base.Optional;
 
-import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
-import handa.beans.dto.UserRegistration;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
+import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -37,5 +37,5 @@ public interface UsersService
     String editUser(User user);
     Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch);
     String register(UserRegistration registration, DeviceInfo deviceInfo);
-    List<Map<String, String>> getCompaniesLov();
+    List<Company> getCompaniesLov();
 }

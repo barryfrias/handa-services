@@ -5,7 +5,6 @@ import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -33,6 +32,7 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
@@ -235,7 +235,7 @@ public class UsersResource
     @Path("companies")
     public Response getCompaniesLov()
     {
-        List<Map<String,String>> result = usersService.getCompaniesLov();
+        List<Company> result = usersService.getCompaniesLov();
         return Response.ok(result).build();
     }
 

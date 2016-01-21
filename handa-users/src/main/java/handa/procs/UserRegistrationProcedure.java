@@ -28,7 +28,7 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_USERNAME_OR_EMAIL", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_FIRST_NAME", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_LAST_NAME", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("P_COMPANY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_COMPANY_CODE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_MOBILE_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
@@ -38,15 +38,15 @@ extends StoredProcedure
     public String register(UserRegistration userRegistration)
     {
         checkNotNull(userRegistration, "userRegistration object can't be null");
-        checkNotNull(userRegistration.getCompanyCode(), "companyCode object can't be null");
-        checkNotNull(userRegistration.getFirstName(), "firstName object can't be null");
-        checkNotNull(userRegistration.getLastName(), "lastName object can't be null");
-        checkNotNull(userRegistration.getMobileNumber(), "mobileNumber object can't be null");
-        checkNotNull(userRegistration. getUsernameOrEmailAdd(), "usernameOrEmailAdd object can't be null");
+        checkNotNull(userRegistration.getCompanyCode(), "companyCode can't be null");
+        checkNotNull(userRegistration.getFirstName(), "firstName can't be null");
+        checkNotNull(userRegistration.getLastName(), "lastName can't be null");
+        checkNotNull(userRegistration.getMobileNumber(), "mobileNumber can't be null");
+        checkNotNull(userRegistration. getUsernameOrEmail(), "usernameOrEmail can't be null");
 
         Object[] params = new Object[]
         {
-            userRegistration.getUsernameOrEmailAdd(),
+            userRegistration.getUsernameOrEmail(),
             userRegistration.getFirstName(),
             userRegistration.getLastName(),
             userRegistration.getCompanyCode(),

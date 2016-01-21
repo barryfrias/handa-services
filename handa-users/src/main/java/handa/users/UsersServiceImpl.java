@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.client.Client;
 
@@ -25,6 +24,7 @@ import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
@@ -184,6 +184,12 @@ implements UsersService
     }
 
     @Override
+    public List<Company> getCompaniesLov()
+    {
+        return usersDAO.getCompaniesLov();
+    }
+
+    @Override
     public String addUser(User user)
     {
         String result = usersDAO.addUser(user);
@@ -212,11 +218,5 @@ implements UsersService
         dbLoggerDAO.log(AppLog.client(null, registration.getMobileNumber(),
                                      "Registration activity. Input: %s, Result was %s [%s]", registration, result , deviceInfo));
         return result;
-    }
-
-    @Override
-    public List<Map<String, String>> getCompaniesLov()
-    {
-        return usersDAO.getCompaniesLov();
     }
 }
