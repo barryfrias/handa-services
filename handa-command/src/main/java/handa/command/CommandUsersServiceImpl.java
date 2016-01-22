@@ -3,6 +3,9 @@ package handa.command;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static handa.config.HandaCommandConstants.OK;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,5 +49,11 @@ public class CommandUsersServiceImpl implements CommandUsersService
                     dbLoggerDAO.log(AppLog.server(userLogin.getUsername(), "Tried to login but not found in list of allowed users."));
                     return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> registrations(String approvalStatus)
+    {
+        return commandUsersDAO.registrations(null, approvalStatus);
     }
 }

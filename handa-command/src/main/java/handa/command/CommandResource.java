@@ -6,6 +6,7 @@ import static handa.config.HandaCommandConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -106,6 +107,14 @@ public class CommandResource
     {
         int result = commandService.getUsersCount(city);
         return httpOk(result);
+    }
+
+    @GET
+    @Path("users/registrations")
+    public Response registrations(@QueryParam("approvalStatus") String approvalStatus)
+    {
+        List<Map<String, Object>> list = usersService.registrations(approvalStatus);
+        return Response.ok().entity(list).build();
     }
 
     @POST
