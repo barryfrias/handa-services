@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.ImmutableMap;
+
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -36,6 +38,7 @@ import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
+import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
@@ -123,6 +126,14 @@ public class CommandResource
     {
         List<Map<String, Object>> list = usersService.registrationsById(registrationId);
         return Response.ok().entity(list).build();
+    }
+
+    @POST
+    @Path("users/registrations/{registrationId}")
+    public Response registrationsAction(@PathParam("registrationId") long registrationId, RegistrationAction action)
+    {
+        String result = usersService.registrationsAction(registrationId, action);
+        return Response.ok().entity(ImmutableMap.of("message", result)).build();
     }
 
     @POST

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
+import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.UserLogin;
 import handa.core.DBLoggerDAO;
 
@@ -61,5 +62,11 @@ public class CommandUsersServiceImpl implements CommandUsersService
     public List<Map<String, Object>> registrationsById(long registrationId)
     {
         return commandUsersDAO.registrations(registrationId, null);
+    }
+
+    @Override
+    public String registrationsAction(long registrationId, RegistrationAction action)
+    {
+        return commandUsersDAO.registrationsAction(registrationId, action);
     }
 }

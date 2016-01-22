@@ -9,8 +9,10 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.RegistrationAction;
 import handa.procs.CheckUsernameProcedure;
 import handa.procs.ListRegistrationsProcedure;
+import handa.procs.RegistrationActionProcedure;
 
 @Component
 public class CommandUsersDAOImpl
@@ -19,6 +21,7 @@ implements CommandUsersDAO
 {
     private final CheckUsernameProcedure checkUsernameProcedure;
     private final ListRegistrationsProcedure listRegistrationsProcedure;
+    private final RegistrationActionProcedure registrationActionProcedure;
 
     @Autowired
     public CommandUsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -26,6 +29,7 @@ implements CommandUsersDAO
         super(jdbcTemplate);
         this.checkUsernameProcedure = new CheckUsernameProcedure(dataSource());
         this.listRegistrationsProcedure = new ListRegistrationsProcedure(dataSource());
+        this.registrationActionProcedure = new RegistrationActionProcedure(dataSource());
     }
 
     @Override
@@ -38,5 +42,11 @@ implements CommandUsersDAO
     public List<Map<String, Object>> registrations(Long registrationId, String approvalStatus)
     {
         return listRegistrationsProcedure.list(registrationId, approvalStatus);
+    }
+
+    @Override
+    public String registrationsAction(long registrationId, RegistrationAction action)
+    {
+        return registrationActionProcedure.call(registrationId, action);
     }
 }
