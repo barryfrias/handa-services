@@ -9,4 +9,5 @@ public interface CommandUsersService
 {
     boolean authenticate(UserLogin userLogin);
     List<Map<String, Object>> registrations(String approvalStatus);
+    List<Map<String, Object>> registrationsById(long registrationId);
 }

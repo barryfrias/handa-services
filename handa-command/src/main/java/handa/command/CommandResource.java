@@ -117,6 +117,14 @@ public class CommandResource
         return Response.ok().entity(list).build();
     }
 
+    @GET
+    @Path("users/registrations/{registrationId}")
+    public Response registrations(@PathParam("registrationId") long registrationId)
+    {
+        List<Map<String, Object>> list = usersService.registrationsById(registrationId);
+        return Response.ok().entity(list).build();
+    }
+
     @POST
     @Path("events/reset")
     public Response resetEvents(@QueryParam("resetBy") String resetBy)

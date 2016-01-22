@@ -56,4 +56,10 @@ public class CommandUsersServiceImpl implements CommandUsersService
     {
         return commandUsersDAO.registrations(null, approvalStatus);
     }
+
+    @Override
+    public List<Map<String, Object>> registrationsById(long registrationId)
+    {
+        return commandUsersDAO.registrations(registrationId, null);
+    }
 }
