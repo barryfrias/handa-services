@@ -11,11 +11,13 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -23,12 +25,15 @@ import handa.procs.AddUserProcedure;
 import handa.procs.AuthByMobileAndUsernameProcedure;
 import handa.procs.AuthByMobileProcedure;
 import handa.procs.CheckMobileAppVersionProcedure;
+import handa.procs.DomainUserRegistrationProcedure;
 import handa.procs.EditUserProcedure;
 import handa.procs.GetCitiesLovProcedure;
+import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetProvincesLovProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
 import handa.procs.UserPromptProcedure;
+import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserReportProcedure;
 
 @Component
@@ -45,8 +50,11 @@ implements UsersDAO
     private final SearchUserByNameProcedure searchUserByNameProcedure;
     private final GetCitiesLovProcedure getCitiesLovProcedure;
     private final GetProvincesLovProcedure getProvincesLovProcedure;
+    private final GetCompaniesLovProcedure getCompaniesLovProcedure;
     private final AddUserProcedure addUserProcedure;
     private final EditUserProcedure editUserProcedure;
+    private final UserRegistrationProcedure userRegistrationProcedure;
+    private final DomainUserRegistrationProcedure domainUserRegistrationProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -61,8 +69,11 @@ implements UsersDAO
         this.searchUserByNameProcedure = new SearchUserByNameProcedure(dataSource());
         this.getCitiesLovProcedure = new GetCitiesLovProcedure(dataSource());
         this.getProvincesLovProcedure = new GetProvincesLovProcedure(dataSource());
+        this.getCompaniesLovProcedure = new GetCompaniesLovProcedure(dataSource());
         this.addUserProcedure = new AddUserProcedure(dataSource());
         this.editUserProcedure = new EditUserProcedure(dataSource());
+        this.userRegistrationProcedure = new UserRegistrationProcedure(dataSource());
+        this.domainUserRegistrationProcedure = new DomainUserRegistrationProcedure(dataSource());
     }
 
     @Override
@@ -135,5 +146,23 @@ implements UsersDAO
     public String editUser(User user)
     {
         return editUserProcedure.edit(user);
+    }
+
+    @Override
+    public List<Company> getCompaniesLov()
+    {
+        return getCompaniesLovProcedure.list();
+    }
+
+    @Override
+    public String register(UserRegistration registration)
+    {
+        return userRegistrationProcedure.register(registration);
+    }
+
+    @Override
+    public String registerDomainUser(UserRegistration userRegistration)
+    {
+        return domainUserRegistrationProcedure.register(userRegistration);
     }
 }

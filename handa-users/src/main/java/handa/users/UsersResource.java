@@ -1,10 +1,13 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
+import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 import static handa.config.HandaUsersConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -32,6 +35,7 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
@@ -39,6 +43,7 @@ import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants;
@@ -149,7 +154,7 @@ public class UsersResource
         {
             return Response.ok(result).build();
         }
-        throw new NotFoundException(String.format("No users"));
+        throw new NotFoundException("No users");
     }
 
     @GET
@@ -174,7 +179,7 @@ public class UsersResource
         {
             return Response.ok(result.get()).build();
         }
-        throw new NotFoundException(String.format("Search returned no results."));
+        throw new NotFoundException("Search returned no results.");
     }
 
     @POST
@@ -186,7 +191,7 @@ public class UsersResource
         {
             return Response.ok(result).build();
         }
-        throw new NotFoundException(String.format("Search returned no results."));
+        throw new NotFoundException("Search returned no results.");
     }
 
     @POST
@@ -227,5 +232,42 @@ public class UsersResource
     {
         List<Province> result = usersService.getProvincesLov();
         return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("companies")
+    public Response getCompaniesLov()
+    {
+        List<Company> result = usersService.getCompaniesLov();
+        return Response.ok(result).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("registration")
+    public Response register(@Context HttpHeaders headers, UserRegistration registration)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.register(registration, deviceInfo);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("registration/domainUser")
+    public Response registerDomainUser(@Context HttpHeaders headers, UserRegistration userRegistration)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.registerDomainUser(userRegistration, deviceInfo);
+        Map<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if(INVALID_CREDENTIALS.equals(result))
+        {
+            return Response.status(Status.UNAUTHORIZED).entity(jsonMessage).build();
+        }
+        if(USER_NOT_FOUND.equals(result))
+        {
+            return Response.status(Status.NOT_FOUND).entity(jsonMessage).build();
+        }
+        return Response.ok(jsonMessage).build();
     }
 }

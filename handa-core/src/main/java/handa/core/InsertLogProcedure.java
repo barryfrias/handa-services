@@ -28,9 +28,14 @@ extends StoredProcedure
     public void insertLog(AppLog appLog)
     {
         checkNotNull(appLog);
+        String message = checkNotNull(appLog.getMessage());
+        if(message.length() > 4000)
+        {
+            message = message.substring(0, 4000);
+        }
         execute(checkNotNull(appLog.getSource().toString()),
                 checkNotNull(appLog.getUsername()),
                 checkNotNull(appLog.getMobileNumber()),
-                checkNotNull(appLog.getMessage()));
+                message);
     }
 }

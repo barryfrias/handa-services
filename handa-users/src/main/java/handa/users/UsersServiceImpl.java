@@ -1,8 +1,10 @@
 package handa.users;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
 import static handa.config.HandaUsersConstants.OK;
+import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,12 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
+import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
@@ -31,6 +35,7 @@ import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
 import handa.config.HandaUsersConstants.PromptType;
@@ -182,6 +187,12 @@ implements UsersService
     }
 
     @Override
+    public List<Company> getCompaniesLov()
+    {
+        return usersDAO.getCompaniesLov();
+    }
+
+    @Override
     public String addUser(User user)
     {
         String result = usersDAO.addUser(user);
@@ -201,5 +212,77 @@ implements UsersService
     public Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch)
     {
         return ldapSearchUserRestClient.search(userSearch);
+    }
+
+    @Override
+    public String register(UserRegistration registration, DeviceInfo deviceInfo)
+    {
+        String result = usersDAO.register(registration);
+        dbLoggerDAO.log(AppLog.client(null, registration.getMobileNumber(),
+                                     "Registration activity. Input: %s, Result was %s [%s]", registration, result , deviceInfo));
+        return result;
+    }
+
+    @Override
+    public String registerDomainUser(UserRegistration userRegistration, DeviceInfo deviceInfo)
+    {
+        checkNotNull(userRegistration, "userRegistration object should note be null.");
+        checkNotNull(userRegistration.getUsername(), "username should note be null.");
+        checkNotNull(userRegistration.getPassword(), "password should note be null.");
+        checkNotNull(userRegistration.getCompanyCode(), "companyCode should note be null.");
+        checkNotNull(userRegistration.getMobileNumber(), "mobileNumber should note be null.");
+        checkNotNull(userRegistration.getFirstName(), "firstName should not be null");
+        checkNotNull(userRegistration.getLastName(), "lastName should not be null");
+        LdapUserSearch userSearch = new LdapUserSearch();
+        String username = userRegistration.getUsername().split("@")[0];
+        userSearch.setUsername(username);
+        userSearch.setDomain(userRegistration.getCompanyCode());
+        Optional<LdapUser> ldapUser = absent();
+        String ldapSearchResultMessage;
+        try
+        {
+            ldapUser = this.ldapSearchUser(userSearch);
+            ldapSearchResultMessage = ldapUser.isPresent()? "User found." : USER_NOT_FOUND;
+        }
+        catch(RuntimeException e)
+        {
+            if(!e.getMessage().contains("Invalid domain"))
+            {
+                throw e;
+            }
+            ldapSearchResultMessage = e.getMessage();
+        }
+        dbLoggerDAO.log(AppLog.client(username, userRegistration.getMobileNumber(),
+                                     "Registration activity. Ldap search and result was \"%s\" [%s]",
+                                     ldapSearchResultMessage, deviceInfo));
+        if(ldapUser.isPresent())
+        {
+            boolean authenticated = ldapController.login(username.toLowerCase(), userRegistration.getPassword());
+            dbLoggerDAO.log(AppLog.client(username, userRegistration.getMobileNumber(),
+                                          "Registration activity. Tried to authenticate thru %s ldap and result was %s [%s]",
+                                          userRegistration.getCompanyCode(), authenticated, deviceInfo));
+            if(authenticated)
+            {
+                aggregate(userRegistration, ldapUser.get());
+                String result = usersDAO.registerDomainUser(userRegistration);
+                dbLoggerDAO.log(AppLog.client(null, userRegistration.getMobileNumber(),
+                                "Registration activity. Input: %s, Result was %s [%s]", userRegistration, result , deviceInfo));
+                return result;
+            }
+            return INVALID_CREDENTIALS;
+        }
+        return USER_NOT_FOUND;
+    }
+
+    private void aggregate(UserRegistration ur, LdapUser lu)
+    {
+        ur.setUsername(lu.getAdUsername());
+        ur.setDepartment(lu.getDepartment());
+        ur.setEmployeeNumber(lu.getEmployeeNumber());
+        ur.setFirstName(MoreObjects.firstNonNull(lu.getFirstName(), ur.getFirstName()));
+        ur.setImmediateHead(lu.getImmediateHead());
+        ur.setLastName(MoreObjects.firstNonNull(lu.getLastName(), ur.getLastName()));
+        ur.setMiddleName(lu.getMiddleName());
+        ur.setPosition(lu.getPosition());
     }
 }
