@@ -67,6 +67,13 @@ public class CommandUsersServiceImpl implements CommandUsersService
     @Override
     public String registrationsAction(long registrationId, RegistrationAction action)
     {
-        return commandUsersDAO.registrationsAction(registrationId, action);
+        checkNotNull(action, "registrationAction object should not be null");
+        checkNotNull(action.getUsername(), "username should not be null");
+        checkNotNull(action.getAction(), "action should not be null");
+        String result = commandUsersDAO.registrationsAction(registrationId, action);
+        dbLoggerDAO.log(AppLog.server(action.getUsername(),
+                                      "Registration action [%s] on id [%s] and result was %s",
+                                      action.getAction(), registrationId, result));
+        return result;
     }
 }
