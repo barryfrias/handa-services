@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.RegistrationAction;
+import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.UserLogin;
 import handa.core.DBLoggerDAO;
 
@@ -65,12 +66,12 @@ public class CommandUsersServiceImpl implements CommandUsersService
     }
 
     @Override
-    public String registrationsAction(long registrationId, RegistrationAction action)
+    public RegistrationActionResult registrationsAction(long registrationId, RegistrationAction action)
     {
         checkNotNull(action, "registrationAction object should not be null");
         checkNotNull(action.getUsername(), "username should not be null");
         checkNotNull(action.getAction(), "action should not be null");
-        String result = commandUsersDAO.registrationsAction(registrationId, action);
+        RegistrationActionResult result = commandUsersDAO.registrationsAction(registrationId, action);
         dbLoggerDAO.log(AppLog.server(action.getUsername(),
                                       "Registration action [%s] on id [%s] and result was %s",
                                       action.getAction(), registrationId, result));

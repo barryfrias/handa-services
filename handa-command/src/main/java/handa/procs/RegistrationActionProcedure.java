@@ -11,12 +11,14 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
 import handa.beans.dto.RegistrationAction;
+import handa.beans.dto.RegistrationActionResult;
 import oracle.jdbc.OracleTypes;
 
 public class RegistrationActionProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
+    private static final String PASSCODE = "PASSCODE";
 
     public RegistrationActionProcedure(DataSource dataSource)
     {
@@ -27,11 +29,12 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_REASON", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_USER", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
+        declareParameter(new SqlOutParameter(PASSCODE, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
     }
 
-    public String call(long registrationId, RegistrationAction action)
+    public RegistrationActionResult call(long registrationId, RegistrationAction action)
     {
         checkNotNull(action, "registrationAction object should not be null");
         checkNotNull(action.getAction(), "action should not be null");
@@ -48,6 +51,9 @@ extends StoredProcedure
                 action.getUsername()
         };
         Map<String, Object> map = execute(params);
-        return (String) map.get(RESULT);
+        RegistrationActionResult result = new RegistrationActionResult();
+        result.setMessage((String) map.get(RESULT));
+        result.setPasscode((String) map.get(PASSCODE));
+        return result;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.RegistrationAction;
+import handa.beans.dto.RegistrationActionResult;
 import handa.procs.CheckUsernameProcedure;
 import handa.procs.ListRegistrationsProcedure;
 import handa.procs.RegistrationActionProcedure;
@@ -45,7 +46,7 @@ implements CommandUsersDAO
     }
 
     @Override
-    public String registrationsAction(long registrationId, RegistrationAction action)
+    public RegistrationActionResult registrationsAction(long registrationId, RegistrationAction action)
     {
         return registrationActionProcedure.call(registrationId, action);
     }
