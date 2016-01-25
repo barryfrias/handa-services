@@ -16,6 +16,7 @@ import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.UserLogin;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
+import handa.core.MailerRestClient;
 import handa.core.TexterRestClient;
 
 /**
@@ -31,20 +32,29 @@ public class CommandUsersServiceImpl implements CommandUsersService
     private final CommandUsersDAO commandUsersDAO;
     private final DBLoggerDAO dbLoggerDAO;
     private final TexterRestClient texterRestClient;
+    private final MailerRestClient mailerRestClient;
     private final String smsActivationMsg;
+    private final String mailActivationMsg;
+    private final String mailFrom;
+    private final String mailSubject;
 
     @Autowired
     public CommandUsersServiceImpl(LDAPController ldapController,
                                    CommandUsersDAO commandUsersDAO,
                                    DBLoggerDAO dbLoggerDAO,
                                    TexterRestClient texterRestClient,
+                                   MailerRestClient mailerRestClient,
                                    HandaProperties props)
     {
         this.ldapController = ldapController;
         this.commandUsersDAO = commandUsersDAO;
         this.dbLoggerDAO = dbLoggerDAO;
         this.texterRestClient = texterRestClient;
+        this.mailerRestClient = mailerRestClient;
         this.smsActivationMsg = checkNotNull(props.get("handa.sms2.activation.message"));
+        this.mailActivationMsg = checkNotNull(props.get("handa.mail.activation.message"));
+        this.mailFrom = checkNotNull(props.get("handa.mail.otp.from"));
+        this.mailSubject = checkNotNull(props.get("handa.mail.otp.subject"));
     }
 
     @Override
@@ -101,7 +111,9 @@ public class CommandUsersServiceImpl implements CommandUsersService
         {
             if(null != email && email.matches(EMAIL_PATTERN))
             {
-                // send mail
+                String message = mailActivationMsg.replace(CODE, passcode);
+                mailerRestClient.sendMail(this.mailFrom, email, this.mailSubject, message);
+                dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation passcode sent via mail to %s", email));
             }
             if(mobileNumber != null)
             {
