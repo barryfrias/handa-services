@@ -1,5 +1,10 @@
 package com.pldt.itmss.main;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.annotation.PostConstruct;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -19,6 +24,8 @@ import frias.barry.LDAPController;
 import handa.core.DBLoggerDAO;
 import handa.core.DBLoggerDAOImpl;
 import handa.core.HandaProperties;
+import handa.core.MailerRestClient;
+import handa.core.TexterRestClient;
 
 @ImportResource({ "classpath*:handa-properties-configuration.xml" })
 @ComponentScan(basePackages = { "handa.config" }) // contains the class that has the @Configuration annotation for each modules
@@ -109,5 +116,28 @@ public class MainSpringConfig
     DBLoggerDAO dbLoggerDAO(JdbcTemplate jdbcTemplate)
     {
         return new DBLoggerDAOImpl(jdbcTemplate);
+    }
+
+    @Bean
+    Executor executorService()
+    {
+        return Executors.newCachedThreadPool();
+    }
+
+    @Bean
+    TexterRestClient texterRestClient(HandaProperties props, Client jerseyClient)
+    {
+        String smsKeyword = checkNotNull(props.get("handa.sms2.keyword"));
+        String appCode = checkNotNull(props.get("handa.app.code"));
+        String smsSenderUrl = checkNotNull(props.get("handa.sms2.ws.url"));
+        return new TexterRestClient(jerseyClient, smsSenderUrl, smsKeyword, appCode);
+    }
+
+    @Bean
+    MailerRestClient mailerRestClient(HandaProperties props, Client jerseyClient, Executor executor)
+    {
+        String mailerUrl = checkNotNull(props.get("handa.mail.ws.url"));
+        String appCode = checkNotNull(props.get("handa.app.code"));
+        return new MailerRestClient(jerseyClient, executor, mailerUrl, appCode);
     }
 }
