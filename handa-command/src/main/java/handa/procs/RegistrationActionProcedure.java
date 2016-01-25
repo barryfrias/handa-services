@@ -19,6 +19,8 @@ extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
     private static final String PASSCODE = "PASSCODE";
+    private static final String EMAIL = "EMAIL";
+    private static final String MOBILE_NO = "MOBILE_NO";
 
     public RegistrationActionProcedure(DataSource dataSource)
     {
@@ -30,6 +32,8 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_USER", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(PASSCODE, OracleTypes.VARCHAR));
+        declareParameter(new SqlOutParameter(EMAIL, OracleTypes.VARCHAR));
+        declareParameter(new SqlOutParameter(MOBILE_NO, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
     }
@@ -54,6 +58,8 @@ extends StoredProcedure
         RegistrationActionResult result = new RegistrationActionResult();
         result.setMessage((String) map.get(RESULT));
         result.setPasscode((String) map.get(PASSCODE));
+        result.setMail((String) map.get(EMAIL));
+        result.setMobileNumber((String) map.get(MOBILE_NO));
         return result;
     }
 }
