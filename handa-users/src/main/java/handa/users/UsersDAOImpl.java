@@ -20,6 +20,7 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
+import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
 import handa.procs.AddUserProcedure;
 import handa.procs.AuthByMobileAndUsernameProcedure;
@@ -35,6 +36,7 @@ import handa.procs.UserInfoProcedure;
 import handa.procs.UserPromptProcedure;
 import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserReportProcedure;
+import handa.procs.VerifyUserAndAuthMethodProcedure;
 
 @Component
 public class UsersDAOImpl
@@ -55,6 +57,7 @@ implements UsersDAO
     private final EditUserProcedure editUserProcedure;
     private final UserRegistrationProcedure userRegistrationProcedure;
     private final DomainUserRegistrationProcedure domainUserRegistrationProcedure;
+    private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -74,6 +77,7 @@ implements UsersDAO
         this.editUserProcedure = new EditUserProcedure(dataSource());
         this.userRegistrationProcedure = new UserRegistrationProcedure(dataSource());
         this.domainUserRegistrationProcedure = new DomainUserRegistrationProcedure(dataSource());
+        this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
     }
 
     @Override
@@ -164,5 +168,11 @@ implements UsersDAO
     public String registerDomainUser(UserRegistration userRegistration)
     {
         return domainUserRegistrationProcedure.register(userRegistration);
+    }
+
+    @Override
+    public UserVerificationResult verify(AuthInfo authInfo)
+    {
+        return verifyUserAndAuthMethodProcedure.invoke(authInfo);
     }
 }

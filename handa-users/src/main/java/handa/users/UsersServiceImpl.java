@@ -38,34 +38,44 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
+import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
+import handa.core.TexterRestClient;
 
 @Component
 public class UsersServiceImpl
 implements UsersService
 {
+    private static final String CODE = "{code}";
     final static Logger log = LoggerFactory.getLogger(UsersServiceImpl.class);
 
     private UsersDAO usersDAO;
     private LDAPController ldapController;
     private LdapSearchUserRestClient ldapSearchUserRestClient;
+    private final TexterRestClient texterRestClient;
     private DBLoggerDAO dbLoggerDAO;
     private String uploadDirectory;
+    private String passcodeSentSpiel;
+    private String smsPasscodeMsg;
 
     @Autowired
     public UsersServiceImpl(UsersDAO usersDAO,
                             LDAPController ldapController,
                             DBLoggerDAO dbLoggerDAO,
-                            HandaProperties handaProperties,
+                            TexterRestClient texterRestClient,
+                            HandaProperties props,
                             Client jerseyClient)
     {
         this.usersDAO = usersDAO;
         this.ldapController = ldapController;
         this.dbLoggerDAO = dbLoggerDAO;
-        this.uploadDirectory = handaProperties.get("handa.users.upload.directory");
-        this.ldapSearchUserRestClient = new LdapSearchUserRestClient(jerseyClient, handaProperties.get("ldap.search.user.ws.url"));
+        this.uploadDirectory = props.get("handa.users.upload.directory");
+        this.ldapSearchUserRestClient = new LdapSearchUserRestClient(jerseyClient, props.get("ldap.search.user.ws.url"));
+        this.texterRestClient = texterRestClient;
+        this.passcodeSentSpiel = checkNotNull(props.get("handa.passcode.sent.spiel"));
+        this.smsPasscodeMsg = checkNotNull(props.get("handa.sms2.passcode.message"));
     }
 
     @Override
@@ -272,6 +282,32 @@ implements UsersService
             return INVALID_CREDENTIALS;
         }
         return USER_NOT_FOUND;
+    }
+
+    @Override
+    public UserVerificationResult verify(AuthInfo authInfo, DeviceInfo deviceInfo)
+    {
+        UserVerificationResult result = usersDAO.verify(authInfo);
+        dbLoggerDAO.log(AppLog.client("N/A", authInfo.getMobileNumber(), "User verification activity. Result was [method: %s] [%s]", result.getAuthMethod(), deviceInfo));
+        if("passcode".equals(result.getAuthMethod()) && result.getPasscode() != null)
+        {
+            result.setMessage(passcodeSentSpiel);
+            sendPasscodeViaSms(result.getPasscode(), result.getMobileNumber());
+        }
+        return result;
+    }
+
+    private void sendPasscodeViaSms(String passcode, String mobileNumber)
+    {
+        if(passcode != null)
+        {
+            if(mobileNumber != null)
+            {
+                String message = smsPasscodeMsg.replace(CODE, passcode);
+                texterRestClient.sendSms(mobileNumber, message);
+                dbLoggerDAO.log(AppLog.server(this.getClass().getSimpleName(), "Passcode sent via sms to %s", mobileNumber));
+            }
+        }
     }
 
     private void aggregate(UserRegistration ur, LdapUser lu)

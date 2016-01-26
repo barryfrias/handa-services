@@ -15,6 +15,7 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
+import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
 
 public interface UsersDAO
@@ -34,4 +35,5 @@ public interface UsersDAO
     List<Company> getCompaniesLov();
     String register(UserRegistration registration);
     String registerDomainUser(UserRegistration userRegistration);
+    UserVerificationResult verify(AuthInfo authInfo);
 }

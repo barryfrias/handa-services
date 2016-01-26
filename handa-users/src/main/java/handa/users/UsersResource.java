@@ -2,8 +2,8 @@ package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
 import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
-import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 import static handa.config.HandaUsersConstants.OK;
+import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,6 +46,7 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
+import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants;
 
 @Component
@@ -115,6 +116,16 @@ public class UsersResource
             case OK : return Response.ok().build();
             default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
         }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("verify")
+    public Response verify(@Context HttpHeaders headers, AuthInfo authInfo)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        UserVerificationResult result = usersService.verify(authInfo, deviceInfo);
+        return Response.ok(result).build();
     }
 
     @POST
