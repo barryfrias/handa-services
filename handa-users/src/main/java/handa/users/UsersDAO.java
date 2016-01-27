@@ -36,4 +36,5 @@ public interface UsersDAO
     String register(UserRegistration registration);
     String registerDomainUser(UserRegistration userRegistration);
     UserVerificationResult verify(AuthInfo authInfo);
+    String loginByPasscode(AuthInfo authInfo);
 }

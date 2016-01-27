@@ -33,6 +33,7 @@ import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetProvincesLovProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
+import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.UserPromptProcedure;
 import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserReportProcedure;
@@ -58,6 +59,7 @@ implements UsersDAO
     private final UserRegistrationProcedure userRegistrationProcedure;
     private final DomainUserRegistrationProcedure domainUserRegistrationProcedure;
     private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
+    private final LoginByPasscodeProcedure loginByPasscodeProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -78,6 +80,7 @@ implements UsersDAO
         this.userRegistrationProcedure = new UserRegistrationProcedure(dataSource());
         this.domainUserRegistrationProcedure = new DomainUserRegistrationProcedure(dataSource());
         this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
+        this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
     }
 
     @Override
@@ -90,6 +93,12 @@ implements UsersDAO
     public String authByMobileNumberAndUsername(AuthInfo authInfo)
     {
         return authByMobileAndUsernameProcedure.authenticate(authInfo);
+    }
+
+    @Override
+    public String loginByPasscode(AuthInfo authInfo)
+    {
+        return loginByPasscodeProcedure.login(authInfo);
     }
 
     @Override

@@ -41,4 +41,5 @@ public interface UsersService
     List<Company> getCompaniesLov();
     String registerDomainUser(UserRegistration userRegistration, DeviceInfo deviceInfo);
     UserVerificationResult verify(AuthInfo authInfo, DeviceInfo deviceInfo);
+    String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo);
 }
