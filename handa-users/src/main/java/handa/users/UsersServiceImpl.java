@@ -112,6 +112,15 @@ implements UsersService
     }
 
     @Override
+    public String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo)
+    {
+        String result = usersDAO.loginByPasscode(authInfo);
+        dbLoggerDAO.log(AppLog.client(null, authInfo.getMobileNumber(),
+                                      "Tried to authenticate thru passcode and result was %s [%s]", result, deviceInfo));
+        return result;
+    }
+
+    @Override
     public String prompt(UserPrompt userPrompt, PromptType promptType, DeviceInfo deviceInfo)
     {
         String result = usersDAO.prompt(userPrompt, promptType);
@@ -321,4 +330,5 @@ implements UsersService
         ur.setMiddleName(lu.getMiddleName());
         ur.setPosition(lu.getPosition());
     }
+
 }

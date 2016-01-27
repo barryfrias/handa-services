@@ -120,6 +120,20 @@ public class UsersResource
 
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("authenticate3")
+    public Response authenticate3(@Context HttpHeaders headers, AuthInfo authInfo)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.loginByPasscode(authInfo, deviceInfo);
+        switch(result)
+        {
+            case OK : return Response.ok().build();
+            default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("verify")
     public Response verify(@Context HttpHeaders headers, AuthInfo authInfo)
     {
