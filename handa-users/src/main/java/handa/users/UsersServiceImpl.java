@@ -323,12 +323,15 @@ implements UsersService
     {
         ur.setUsername(lu.getAdUsername());
         ur.setDepartment(lu.getDepartment());
-        ur.setEmployeeNumber(lu.getEmployeeNumber());
+        try
+        {
+            ur.setEmployeeNumber(Long.valueOf(lu.getEmployeeNumber(), 10));
+        }
+        catch(NumberFormatException nfe){}
         ur.setFirstName(MoreObjects.firstNonNull(lu.getFirstName(), ur.getFirstName()));
         ur.setImmediateHead(lu.getImmediateHead());
         ur.setLastName(MoreObjects.firstNonNull(lu.getLastName(), ur.getLastName()));
         ur.setMiddleName(lu.getMiddleName());
         ur.setPosition(lu.getPosition());
     }
-
 }

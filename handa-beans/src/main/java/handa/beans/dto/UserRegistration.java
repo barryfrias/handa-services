@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "userRegistration")
 public class UserRegistration
 {
-    private String employeeNumber;
+    private long employeeNumber;
     private String email;
     private String firstName;
     private String middleName;
@@ -20,12 +20,12 @@ public class UserRegistration
     private String username;
     private String password;
 
-    public String getEmployeeNumber()
+    public long getEmployeeNumber()
     {
         return employeeNumber;
     }
 
-    public void setEmployeeNumber(String employeeNumber)
+    public void setEmployeeNumber(long employeeNumber)
     {
         this.employeeNumber = employeeNumber;
     }
