@@ -13,29 +13,31 @@ import org.springframework.jdbc.object.StoredProcedure;
 import handa.beans.dto.AuthInfo;
 import oracle.jdbc.OracleTypes;
 
-public class AuthByMobileAndUsernameProcedure
+public class LoginByPasscodeProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public AuthByMobileAndUsernameProcedure(DataSource dataSource)
+    public LoginByPasscodeProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_USERS_AUTH.LOGIN_BY_MOBILE_AND_USERNAME");
-        declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("USERNAME", OracleTypes.VARCHAR));
+        setSql("HANDA_USERS_AUTH.LOGIN_BY_PASSCODE");
+        declareParameter(new SqlParameter("P_MOB_NO", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_PASSCODE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
     }
 
-    public String authenticate(AuthInfo authInfo)
+    public String login(AuthInfo authInfo)
     {
-        checkNotNull(authInfo, "authInfo object can't be null");
+        checkNotNull(authInfo, "authInfo object should not be null");
+        checkNotNull(authInfo.getMobileNumber(), "mobileNumber should not be null");
+        checkNotNull(authInfo.getPassword(), "password should not be null");
         Object[] params =
         {
-                checkNotNull(authInfo.getMobileNumber(), "mobileNumber should not be null"),
-                checkNotNull(authInfo.getUsername(), "username should not be null"),
+            authInfo.getMobileNumber(),
+            authInfo.getPassword()
         };
         Map<String, Object> map = execute(params);
         return (String) map.get(RESULT);

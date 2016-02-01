@@ -13,6 +13,7 @@ public class UserReport
     private String mobileNumber;
     private String macAddress;
     private String osVersion;
+    private String appVersion;
     private String batteryLevel;
     private String longitude;
     private String latitude;
@@ -81,6 +82,16 @@ public class UserReport
     public void setOsVersion(String osVersion)
     {
         this.osVersion = osVersion;
+    }
+
+    public String getAppVersion()
+    {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion)
+    {
+        this.appVersion = appVersion;
     }
 
     public String getBatteryLevel()
@@ -183,6 +194,7 @@ public class UserReport
                .add("mobileNumber", mobileNumber)
                .add("macAddress", macAddress)
                .add("osVersion", osVersion)
+               .add("appVersion", appVersion)
                .add("batteryLevel", batteryLevel)
                .add("longitude", longitude)
                .add("latitude", latitude)

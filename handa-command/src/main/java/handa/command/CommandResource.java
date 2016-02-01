@@ -6,6 +6,7 @@ import static handa.config.HandaCommandConstants.OK;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -35,6 +36,8 @@ import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
+import handa.beans.dto.RegistrationAction;
+import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
@@ -106,6 +109,30 @@ public class CommandResource
     {
         int result = commandService.getUsersCount(city);
         return httpOk(result);
+    }
+
+    @GET
+    @Path("users/registrations")
+    public Response registrations(@QueryParam("approvalStatus") String approvalStatus)
+    {
+        List<Map<String, Object>> list = usersService.registrations(approvalStatus);
+        return Response.ok().entity(list).build();
+    }
+
+    @GET
+    @Path("users/registrations/{registrationId}")
+    public Response registrations(@PathParam("registrationId") long registrationId)
+    {
+        List<Map<String, Object>> list = usersService.registrationsById(registrationId);
+        return Response.ok().entity(list).build();
+    }
+
+    @POST
+    @Path("users/registrations/{registrationId}")
+    public Response registrationsAction(@PathParam("registrationId") long registrationId, RegistrationAction action)
+    {
+        RegistrationActionResult result = usersService.registrationsAction(registrationId, action);
+        return Response.ok().entity(result).build();
     }
 
     @POST

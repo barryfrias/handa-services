@@ -1,7 +1,7 @@
 allprojects {
     apply plugin: 'eclipse'
     group = 'com.pldt.itidm'
-    version = '1.4'
+    version = '1.5'
     repositories { maven { url repoUrl } }
 }
 
@@ -93,6 +93,35 @@ project('handa-command') {
     }
 }
 
+project('handa-hrlink') {
+    dependencies {
+        compile project(':handa-beans')
+        compile project(':handa-core')
+            compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
+            compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: jerseyVersion
+            compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: jerseyVersion
+            compile group: 'org.springframework', name: 'spring-core', version: springVersion
+            compile group: 'org.springframework', name: 'spring-context', version: springVersion
+            compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
+            compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
+            compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+            compile (group: 'com.pldt.itidm', name: 'itidm-core', version: itidmCoreVersion) {
+                exclude(module: 'mail')
+                exclude(module: 'activation')
+                exclude(module: 'spring-ws-core')
+            }
+            compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+            compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+            compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+            compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+            testCompile group: 'org.springframework', name: 'spring-test', version: springVersion
+            testCompile(group: 'junit', name: 'junit', version: junitVersion) {
+                exclude(module: 'hamcrest-core')
+            }
+            testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: hamcrestVersion
+    }
+}
+
 project('handa-users') {
     dependencies {
         compile project(':handa-beans')
@@ -153,6 +182,7 @@ project('handa-site') {
     println "Version: ${project.version}"
     dependencies {
         compile project(':handa-command')
+        compile project(':handa-hrlink')
         compile project(':handa-users')
         compile project(':handa-sms')
             compile group: 'org.glassfish.grizzly', name: 'grizzly-http-servlet', version: grizzlyVersion
