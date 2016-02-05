@@ -16,7 +16,7 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -25,7 +25,7 @@ import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
 import handa.mappers.PromptCountRowMapper;
-import handa.mappers.SmsDistributionListRowMapper;
+import handa.mappers.DistributionListRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.ClosePromptProcedure;
@@ -54,31 +54,32 @@ public class CommandDAOImpl
 extends AbstractJdbcDAO
 implements CommandDAO
 {
-    private PromptsCountProcedure promptsCountProcedure;
-    private InsertNewsFeedProcedure insertNewsFeedProcedure;
-    private UpdateNewsFeedProcedure updateNewsFeedProcedure;
-    private GetNewsFeedsProcedure getNewsFeedsProcedure;
-    private DeleteNewsFeedProcedure deleteNewsFeedProcedure;
-    private GetUserPromptsProcedure getUserPromptsProcedure;
-    private GetUserReportsProcedure getUserReportsProcedure;
-    private ReportsCountProcedure reportsCountProcedure;
-    private GenericProcedure<City> citiesProcedure;
-    private NoResponseCountProcedure noResponseCountProcedure;
-    private GetNoResponseProcedure getNoResponseProcedure;
-    private GenericProcedure<PromptCount> getSosCountPerCityProcedure;
-    private ResetEventsProcedure resetEventsProcedure;
-    private GetUserLocAndPromptProcedure getUsersLocationsProcedure;
-    private ClosePromptProcedure closePromptProcedure;
-    private UsersCountProcedure usersCountProcedure;
-    private CloseUserReportProcedure closeUserReportProcedure;
-    private GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
-    private ReadSmsInboxProcedure readSmsInboxProcedure;
-    private DeleteSmsProcedure deleteSmsInboxProcedure;
-    private SendSmsProcedure sendSmsProcedure;
-    private GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
-    private DeleteSmsProcedure deleteSmsOutboxProcedure;
-    private GenericProcedure<SmsDistributionList> getSmsDistributionListProcedure;
-    private GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
+    private final PromptsCountProcedure promptsCountProcedure;
+    private final InsertNewsFeedProcedure insertNewsFeedProcedure;
+    private final UpdateNewsFeedProcedure updateNewsFeedProcedure;
+    private final GetNewsFeedsProcedure getNewsFeedsProcedure;
+    private final DeleteNewsFeedProcedure deleteNewsFeedProcedure;
+    private final GetUserPromptsProcedure getUserPromptsProcedure;
+    private final GetUserReportsProcedure getUserReportsProcedure;
+    private final ReportsCountProcedure reportsCountProcedure;
+    private final GenericProcedure<City> citiesProcedure;
+    private final NoResponseCountProcedure noResponseCountProcedure;
+    private final GetNoResponseProcedure getNoResponseProcedure;
+    private final GenericProcedure<PromptCount> getSosCountPerCityProcedure;
+    private final ResetEventsProcedure resetEventsProcedure;
+    private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
+    private final ClosePromptProcedure closePromptProcedure;
+    private final UsersCountProcedure usersCountProcedure;
+    private final CloseUserReportProcedure closeUserReportProcedure;
+    private final GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
+    private final ReadSmsInboxProcedure readSmsInboxProcedure;
+    private final DeleteSmsProcedure deleteSmsInboxProcedure;
+    private final SendSmsProcedure sendSmsProcedure;
+    private final GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
+    private final DeleteSmsProcedure deleteSmsOutboxProcedure;
+    private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
+    private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
+    private final GenericProcedure<DistributionList> getNewsFeedsDistributionListProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -108,7 +109,8 @@ implements CommandDAO
         this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
-        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new SmsDistributionListRowMapper());
+        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_DISTRIBUTION_LIST", new DistributionListRowMapper());
     }
 
     @Override
@@ -274,7 +276,7 @@ implements CommandDAO
     }
 
     @Override
-    public List<SmsDistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList()
     {
         return getSmsDistributionListProcedure.listValues();
     }
@@ -283,5 +285,11 @@ implements CommandDAO
     public List<LovItem> getSmsDistributionLov(String distributionListCode)
     {
         return getSmsDistributionLovProcedure.list(distributionListCode);
+    }
+
+    @Override
+    public List<DistributionList> getNewsFeedDistributionList()
+    {
+        return getNewsFeedsDistributionListProcedure.listValues();
     }
 }

@@ -20,6 +20,7 @@ import handa.beans.dto.AppLog;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -214,5 +215,11 @@ implements CommandService
         int result = commandDAO.closeUserReport(id, closeUserReport);
         dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), "Closed user report id %s and result was %s", id, result));
         return result;
+    }
+
+    @Override
+    public List<DistributionList> getNewsFeedDistributionList()
+    {
+        return commandDAO.getNewsFeedDistributionList();
     }
 }

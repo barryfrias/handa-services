@@ -4,8 +4,8 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "smsDistributionList")
-public class SmsDistributionList
+@XmlRootElement(name = "distributionList")
+public class DistributionList
 {
     private String code;
     private String name;

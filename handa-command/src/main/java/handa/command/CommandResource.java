@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
@@ -39,7 +40,6 @@ import handa.beans.dto.ReadSms;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -266,6 +266,18 @@ public class CommandResource
     }
 
     @GET
+    @Path("newsfeeds/distributionList")
+    public Response getNewsFeedDistributionList()
+    {
+        List<DistributionList> result = commandService.getNewsFeedDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("reports")
     public Response getUserReports()
     {
@@ -372,7 +384,7 @@ public class CommandResource
     @Path("sms/distributionList")
     public Response getSmsDistributionList()
     {
-        List<SmsDistributionList> result = commandSmsService.getSmsDistributionList();
+        List<DistributionList> result = commandSmsService.getSmsDistributionList();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
