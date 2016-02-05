@@ -278,6 +278,18 @@ public class CommandResource
     }
 
     @GET
+    @Path("newsfeeds/distributionList/{distributionListCode}")
+    public Response getNewsFeedsDistributionLov(@PathParam("distributionListCode") String distributionListCode)
+    {
+        List<LovItem> result = commandService.getNewsFeedsDistributionLov(distributionListCode);
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("reports")
     public Response getUserReports()
     {

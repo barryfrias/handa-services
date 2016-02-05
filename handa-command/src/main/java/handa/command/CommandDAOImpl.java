@@ -11,12 +11,12 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.DistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -24,8 +24,8 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
-import handa.mappers.PromptCountRowMapper;
 import handa.mappers.DistributionListRowMapper;
+import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.ClosePromptProcedure;
@@ -33,6 +33,7 @@ import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.GenericProcedure;
+import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
@@ -80,6 +81,7 @@ implements CommandDAO
     private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
     private final GenericProcedure<DistributionList> getNewsFeedsDistributionListProcedure;
+    private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -111,6 +113,7 @@ implements CommandDAO
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
     }
 
     @Override
@@ -291,5 +294,11 @@ implements CommandDAO
     public List<DistributionList> getNewsFeedDistributionList()
     {
         return getNewsFeedsDistributionListProcedure.listValues();
+    }
+
+    @Override
+    public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
+    {
+        return getNewsFeedsDistributionLovProcedure.list(distributionListCode);
     }
 }

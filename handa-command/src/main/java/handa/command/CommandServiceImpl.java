@@ -21,6 +21,7 @@ import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionList;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -221,5 +222,11 @@ implements CommandService
     public List<DistributionList> getNewsFeedDistributionList()
     {
         return commandDAO.getNewsFeedDistributionList();
+    }
+
+    @Override
+    public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
+    {
+        return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
     }
 }

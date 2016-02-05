@@ -49,4 +49,5 @@ public interface CommandDAO
     List<DistributionList> getSmsDistributionList();
     List<LovItem> getSmsDistributionLov(String distributionListCode);
     List<DistributionList> getNewsFeedDistributionList();
+    List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
 }

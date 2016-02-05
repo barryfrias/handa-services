@@ -7,6 +7,7 @@ import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionList;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -38,4 +39,5 @@ public interface CommandService
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
     int closeUserReport(int id, CloseUserReport closeUserReport);
     List<DistributionList> getNewsFeedDistributionList();
+    List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
 }

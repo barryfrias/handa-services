@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import handa.beans.dto.LovItem;
 
-public class SmsDistributionLovRowMapper
+public class DistributionLovRowMapper
 implements RowMapper<LovItem>
 {
     @Override
