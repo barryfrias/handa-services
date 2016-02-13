@@ -224,14 +224,6 @@ public class CommandResource
     }
 
     @GET
-    @Path("newsfeeds")
-    public Response getNewsFeeds()
-    {
-        List<NewsFeed> result = commandService.getNewsFeeds();
-        return Response.ok().entity(result).build();
-    }
-
-    @GET
     @Path("newsfeeds/{pageNo}")
     public Response getNewsFeeds(@PathParam("pageNo") int pageNo)
     {

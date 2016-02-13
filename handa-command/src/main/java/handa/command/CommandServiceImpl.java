@@ -78,12 +78,6 @@ implements CommandService
     }
 
     @Override
-    public List<NewsFeed> getNewsFeeds()
-    {
-        return commandDAO.getNewsFeeds();
-    }
-
-    @Override
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return commandDAO.getNewsFeeds(pageNo);

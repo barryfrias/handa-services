@@ -141,12 +141,6 @@ implements CommandDAO
     }
 
     @Override
-    public List<NewsFeed> getNewsFeeds()
-    {
-        return getNewsFeedsProcedure.list(false, 0);
-    }
-
-    @Override
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return getNewsFeedsProcedure.list(true, pageNo);
