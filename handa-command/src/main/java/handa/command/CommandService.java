@@ -3,6 +3,7 @@ package handa.command;
 import java.io.InputStream;
 import java.util.List;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -40,4 +41,6 @@ public interface CommandService
     int closeUserReport(int id, CloseUserReport closeUserReport);
     List<DistributionList> getNewsFeedDistributionList();
     List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
+    List<CallTree> list();
+    long insertCallTree(CallTree callTree);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -41,7 +42,9 @@ import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
+import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
+import handa.procs.ListCallTreesProcedure;
 import handa.procs.NoResponseCountProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
@@ -84,6 +87,8 @@ implements CommandDAO
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
     private final GenericProcedure<DistributionList> getNewsFeedsDistributionListProcedure;
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
+    private final ListCallTreesProcedure listCallTreesProcedure;
+    private final InsertCallTreeProcedure insertCallTreeProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -117,6 +122,8 @@ implements CommandDAO
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
+        this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
+        this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
     }
 
     @Override
@@ -304,4 +311,17 @@ implements CommandDAO
     {
         return getNewsFeedsDistributionLovProcedure.list(distributionListCode);
     }
+
+    @Override
+    public List<CallTree> list(Long id)
+    {
+        return listCallTreesProcedure.list(id);
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        return insertCallTreeProcedure.save(callTree);
+    }
+
 }

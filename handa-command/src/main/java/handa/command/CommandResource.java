@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.ImmutableMap;
+
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -414,6 +417,24 @@ public class CommandResource
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response list()
+    {
+        List<CallTree> result = commandService.list();
+        return Response.ok(result).build();
+    }
+
+    @POST
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response insertCallTree(CallTree callTree)
+    {
+        long result = commandService.insertCallTree(callTree);
+        return Response.ok(ImmutableMap.of("id", result)).build();
     }
 
     Response httpOk(Object result)

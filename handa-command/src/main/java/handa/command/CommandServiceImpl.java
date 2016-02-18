@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -229,4 +230,17 @@ implements CommandService
     {
         return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
     }
+
+    @Override
+    public List<CallTree> list()
+    {
+        return commandDAO.list((Long)null);
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        return commandDAO.insertCallTree(callTree);
+    }
+
 }
