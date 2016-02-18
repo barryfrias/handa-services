@@ -20,6 +20,7 @@ public interface CommandService
     int getSafeCount(String city);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
+    List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<UserPrompt> getSos(String city);
     List<UserPrompt> getSafe(String city);
     List<UserReport> getUserReports();

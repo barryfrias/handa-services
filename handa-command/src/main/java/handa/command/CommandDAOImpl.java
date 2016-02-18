@@ -36,6 +36,7 @@ import handa.procs.GenericProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
+import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
@@ -59,6 +60,7 @@ implements CommandDAO
     private final InsertNewsFeedProcedure insertNewsFeedProcedure;
     private final UpdateNewsFeedProcedure updateNewsFeedProcedure;
     private final GetNewsFeedsProcedure getNewsFeedsProcedure;
+    private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
     private final DeleteNewsFeedProcedure deleteNewsFeedProcedure;
     private final GetUserPromptsProcedure getUserPromptsProcedure;
     private final GetUserReportsProcedure getUserReportsProcedure;
@@ -91,6 +93,7 @@ implements CommandDAO
         this.insertNewsFeedProcedure = new InsertNewsFeedProcedure(dataSource());
         this.updateNewsFeedProcedure = new UpdateNewsFeedProcedure(dataSource());
         this.getNewsFeedsProcedure = new GetNewsFeedsProcedure(dataSource());
+        this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.deleteNewsFeedProcedure = new DeleteNewsFeedProcedure(dataSource());
         this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
@@ -144,6 +147,12 @@ implements CommandDAO
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return getNewsFeedsProcedure.list(true, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo)
+    {
+        return getPrivateNewsFeedsProcedure.list(username, pageNo);
     }
 
     @Override
