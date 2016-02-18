@@ -25,7 +25,7 @@ extends StoredProcedure
     public GetNewsFeedsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_NEWSFEED.GET_PUBLIC");
+        setSql("HANDA_NEWSFEED.LIST_ALL");
         declareParameter(new SqlParameter("PAGINATE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("PAGE_NO", OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new NewsFeedRowMapper()));
