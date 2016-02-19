@@ -29,6 +29,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
+
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -414,6 +418,56 @@ public class CommandResource
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response list()
+    {
+        List<CallTree> result = commandService.list();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("calltrees/{id}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response getById(@PathParam("id") long id)
+    {
+        Optional<CallTree> result = commandService.getById(id);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        return Response.status(Status.NOT_FOUND)
+                       .entity(ImmutableMap.of("message", String.format("Calltree id [%s] not found", id)))
+                       .build();
+    }
+
+    @POST
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response insertCallTree(CallTree callTree)
+    {
+        long result = commandService.insertCallTree(callTree);
+        return Response.ok(ImmutableMap.of("id", result)).build();
+    }
+
+    @PUT
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response updateCallTree(CallTree callTree)
+    {
+        String result = commandService.updateCallTree(callTree);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("calltrees/{id}")
+    public Response deleteCallTree(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteCallTree(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
     Response httpOk(Object result)

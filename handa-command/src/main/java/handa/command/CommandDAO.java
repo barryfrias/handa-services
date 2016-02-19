@@ -2,6 +2,7 @@ package handa.command;
 
 import java.util.List;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -50,4 +51,8 @@ public interface CommandDAO
     List<LovItem> getSmsDistributionLov(String distributionListCode);
     List<DistributionList> getNewsFeedDistributionList();
     List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
+    List<CallTree> list(Long id);
+    long insertCallTree(CallTree callTree);
+    String updateCallTree(CallTree callTree);
+    String deleteCallTree(long id);
 }

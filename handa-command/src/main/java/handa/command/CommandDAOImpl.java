@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -30,6 +31,7 @@ import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
+import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.GenericProcedure;
@@ -41,13 +43,16 @@ import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
+import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
+import handa.procs.ListCallTreesProcedure;
 import handa.procs.NoResponseCountProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
 import handa.procs.ResetEventsProcedure;
 import handa.procs.SendSmsProcedure;
+import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
 import handa.procs.UsersCountProcedure;
 
@@ -84,6 +89,10 @@ implements CommandDAO
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
     private final GenericProcedure<DistributionList> getNewsFeedsDistributionListProcedure;
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
+    private final ListCallTreesProcedure listCallTreesProcedure;
+    private final InsertCallTreeProcedure insertCallTreeProcedure;
+    private final UpdateCallTreeProcedure updateCallTreeProcedure;
+    private final DeleteCallTreeProcedure deleteCallTreeProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -117,6 +126,10 @@ implements CommandDAO
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
+        this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
+        this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
+        this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
+        this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
     }
 
     @Override
@@ -303,5 +316,29 @@ implements CommandDAO
     public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
     {
         return getNewsFeedsDistributionLovProcedure.list(distributionListCode);
+    }
+
+    @Override
+    public List<CallTree> list(Long id)
+    {
+        return listCallTreesProcedure.list(id);
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        return insertCallTreeProcedure.save(callTree);
+    }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        return updateCallTreeProcedure.update(callTree);
+    }
+
+    @Override
+    public String deleteCallTree(long id)
+    {
+        return deleteCallTreeProcedure.delete(id);
     }
 }

@@ -1,7 +1,9 @@
 package handa.command;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
 import static handa.config.HandaCommandConstants.OK;
 
 import java.io.File;
@@ -16,7 +18,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+
 import handa.beans.dto.AppLog;
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
@@ -228,5 +233,47 @@ implements CommandService
     public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
     {
         return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public List<CallTree> list()
+    {
+        return commandDAO.list(null);
+    }
+
+    @Override
+    public Optional<CallTree> getById(long id)
+    {
+        List<CallTree> list = commandDAO.list(id);
+        if(list.isEmpty())
+        {
+            return absent();
+        }
+        return Optional.of(list.get(0));
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        long result = commandDAO.insertCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Created call tree with id: %s", result));
+        return result;
+    }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        String result = commandDAO.updateCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Updated call tree id: %s", callTree.getId()));
+        return result;
+    }
+
+    @Override
+    public String deleteCallTree(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteCallTree(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
+        return result;
     }
 }
