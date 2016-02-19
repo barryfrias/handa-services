@@ -31,6 +31,7 @@ import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
+import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -304,6 +305,12 @@ implements UsersService
             sendPasscodeViaSms(result.getPasscode(), result.getMobileNumber());
         }
         return result;
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo)
+    {
+        return usersDAO.getPrivateNewsFeeds(username, pageNo);
     }
 
     private void sendPasscodeViaSms(String passcode, String mobileNumber)

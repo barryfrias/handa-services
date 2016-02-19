@@ -13,6 +13,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -30,6 +31,7 @@ import handa.procs.DomainUserRegistrationProcedure;
 import handa.procs.EditUserProcedure;
 import handa.procs.GetCitiesLovProcedure;
 import handa.procs.GetCompaniesLovProcedure;
+import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetProvincesLovProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
@@ -60,6 +62,7 @@ implements UsersDAO
     private final DomainUserRegistrationProcedure domainUserRegistrationProcedure;
     private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
     private final LoginByPasscodeProcedure loginByPasscodeProcedure;
+    private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -81,6 +84,7 @@ implements UsersDAO
         this.domainUserRegistrationProcedure = new DomainUserRegistrationProcedure(dataSource());
         this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
+        this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
     }
 
     @Override
@@ -183,5 +187,11 @@ implements UsersDAO
     public UserVerificationResult verify(AuthInfo authInfo)
     {
         return verifyUserAndAuthMethodProcedure.invoke(authInfo);
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo)
+    {
+        return getPrivateNewsFeedsProcedure.list(username, pageNo);
     }
 }

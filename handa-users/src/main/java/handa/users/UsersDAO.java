@@ -8,6 +8,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.City;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -37,4 +38,5 @@ public interface UsersDAO
     String registerDomainUser(UserRegistration userRegistration);
     UserVerificationResult verify(AuthInfo authInfo);
     String loginByPasscode(AuthInfo authInfo);
+    List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
 }

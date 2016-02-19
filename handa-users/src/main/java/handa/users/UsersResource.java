@@ -39,6 +39,7 @@ import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
+import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -294,5 +295,13 @@ public class UsersResource
             return Response.status(Status.NOT_FOUND).entity(jsonMessage).build();
         }
         return Response.ok(jsonMessage).build();
+    }
+
+    @GET
+    @Path("newsfeeds/{username}/{pageNo}")
+    public Response getPrivateNewsFeeds(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = usersService.getPrivateNewsFeeds(username, pageNo);
+        return Response.ok().entity(result).build();
     }
 }

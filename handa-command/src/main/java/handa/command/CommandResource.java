@@ -235,14 +235,6 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
-    @GET
-    @Path("newsfeeds/private/{username}/{pageNo}")
-    public Response getPrivateNewsFeeds(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
-    {
-        List<NewsFeed> result = commandService.getPrivateNewsFeeds(username, pageNo);
-        return Response.ok().entity(result).build();
-    }
-
     @POST
     @Path("newsfeeds")
     @Consumes({ MediaType.APPLICATION_JSON })

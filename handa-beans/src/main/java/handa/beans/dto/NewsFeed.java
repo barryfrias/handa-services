@@ -20,6 +20,7 @@ public class NewsFeed
     private String username;
     private String distributionListKey;
     private String[] distributionListValues;
+    private String type;
 
     public int getRowNum()
     {
@@ -121,6 +122,16 @@ public class NewsFeed
         this.distributionListValues = distributionListValues;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
     @Override
     public String toString()
     {
@@ -135,6 +146,7 @@ public class NewsFeed
                 .add("username", username)
                 .add("distributionListKey", distributionListKey)
                 .add("distributionListValues", distributionListValues)
+                .add("type", type)
                 .toString();
     }
 }

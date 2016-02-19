@@ -64,7 +64,8 @@ extends StoredProcedure
             newsFeed.setImageFilename(rs.getString("IMAGE_FILENAME"));
             newsFeed.setMessageType(rs.getString("MESSAGE_TYPE"));
             newsFeed.setCreatedDate(rs.getString("CREATED_DTTM"));
-            newsFeed.setUsername(rs.getString("MODIFIED_BY"));
+            newsFeed.setUsername(rs.getString("USERNAME"));
+            newsFeed.setType(rs.getString("TYPE"));
             return newsFeed;
         }
     }
