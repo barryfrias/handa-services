@@ -47,4 +47,5 @@ public interface CommandService
     Optional<CallTree> getById(long id);
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
+    String deleteCallTree(long id, String deletedBy);
 }

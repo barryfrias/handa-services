@@ -31,6 +31,7 @@ import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
+import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.GenericProcedure;
@@ -91,6 +92,7 @@ implements CommandDAO
     private final ListCallTreesProcedure listCallTreesProcedure;
     private final InsertCallTreeProcedure insertCallTreeProcedure;
     private final UpdateCallTreeProcedure updateCallTreeProcedure;
+    private final DeleteCallTreeProcedure deleteCallTreeProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -127,6 +129,7 @@ implements CommandDAO
         this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
         this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
+        this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
     }
 
     @Override
@@ -331,5 +334,11 @@ implements CommandDAO
     public String updateCallTree(CallTree callTree)
     {
         return updateCallTreeProcedure.update(callTree);
+    }
+
+    @Override
+    public String deleteCallTree(long id)
+    {
+        return deleteCallTreeProcedure.delete(id);
     }
 }

@@ -54,4 +54,5 @@ public interface CommandDAO
     List<CallTree> list(Long id);
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
+    String deleteCallTree(long id);
 }

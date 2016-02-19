@@ -462,6 +462,14 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
+    @DELETE
+    @Path("calltrees/{id}")
+    public Response deleteCallTree(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteCallTree(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     Response httpOk(Object result)
     {
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();

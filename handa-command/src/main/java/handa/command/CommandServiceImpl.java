@@ -3,6 +3,7 @@ package handa.command;
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
 import static handa.config.HandaCommandConstants.OK;
 
 import java.io.File;
@@ -254,12 +255,25 @@ implements CommandService
     @Override
     public long insertCallTree(CallTree callTree)
     {
-        return commandDAO.insertCallTree(callTree);
+        long result = commandDAO.insertCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Created call tree with id: %s", result));
+        return result;
     }
 
     @Override
     public String updateCallTree(CallTree callTree)
     {
-        return commandDAO.updateCallTree(callTree);
+        String result = commandDAO.updateCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Updated call tree id: %s", callTree.getId()));
+        return result;
+    }
+
+    @Override
+    public String deleteCallTree(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteCallTree(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
+        return result;
     }
 }
