@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import handa.beans.dto.CallTree;
@@ -426,6 +427,21 @@ public class CommandResource
     {
         List<CallTree> result = commandService.list();
         return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("calltrees/{id}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response getById(@PathParam("id") long id)
+    {
+        Optional<CallTree> result = commandService.getById(id);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        return Response.status(Status.NOT_FOUND)
+                       .entity(ImmutableMap.of("message", String.format("Calltree id [%s] not found", id)))
+                       .build();
     }
 
     @POST

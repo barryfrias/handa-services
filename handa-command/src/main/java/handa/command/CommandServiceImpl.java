@@ -1,5 +1,6 @@
 package handa.command;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static handa.config.HandaCommandConstants.OK;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Optional;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.CallTree;
@@ -234,7 +237,18 @@ implements CommandService
     @Override
     public List<CallTree> list()
     {
-        return commandDAO.list((Long)null);
+        return commandDAO.list(null);
+    }
+
+    @Override
+    public Optional<CallTree> getById(long id)
+    {
+        List<CallTree> list = commandDAO.list(id);
+        if(list.isEmpty())
+        {
+            return absent();
+        }
+        return Optional.of(list.get(0));
     }
 
     @Override
@@ -242,5 +256,4 @@ implements CommandService
     {
         return commandDAO.insertCallTree(callTree);
     }
-
 }
