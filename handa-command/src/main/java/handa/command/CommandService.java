@@ -46,4 +46,5 @@ public interface CommandService
     List<CallTree> list();
     Optional<CallTree> getById(long id);
     long insertCallTree(CallTree callTree);
+    String updateCallTree(CallTree callTree);
 }

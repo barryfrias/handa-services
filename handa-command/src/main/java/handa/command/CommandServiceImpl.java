@@ -256,4 +256,10 @@ implements CommandService
     {
         return commandDAO.insertCallTree(callTree);
     }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        return commandDAO.updateCallTree(callTree);
+    }
 }

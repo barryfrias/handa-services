@@ -18,7 +18,7 @@ implements RowMapper<CallTree>
     {
         CallTree callTree = new CallTree();
         callTree.setRowNum(rowNum + 1);
-        callTree.setId(rs.getInt("ID"));
+        callTree.setId(rs.getLong("ID"));
         callTree.setName(rs.getString("NAME"));
         callTree.setJsonData(JsonUtils.objectify(rs.getClob("JSON_DATA").getCharacterStream(), Map.class));
         callTree.setModifiedBy(rs.getString("MODIFIED_BY"));

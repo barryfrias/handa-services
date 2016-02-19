@@ -7,18 +7,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "callTree")
 public class CallTree
 {
-    private long id;
+    private Long id;
     private String name;
     private String modifiedBy;
     private String modifiedDate;
     private int rowNum;
     private Map<String, Object> jsonData;
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }

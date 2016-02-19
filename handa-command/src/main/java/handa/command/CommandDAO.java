@@ -53,4 +53,5 @@ public interface CommandDAO
     List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
     List<CallTree> list(Long id);
     long insertCallTree(CallTree callTree);
+    String updateCallTree(CallTree callTree);
 }

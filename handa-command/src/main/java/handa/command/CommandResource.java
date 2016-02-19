@@ -453,6 +453,15 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("id", result)).build();
     }
 
+    @PUT
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response updateCallTree(CallTree callTree)
+    {
+        String result = commandService.updateCallTree(callTree);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     Response httpOk(Object result)
     {
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();

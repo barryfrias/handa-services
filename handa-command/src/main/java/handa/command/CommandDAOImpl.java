@@ -51,6 +51,7 @@ import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
 import handa.procs.ResetEventsProcedure;
 import handa.procs.SendSmsProcedure;
+import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
 import handa.procs.UsersCountProcedure;
 
@@ -89,6 +90,7 @@ implements CommandDAO
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
     private final ListCallTreesProcedure listCallTreesProcedure;
     private final InsertCallTreeProcedure insertCallTreeProcedure;
+    private final UpdateCallTreeProcedure updateCallTreeProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -124,6 +126,7 @@ implements CommandDAO
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
         this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
+        this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
     }
 
     @Override
@@ -324,4 +327,9 @@ implements CommandDAO
         return insertCallTreeProcedure.save(callTree);
     }
 
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        return updateCallTreeProcedure.update(callTree);
+    }
 }
