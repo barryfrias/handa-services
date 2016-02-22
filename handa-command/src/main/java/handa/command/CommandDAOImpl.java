@@ -121,7 +121,7 @@ implements CommandDAO
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
-        this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "HANDA_NEWSFEEDS_DIST.DISTRIBUTION_LIST", new DistributionListRowMapper());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
         this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
