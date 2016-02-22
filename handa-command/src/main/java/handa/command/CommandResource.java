@@ -36,6 +36,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
@@ -265,7 +266,43 @@ public class CommandResource
     @Path("newsfeeds/distributionList")
     public Response getNewsFeedDistributionList()
     {
-        List<DistributionList> result = commandService.getNewsFeedDistributionList();
+        List<DistributionList> result = commandService.getNewsFeedsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("newsfeeds/distributionList/custom")
+    public Response addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandService.addNewsFeedsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @PUT
+    @Path("newsfeeds/distributionList/custom")
+    public Response editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandService.editNewsFeedsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("newsfeeds/distributionList/custom/{id}")
+    public Response deleteNewsFeedsCustomGroup(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteNewsFeedsCustomGroup(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @GET
+    @Path("newsfeeds/distributionList/custom")
+    public Response getCustomNewsFeedDistributionList()
+    {
+        List<DistributionList> result = commandService.getCustomNewsFeedsDistributionList();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

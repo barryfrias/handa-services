@@ -25,6 +25,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
@@ -218,15 +219,46 @@ implements CommandService
     }
 
     @Override
-    public List<DistributionList> getNewsFeedDistributionList()
+    public List<DistributionList> getNewsFeedsDistributionList()
     {
-        return commandDAO.getNewsFeedDistributionList();
+        return commandDAO.getNewsFeedsDistributionList("default");
+    }
+
+    @Override
+    public List<DistributionList> getCustomNewsFeedsDistributionList()
+    {
+        return commandDAO.getNewsFeedsDistributionList("custom");
     }
 
     @Override
     public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
     {
         return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.addNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.editNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String deleteNewsFeedsCustomGroup(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteNewsFeedsCustomGroup(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted custom newsfeeds group id %s, result was: %s", id, result));
+        return result;
     }
 
     @Override
