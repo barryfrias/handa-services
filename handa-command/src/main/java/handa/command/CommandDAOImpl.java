@@ -12,6 +12,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
@@ -29,12 +30,16 @@ import handa.mappers.DistributionListRowMapper;
 import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
+import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
+import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
+import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
+import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
@@ -85,8 +90,11 @@ implements CommandDAO
     private final DeleteSmsProcedure deleteSmsOutboxProcedure;
     private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
-    private final GenericProcedure<DistributionList> getNewsFeedsDistributionListProcedure;
+    private final GetNewsFeedsDistributionListProcedure getNewsFeedsDistributionListProcedure;
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
+    private final AddNewsFeedsCustomGroupProcedure addNewsFeedsCustomGroupProcedure;
+    private final EditNewsFeedsCustomGroupProcedure editNewsFeedsCustomGroupProcedure;
+    private final DeleteNewsFeedsCustomGroupProcedure deleteNewsFeedsCustomGroupProcedure;
     private final ListCallTreesProcedure listCallTreesProcedure;
     private final InsertCallTreeProcedure insertCallTreeProcedure;
     private final UpdateCallTreeProcedure updateCallTreeProcedure;
@@ -121,8 +129,11 @@ implements CommandDAO
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
-        this.getNewsFeedsDistributionListProcedure = new GenericProcedure<>(dataSource(), "HANDA_NEWSFEEDS_DIST.DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getNewsFeedsDistributionListProcedure = new GetNewsFeedsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
+        this.addNewsFeedsCustomGroupProcedure = new AddNewsFeedsCustomGroupProcedure(dataSource());
+        this.editNewsFeedsCustomGroupProcedure = new EditNewsFeedsCustomGroupProcedure(dataSource());
+        this.deleteNewsFeedsCustomGroupProcedure = new DeleteNewsFeedsCustomGroupProcedure(dataSource());
         this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
         this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
@@ -298,9 +309,27 @@ implements CommandDAO
     }
 
     @Override
-    public List<DistributionList> getNewsFeedDistributionList()
+    public List<DistributionList> getNewsFeedsDistributionList(String type)
     {
-        return getNewsFeedsDistributionListProcedure.listValues();
+        return getNewsFeedsDistributionListProcedure.list(type);
+    }
+
+    @Override
+    public String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return addNewsFeedsCustomGroupProcedure.insert(customGroup);
+    }
+
+    @Override
+    public String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return editNewsFeedsCustomGroupProcedure.edit(customGroup);
+    }
+
+    @Override
+    public String deleteNewsFeedsCustomGroup(long id)
+    {
+        return deleteNewsFeedsCustomGroupProcedure.delete(id);
     }
 
     @Override

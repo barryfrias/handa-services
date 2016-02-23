@@ -12,15 +12,15 @@ import org.springframework.jdbc.object.StoredProcedure;
 
 import oracle.jdbc.OracleTypes;
 
-public class DeleteCallTreeProcedure
+public class DeleteNewsFeedsCustomGroupProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public DeleteCallTreeProcedure(DataSource dataSource)
+    public DeleteNewsFeedsCustomGroupProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_CALL_TREES.DELETE_DATA");
+        setSql("HANDA_NEWSFEEDS_DIST.DELETE_CUSTOM_GROUP");
         declareParameter(new SqlParameter("P_ID", OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);

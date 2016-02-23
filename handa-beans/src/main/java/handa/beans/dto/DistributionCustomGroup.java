@@ -1,63 +1,65 @@
 package handa.beans.dto;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "distributionList")
-public class DistributionList
+@XmlRootElement(name = "distributionCustomGroup")
+public class DistributionCustomGroup
 {
-    private long id;
-    private String code;
+    private Long id;
     private String name;
     private String[] values;
     private String modifiedBy;
-    private String modifiedDate;
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
-    public void setId(long id)
+
+    public void setId(Long id)
     {
         this.id = id;
     }
-    public String getCode()
-    {
-        return code;
-    }
-    public void setCode(String code)
-    {
-        this.code = code;
-    }
+
     public String getName()
     {
         return name;
     }
+
     public void setName(String name)
     {
         this.name = name;
     }
+
     public String[] getValues()
     {
         return values;
     }
+
     public void setValues(String[] values)
     {
         this.values = values;
     }
+
     public String getModifiedBy()
     {
         return modifiedBy;
     }
+
     public void setModifiedBy(String modifiedBy)
     {
         this.modifiedBy = modifiedBy;
     }
-    public String getModifiedDate()
+
+    @Override
+    public String toString()
     {
-        return modifiedDate;
-    }
-    public void setModifiedDate(String modifiedDate)
-    {
-        this.modifiedDate = modifiedDate;
+        return toStringHelper(this)
+               .add("id", id)
+               .add("name", name)
+               .add("values", values)
+               .add("modifiedBy", modifiedBy)
+               .toString();
     }
 }
