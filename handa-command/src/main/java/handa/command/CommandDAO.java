@@ -2,15 +2,17 @@ package handa.command;
 
 import java.util.List;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -22,7 +24,6 @@ public interface CommandDAO
     int getSosCount(String city);
     int getSafeCount(String city);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
-    List<NewsFeed> getNewsFeeds();
     List<NewsFeed> getNewsFeeds(int pageNo);
     List<UserPrompt> getSos(String city);
     List<UserPrompt> getSafe(String city);
@@ -46,6 +47,15 @@ public interface CommandDAO
     String sendSms(SendSms sendSms);
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
-    List<SmsDistributionList> getSmsDistributionList();
+    List<DistributionList> getSmsDistributionList();
     List<LovItem> getSmsDistributionLov(String distributionListCode);
+    List<DistributionList> getNewsFeedsDistributionList(String type);
+    List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
+    String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
+    String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
+    String deleteNewsFeedsCustomGroup(long id);
+    List<CallTree> list(Long id);
+    long insertCallTree(CallTree callTree);
+    String updateCallTree(CallTree callTree);
+    String deleteCallTree(long id);
 }

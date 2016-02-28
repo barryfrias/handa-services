@@ -1,7 +1,9 @@
 package handa.command;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
 import static handa.config.HandaCommandConstants.OK;
 
 import java.io.File;
@@ -16,10 +18,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+
 import handa.beans.dto.AppLog;
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
+import handa.beans.dto.DistributionList;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.UserLocation;
@@ -73,12 +81,6 @@ implements CommandService
         NewsFeed feed = commandDAO.updateNewsFeed(newsFeed);
         dbLoggerDAO.log(AppLog.server(newsFeed.getUsername(), "Updated news feed entry id %s", feed.getId()));
         return feed;
-    }
-
-    @Override
-    public List<NewsFeed> getNewsFeeds()
-    {
-        return commandDAO.getNewsFeeds();
     }
 
     @Override
@@ -213,6 +215,91 @@ implements CommandService
     {
         int result = commandDAO.closeUserReport(id, closeUserReport);
         dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), "Closed user report id %s and result was %s", id, result));
+        return result;
+    }
+
+    @Override
+    public List<DistributionList> getNewsFeedsDistributionList()
+    {
+        return commandDAO.getNewsFeedsDistributionList("default");
+    }
+
+    @Override
+    public List<DistributionList> getCustomNewsFeedsDistributionList()
+    {
+        return commandDAO.getNewsFeedsDistributionList("custom");
+    }
+
+    @Override
+    public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
+    {
+        return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.addNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.editNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String deleteNewsFeedsCustomGroup(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteNewsFeedsCustomGroup(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted custom newsfeeds group id %s, result was: %s", id, result));
+        return result;
+    }
+
+    @Override
+    public List<CallTree> list()
+    {
+        return commandDAO.list(null);
+    }
+
+    @Override
+    public Optional<CallTree> getById(long id)
+    {
+        List<CallTree> list = commandDAO.list(id);
+        if(list.isEmpty())
+        {
+            return absent();
+        }
+        return Optional.of(list.get(0));
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        long result = commandDAO.insertCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Created call tree with id: %s", result));
+        return result;
+    }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        String result = commandDAO.updateCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Updated call tree id: %s", callTree.getId()));
+        return result;
+    }
+
+    @Override
+    public String deleteCallTree(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteCallTree(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
         return result;
     }
 }

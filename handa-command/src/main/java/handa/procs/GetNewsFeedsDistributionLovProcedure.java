@@ -17,15 +17,15 @@ import handa.beans.dto.LovItem;
 import handa.mappers.DistributionLovRowMapper;
 import oracle.jdbc.OracleTypes;
 
-public class GetSmsDistributionLovProcedure
+public class GetNewsFeedsDistributionLovProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "out";
 
-    public GetSmsDistributionLovProcedure(DataSource dataSource)
+    public GetNewsFeedsDistributionLovProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("GET_SMS_DISTRIBUTION_LOV");
+        setSql("HANDA_NEWSFEEDS_DIST.DISTRIBUTION_LOV");
         declareParameter(new SqlParameter("DIST_LIST_CODE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new DistributionLovRowMapper()));
         setFunction(false);

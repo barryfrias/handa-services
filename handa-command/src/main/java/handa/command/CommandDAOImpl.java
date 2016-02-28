@@ -8,15 +8,17 @@ import org.springframework.stereotype.Component;
 
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -24,28 +26,37 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
+import handa.mappers.DistributionListRowMapper;
 import handa.mappers.PromptCountRowMapper;
-import handa.mappers.SmsDistributionListRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
+import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
+import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
+import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
+import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
+import handa.procs.GetNewsFeedsDistributionListProcedure;
+import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
+import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
+import handa.procs.ListCallTreesProcedure;
 import handa.procs.NoResponseCountProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
 import handa.procs.ResetEventsProcedure;
 import handa.procs.SendSmsProcedure;
+import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
 import handa.procs.UsersCountProcedure;
 
@@ -54,31 +65,40 @@ public class CommandDAOImpl
 extends AbstractJdbcDAO
 implements CommandDAO
 {
-    private PromptsCountProcedure promptsCountProcedure;
-    private InsertNewsFeedProcedure insertNewsFeedProcedure;
-    private UpdateNewsFeedProcedure updateNewsFeedProcedure;
-    private GetNewsFeedsProcedure getNewsFeedsProcedure;
-    private DeleteNewsFeedProcedure deleteNewsFeedProcedure;
-    private GetUserPromptsProcedure getUserPromptsProcedure;
-    private GetUserReportsProcedure getUserReportsProcedure;
-    private ReportsCountProcedure reportsCountProcedure;
-    private GenericProcedure<City> citiesProcedure;
-    private NoResponseCountProcedure noResponseCountProcedure;
-    private GetNoResponseProcedure getNoResponseProcedure;
-    private GenericProcedure<PromptCount> getSosCountPerCityProcedure;
-    private ResetEventsProcedure resetEventsProcedure;
-    private GetUserLocAndPromptProcedure getUsersLocationsProcedure;
-    private ClosePromptProcedure closePromptProcedure;
-    private UsersCountProcedure usersCountProcedure;
-    private CloseUserReportProcedure closeUserReportProcedure;
-    private GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
-    private ReadSmsInboxProcedure readSmsInboxProcedure;
-    private DeleteSmsProcedure deleteSmsInboxProcedure;
-    private SendSmsProcedure sendSmsProcedure;
-    private GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
-    private DeleteSmsProcedure deleteSmsOutboxProcedure;
-    private GenericProcedure<SmsDistributionList> getSmsDistributionListProcedure;
-    private GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
+    private final PromptsCountProcedure promptsCountProcedure;
+    private final InsertNewsFeedProcedure insertNewsFeedProcedure;
+    private final UpdateNewsFeedProcedure updateNewsFeedProcedure;
+    private final GetNewsFeedsProcedure getNewsFeedsProcedure;
+    private final DeleteNewsFeedProcedure deleteNewsFeedProcedure;
+    private final GetUserPromptsProcedure getUserPromptsProcedure;
+    private final GetUserReportsProcedure getUserReportsProcedure;
+    private final ReportsCountProcedure reportsCountProcedure;
+    private final GenericProcedure<City> citiesProcedure;
+    private final NoResponseCountProcedure noResponseCountProcedure;
+    private final GetNoResponseProcedure getNoResponseProcedure;
+    private final GenericProcedure<PromptCount> getSosCountPerCityProcedure;
+    private final ResetEventsProcedure resetEventsProcedure;
+    private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
+    private final ClosePromptProcedure closePromptProcedure;
+    private final UsersCountProcedure usersCountProcedure;
+    private final CloseUserReportProcedure closeUserReportProcedure;
+    private final GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
+    private final ReadSmsInboxProcedure readSmsInboxProcedure;
+    private final DeleteSmsProcedure deleteSmsInboxProcedure;
+    private final SendSmsProcedure sendSmsProcedure;
+    private final GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
+    private final DeleteSmsProcedure deleteSmsOutboxProcedure;
+    private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
+    private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
+    private final GetNewsFeedsDistributionListProcedure getNewsFeedsDistributionListProcedure;
+    private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
+    private final AddNewsFeedsCustomGroupProcedure addNewsFeedsCustomGroupProcedure;
+    private final EditNewsFeedsCustomGroupProcedure editNewsFeedsCustomGroupProcedure;
+    private final DeleteNewsFeedsCustomGroupProcedure deleteNewsFeedsCustomGroupProcedure;
+    private final ListCallTreesProcedure listCallTreesProcedure;
+    private final InsertCallTreeProcedure insertCallTreeProcedure;
+    private final UpdateCallTreeProcedure updateCallTreeProcedure;
+    private final DeleteCallTreeProcedure deleteCallTreeProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -108,7 +128,16 @@ implements CommandDAO
         this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
-        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new SmsDistributionListRowMapper());
+        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getNewsFeedsDistributionListProcedure = new GetNewsFeedsDistributionListProcedure(dataSource());
+        this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
+        this.addNewsFeedsCustomGroupProcedure = new AddNewsFeedsCustomGroupProcedure(dataSource());
+        this.editNewsFeedsCustomGroupProcedure = new EditNewsFeedsCustomGroupProcedure(dataSource());
+        this.deleteNewsFeedsCustomGroupProcedure = new DeleteNewsFeedsCustomGroupProcedure(dataSource());
+        this.listCallTreesProcedure = new ListCallTreesProcedure(dataSource());
+        this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
+        this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
+        this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
     }
 
     @Override
@@ -133,12 +162,6 @@ implements CommandDAO
     public NewsFeed updateNewsFeed(NewsFeed newsFeed)
     {
         return updateNewsFeedProcedure.update(newsFeed);
-    }
-
-    @Override
-    public List<NewsFeed> getNewsFeeds()
-    {
-        return getNewsFeedsProcedure.list(false, 0);
     }
 
     @Override
@@ -274,7 +297,7 @@ implements CommandDAO
     }
 
     @Override
-    public List<SmsDistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList()
     {
         return getSmsDistributionListProcedure.listValues();
     }
@@ -283,5 +306,59 @@ implements CommandDAO
     public List<LovItem> getSmsDistributionLov(String distributionListCode)
     {
         return getSmsDistributionLovProcedure.list(distributionListCode);
+    }
+
+    @Override
+    public List<DistributionList> getNewsFeedsDistributionList(String type)
+    {
+        return getNewsFeedsDistributionListProcedure.list(type);
+    }
+
+    @Override
+    public String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return addNewsFeedsCustomGroupProcedure.insert(customGroup);
+    }
+
+    @Override
+    public String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return editNewsFeedsCustomGroupProcedure.edit(customGroup);
+    }
+
+    @Override
+    public String deleteNewsFeedsCustomGroup(long id)
+    {
+        return deleteNewsFeedsCustomGroupProcedure.delete(id);
+    }
+
+    @Override
+    public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
+    {
+        return getNewsFeedsDistributionLovProcedure.list(distributionListCode);
+    }
+
+    @Override
+    public List<CallTree> list(Long id)
+    {
+        return listCallTreesProcedure.list(id);
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        return insertCallTreeProcedure.save(callTree);
+    }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        return updateCallTreeProcedure.update(callTree);
+    }
+
+    @Override
+    public String deleteCallTree(long id)
+    {
+        return deleteCallTreeProcedure.delete(id);
     }
 }

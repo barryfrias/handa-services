@@ -13,7 +13,7 @@ import handa.beans.dto.AppLog;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.core.DBLoggerDAO;
@@ -93,7 +93,7 @@ implements CommandSmsService
     }
 
     @Override
-    public List<SmsDistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList()
     {
         return commandDAO.getSmsDistributionList();
     }

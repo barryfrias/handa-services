@@ -11,6 +11,7 @@ import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
+import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
@@ -42,4 +43,5 @@ public interface UsersService
     String registerDomainUser(UserRegistration userRegistration, DeviceInfo deviceInfo);
     UserVerificationResult verify(AuthInfo authInfo, DeviceInfo deviceInfo);
     String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo);
+    List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
 }

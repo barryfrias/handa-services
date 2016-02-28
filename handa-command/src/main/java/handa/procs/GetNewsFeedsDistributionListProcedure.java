@@ -13,34 +13,34 @@ import org.springframework.jdbc.object.StoredProcedure;
 
 import com.google.common.collect.ImmutableList;
 
-import handa.beans.dto.LovItem;
-import handa.mappers.DistributionLovRowMapper;
+import handa.beans.dto.DistributionList;
+import handa.mappers.DistributionListRowMapper;
 import oracle.jdbc.OracleTypes;
 
-public class GetSmsDistributionLovProcedure
+public class GetNewsFeedsDistributionListProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "out";
 
-    public GetSmsDistributionLovProcedure(DataSource dataSource)
+    public GetNewsFeedsDistributionListProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("GET_SMS_DISTRIBUTION_LOV");
-        declareParameter(new SqlParameter("DIST_LIST_CODE", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new DistributionLovRowMapper()));
+        setSql("HANDA_NEWSFEEDS_DIST.DISTRIBUTION_LIST");
+        declareParameter(new SqlParameter("P_TYPE", OracleTypes.VARCHAR));
+        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new DistributionListRowMapper()));
         setFunction(false);
         compile();
     }
 
     @SuppressWarnings("unchecked")
-    public List<LovItem> list(String distributionListCode)
+    public List<DistributionList> list(String type)
     {
         Object[] params = new Object[]
         {
-                checkNotNull(distributionListCode, "distributionListCode can't be null")
+                checkNotNull(type, "type should not be null")
         };
         Map<String, Object> map = execute(params);
-        List<LovItem> list = (List<LovItem>) map.get(RESULT);
+        List<DistributionList> list = (List<DistributionList>) map.get(RESULT);
         if(list == null) return ImmutableList.of();
         return list;
     }

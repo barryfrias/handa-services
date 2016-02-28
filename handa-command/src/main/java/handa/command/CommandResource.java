@@ -29,9 +29,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
+
+import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DistributionCustomGroup;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
@@ -39,7 +45,6 @@ import handa.beans.dto.ReadSms;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
@@ -224,14 +229,6 @@ public class CommandResource
     }
 
     @GET
-    @Path("newsfeeds")
-    public Response getNewsFeeds()
-    {
-        List<NewsFeed> result = commandService.getNewsFeeds();
-        return Response.ok().entity(result).build();
-    }
-
-    @GET
     @Path("newsfeeds/{pageNo}")
     public Response getNewsFeeds(@PathParam("pageNo") int pageNo)
     {
@@ -263,6 +260,66 @@ public class CommandResource
     {
         int rowsAffected = commandService.deleteNewsFeed(id, deletedBy);
         return httpOk(rowsAffected);
+    }
+
+    @GET
+    @Path("newsfeeds/distributionList")
+    public Response getNewsFeedDistributionList()
+    {
+        List<DistributionList> result = commandService.getNewsFeedsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("newsfeeds/distributionList/custom")
+    public Response addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandService.addNewsFeedsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @PUT
+    @Path("newsfeeds/distributionList/custom")
+    public Response editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandService.editNewsFeedsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("newsfeeds/distributionList/custom/{id}")
+    public Response deleteNewsFeedsCustomGroup(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteNewsFeedsCustomGroup(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @GET
+    @Path("newsfeeds/distributionList/custom")
+    public Response getCustomNewsFeedDistributionList()
+    {
+        List<DistributionList> result = commandService.getCustomNewsFeedsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("newsfeeds/distributionList/{distributionListCode}")
+    public Response getNewsFeedsDistributionLov(@PathParam("distributionListCode") String distributionListCode)
+    {
+        List<LovItem> result = commandService.getNewsFeedsDistributionLov(distributionListCode);
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
     }
 
     @GET
@@ -372,7 +429,7 @@ public class CommandResource
     @Path("sms/distributionList")
     public Response getSmsDistributionList()
     {
-        List<SmsDistributionList> result = commandSmsService.getSmsDistributionList();
+        List<DistributionList> result = commandSmsService.getSmsDistributionList();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -390,6 +447,56 @@ public class CommandResource
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response list()
+    {
+        List<CallTree> result = commandService.list();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("calltrees/{id}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response getById(@PathParam("id") long id)
+    {
+        Optional<CallTree> result = commandService.getById(id);
+        if(result.isPresent())
+        {
+            return Response.ok(result.get()).build();
+        }
+        return Response.status(Status.NOT_FOUND)
+                       .entity(ImmutableMap.of("message", String.format("Calltree id [%s] not found", id)))
+                       .build();
+    }
+
+    @POST
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response insertCallTree(CallTree callTree)
+    {
+        long result = commandService.insertCallTree(callTree);
+        return Response.ok(ImmutableMap.of("id", result)).build();
+    }
+
+    @PUT
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response updateCallTree(CallTree callTree)
+    {
+        String result = commandService.updateCallTree(callTree);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("calltrees/{id}")
+    public Response deleteCallTree(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteCallTree(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
     Response httpOk(Object result)
