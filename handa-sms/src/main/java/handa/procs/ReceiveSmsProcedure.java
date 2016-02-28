@@ -41,7 +41,10 @@ extends StoredProcedure
     {
         checkNotNull(smsInbound, "smsInbound object can't be null");
         validateMobNum(smsInbound.getMobileNumber());
-        checkNotNull(emptyToNull(smsInbound.getMessage()), "message can't be null");
+        if(smsInbound.getMessage() == null || smsInbound.getMessage().trim().isEmpty())
+        {
+            smsInbound.setMessage("<blank message>");
+        }
         checkNotNull(smsInbound.getTimestamp(), "timestamp can't be null");
         Object[] params =
         {
