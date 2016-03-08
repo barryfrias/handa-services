@@ -26,14 +26,16 @@ public class SiteResource
 {
     static Logger log = LoggerFactory.getLogger(SiteResource.class);
 
-    private HandaProperties handaProperties;
-    private CacheService cacheService;
+    private final HandaProperties handaProperties;
+    private final CacheService cacheService;
+    private final SiteService siteService;
 
     @Autowired
-    public SiteResource(HandaProperties handaProperties, CacheService cacheService)
+    public SiteResource(HandaProperties handaProperties, CacheService cacheService, SiteService siteService)
     {
         this.handaProperties = handaProperties;
         this.cacheService = cacheService;
+        this.siteService = siteService;
     }
 
     @GET
@@ -70,5 +72,26 @@ public class SiteResource
     {
         cacheService.put(key, jsonPayload);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("addresses/provinces")
+    public Response getProvinces()
+    {
+        return Response.ok(siteService.getProvinces()).build();
+    }
+
+    @GET
+    @Path("addresses/provinces/{province}/cities")
+    public Response getCities(@PathParam("province") String province)
+    {
+        return Response.ok(siteService.getCities(province)).build();
+    }
+
+    @GET
+    @Path("addresses/provinces/{province}/cities/{city}/barangays")
+    public Response getBarangays(@PathParam("province") String province, @PathParam("city") String city)
+    {
+        return Response.ok(siteService.getBarangays(province, city)).build();
     }
 }
