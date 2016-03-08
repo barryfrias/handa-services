@@ -24,7 +24,7 @@ public class MailerRestClient
         this.appCode = appCode;
     }
 
-    public void sendMail(final String from, final String to, final String subject, final String message)
+    public void sendMail(final String from, final String to, final String[] cc, final String[] bcc, final String subject, final String message, final boolean isHtml)
     {
         executor.execute(new Runnable()
         {
@@ -39,8 +39,11 @@ public class MailerRestClient
                 mailPayload.setAppCode(appCode);
                 mailPayload.setFrom(from);
                 mailPayload.setTo(new String[] {to});
+                if(cc != null && cc.length > 0 ) mailPayload.setCc(cc);
+                if(bcc != null && bcc.length > 0 ) mailPayload.setBcc(bcc);
                 mailPayload.setSubject(subject);
                 mailPayload.setMessage(message);
+                mailPayload.setHtml(isHtml);
                 Response response = wsTarget.request().header("Content-Type", "application/json")
                                                       .post(Entity.json(mailPayload));
                 if(response.getStatus() != 200)

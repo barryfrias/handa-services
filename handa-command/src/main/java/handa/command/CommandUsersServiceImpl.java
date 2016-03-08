@@ -112,7 +112,7 @@ public class CommandUsersServiceImpl implements CommandUsersService
             if(null != email && email.matches(EMAIL_PATTERN))
             {
                 String message = mailActivationMsg.replace(CODE, passcode);
-                mailerRestClient.sendMail(this.mailFrom, email, this.mailSubject, message);
+                mailerRestClient.sendMail(this.mailFrom, email, null, null, this.mailSubject, message, false);
                 dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation passcode sent via mail to %s", email));
             }
             if(mobileNumber != null)
