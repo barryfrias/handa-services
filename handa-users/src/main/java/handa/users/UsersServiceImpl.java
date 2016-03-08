@@ -43,7 +43,9 @@ import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
+import handa.core.MailerRestClient;
 import handa.core.TexterRestClient;
+import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 
 @Component
 public class UsersServiceImpl
@@ -52,20 +54,25 @@ implements UsersService
     private static final String CODE = "{code}";
     final static Logger log = LoggerFactory.getLogger(UsersServiceImpl.class);
 
-    private UsersDAO usersDAO;
-    private LDAPController ldapController;
-    private LdapSearchUserRestClient ldapSearchUserRestClient;
+    private final UsersDAO usersDAO;
+    private final LDAPController ldapController;
+    private final LdapSearchUserRestClient ldapSearchUserRestClient;
     private final TexterRestClient texterRestClient;
-    private DBLoggerDAO dbLoggerDAO;
-    private String uploadDirectory;
-    private String passcodeSentSpiel;
-    private String smsPasscodeMsg;
+    private final MailerRestClient mailerRestClient;
+    private final DBLoggerDAO dbLoggerDAO;
+    private final String uploadDirectory;
+    private final String passcodeSentSpiel;
+    private final String smsPasscodeMsg;
+    private final String handaCCEmail;
+    private final String[] handaRegistrationRequestBcc;
+    private final String handaRegistrationRequestMessage;
 
     @Autowired
     public UsersServiceImpl(UsersDAO usersDAO,
                             LDAPController ldapController,
                             DBLoggerDAO dbLoggerDAO,
                             TexterRestClient texterRestClient,
+                            MailerRestClient mailerRestClient,
                             HandaProperties props,
                             Client jerseyClient)
     {
@@ -75,8 +82,12 @@ implements UsersService
         this.uploadDirectory = props.get("handa.users.upload.directory");
         this.ldapSearchUserRestClient = new LdapSearchUserRestClient(jerseyClient, props.get("ldap.search.user.ws.url"));
         this.texterRestClient = texterRestClient;
+        this.mailerRestClient = mailerRestClient;
         this.passcodeSentSpiel = checkNotNull(props.get("handa.passcode.sent.spiel"));
         this.smsPasscodeMsg = checkNotNull(props.get("handa.sms2.passcode.message"));
+        this.handaCCEmail = checkNotNull(props.get("handa.cc.email"));
+        this.handaRegistrationRequestBcc = checkNotNull(props.getArray("handa.reg.req.bcc"));
+        this.handaRegistrationRequestMessage = checkNotNull(props.get("handa.reg.req.msg"));
     }
 
     @Override
@@ -90,9 +101,9 @@ implements UsersService
     @Override
     public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
     {
-        checkNotNull(authInfo, "authInfo object can't be null");
-        checkNotNull(authInfo.getUsername(), "authInfo.username object can't be null");
-        checkNotNull(authInfo.getPassword(), "authInfo.password object can't be null");
+        checkNotNull(authInfo, "authInfo object should not be null");
+        checkNotNull(authInfo.getUsername(), "authInfo.username object should not be null");
+        checkNotNull(authInfo.getPassword(), "authInfo.password object should not be null");
         String result = usersDAO.authByMobileNumberAndUsername(authInfo);
         switch(result)
         {
@@ -149,7 +160,7 @@ implements UsersService
     public String uploadFile(InputStream uploadedInputStream, String filename)
     {
         File directory = new File(uploadDirectory);
-        File finalFile = new File(directory, checkNotNull(filename, "filename can't be null"));
+        File finalFile = new File(directory, checkNotNull(filename, "filename should not be null"));
         if(finalFile.isFile())
         {
             finalFile.delete();
@@ -237,20 +248,31 @@ implements UsersService
     @Override
     public String register(UserRegistration registration, DeviceInfo deviceInfo)
     {
-        String result = usersDAO.register(registration);
+        RegistrationRequestResult result = usersDAO.register(registration);
         dbLoggerDAO.log(AppLog.client(null, registration.getMobileNumber(),
                                      "Registration activity. Input: %s, Result was %s [%s]", registration, result , deviceInfo));
-        return result;
+        if(result.getRegistrationId() != null)
+        {
+            mailerRestClient.sendMail("HANDA Mailer <handa_noreply@pldt.com.ph>",
+                                       handaCCEmail,
+                                       null,
+                                       handaRegistrationRequestBcc,
+                                       "New User Registration Request [" + result.getRegistrationId().longValue() + "]",
+                                       handaRegistrationRequestMessage.replace("{regId}", result.getRegistrationId().toPlainString()),
+                                       false);
+            dbLoggerDAO.log(AppLog.server("UsersService", "Registration request notification mail sent."));
+        }
+        return result.getMessage();
     }
 
     @Override
     public String registerDomainUser(UserRegistration userRegistration, DeviceInfo deviceInfo)
     {
-        checkNotNull(userRegistration, "userRegistration object should note be null.");
-        checkNotNull(userRegistration.getUsername(), "username should note be null.");
-        checkNotNull(userRegistration.getPassword(), "password should note be null.");
-        checkNotNull(userRegistration.getCompanyCode(), "companyCode should note be null.");
-        checkNotNull(userRegistration.getMobileNumber(), "mobileNumber should note be null.");
+        checkNotNull(userRegistration, "userRegistration object should not be null");
+        checkNotNull(userRegistration.getUsername(), "username should not be null");
+        checkNotNull(userRegistration.getPassword(), "password should not be null");
+        checkNotNull(userRegistration.getCompanyCode(), "companyCode should not be null");
+        checkNotNull(userRegistration.getMobileNumber(), "mobileNumber should not be null");
         checkNotNull(userRegistration.getFirstName(), "firstName should not be null");
         checkNotNull(userRegistration.getLastName(), "lastName should not be null");
         LdapUserSearch userSearch = new LdapUserSearch();

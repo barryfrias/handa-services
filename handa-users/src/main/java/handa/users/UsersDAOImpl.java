@@ -38,6 +38,7 @@ import handa.procs.UserInfoProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.UserPromptProcedure;
 import handa.procs.UserRegistrationProcedure;
+import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 import handa.procs.UserReportProcedure;
 import handa.procs.VerifyUserAndAuthMethodProcedure;
 
@@ -172,7 +173,7 @@ implements UsersDAO
     }
 
     @Override
-    public String register(UserRegistration registration)
+    public RegistrationRequestResult register(UserRegistration registration)
     {
         return userRegistrationProcedure.register(registration);
     }
