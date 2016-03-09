@@ -104,6 +104,7 @@ implements UsersService
         checkNotNull(authInfo, "authInfo object should not be null");
         checkNotNull(authInfo.getUsername(), "authInfo.username object should not be null");
         checkNotNull(authInfo.getPassword(), "authInfo.password object should not be null");
+        authInfo.setUsername(authInfo.getUsername().replaceAll("(@pldt.com.ph|@smart.com.ph).*", ""));
         String result = usersDAO.authByMobileNumberAndUsername(authInfo);
         switch(result)
         {
