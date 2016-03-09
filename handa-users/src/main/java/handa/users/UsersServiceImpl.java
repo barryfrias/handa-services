@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -45,6 +46,7 @@ import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
 import handa.core.MailerRestClient;
 import handa.core.TexterRestClient;
+import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResult;
 import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 
 @Component
@@ -254,14 +256,7 @@ implements UsersService
                                      "Registration activity. Input: %s, Result was %s [%s]", registration, result , deviceInfo));
         if(result.getRegistrationId() != null)
         {
-            mailerRestClient.sendMail("HANDA Mailer <handa_noreply@pldt.com.ph>",
-                                       handaCCEmail,
-                                       null,
-                                       handaRegistrationRequestBcc,
-                                       "New User Registration Request [" + result.getRegistrationId().longValue() + "]",
-                                       handaRegistrationRequestMessage.replace("{regId}", result.getRegistrationId().toPlainString()),
-                                       false);
-            dbLoggerDAO.log(AppLog.server("UsersService", "Registration request notification mail sent."));
+            sendMailToHandaCC(result.getRegistrationId());
         }
         return result.getMessage();
     }
@@ -307,14 +302,30 @@ implements UsersService
             if(authenticated)
             {
                 aggregate(userRegistration, ldapUser.get());
-                String result = usersDAO.registerDomainUser(userRegistration);
+                DomainRegistrationRequestResult result = usersDAO.registerDomainUser(userRegistration);
                 dbLoggerDAO.log(AppLog.client(null, userRegistration.getMobileNumber(),
                                 "Registration activity. Input: %s, Result was %s [%s]", userRegistration, result , deviceInfo));
-                return result;
+                if(result.getRegistrationId() != null)
+                {
+                    sendMailToHandaCC(result.getRegistrationId());
+                }
+                return result.getMessage();
             }
             return INVALID_CREDENTIALS;
         }
         return USER_NOT_FOUND;
+    }
+
+    private void sendMailToHandaCC(BigDecimal registrationId)
+    {
+        mailerRestClient.sendMail("HANDA Mailer <handa_noreply@pldt.com.ph>",
+                handaCCEmail,
+                null,
+                handaRegistrationRequestBcc,
+                "New User Registration Request [" + registrationId.longValue() + "]",
+                handaRegistrationRequestMessage.replace("{regId}", registrationId.toPlainString()),
+                false);
+        dbLoggerDAO.log(AppLog.server("UsersService", "Registration request notification mail sent."));
     }
 
     @Override

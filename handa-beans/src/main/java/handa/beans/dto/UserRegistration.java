@@ -4,7 +4,10 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @XmlRootElement(name = "userRegistration")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class UserRegistration
 {
     private long employeeNumber;
@@ -19,6 +22,10 @@ public class UserRegistration
     private String mobileNumber;
     private String username;
     private String password;
+    private String address;
+    private String province;
+    private String city;
+    private String barangay;
 
     public long getEmployeeNumber()
     {
@@ -140,6 +147,46 @@ public class UserRegistration
         this.password = password;
     }
 
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getProvince()
+    {
+        return province;
+    }
+
+    public void setProvince(String province)
+    {
+        this.province = province;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getBarangay()
+    {
+        return barangay;
+    }
+
+    public void setBarangay(String barangay)
+    {
+        this.barangay = barangay;
+    }
+
     @Override
     public String toString()
     {
@@ -150,6 +197,10 @@ public class UserRegistration
                .add("lastName", lastName)
                .add("mobileNumber", mobileNumber)
                .add("companyCode", companyCode)
+               .add("address", address)
+               .add("province", province)
+               .add("city", city)
+               .add("barangay", barangay)
                .toString();
     }
 }

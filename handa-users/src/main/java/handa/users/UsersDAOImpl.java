@@ -28,6 +28,7 @@ import handa.procs.AuthByMobileAndUsernameProcedure;
 import handa.procs.AuthByMobileProcedure;
 import handa.procs.CheckMobileAppVersionProcedure;
 import handa.procs.DomainUserRegistrationProcedure;
+import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResult;
 import handa.procs.EditUserProcedure;
 import handa.procs.GetCitiesLovProcedure;
 import handa.procs.GetCompaniesLovProcedure;
@@ -179,7 +180,7 @@ implements UsersDAO
     }
 
     @Override
-    public String registerDomainUser(UserRegistration userRegistration)
+    public DomainRegistrationRequestResult registerDomainUser(UserRegistration userRegistration)
     {
         return domainUserRegistrationProcedure.register(userRegistration);
     }
