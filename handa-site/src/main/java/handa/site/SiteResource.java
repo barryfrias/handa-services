@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -82,15 +83,15 @@ public class SiteResource
     }
 
     @GET
-    @Path("addresses/provinces/{province}/cities")
-    public Response getCities(@PathParam("province") String province)
+    @Path("addresses/cities")
+    public Response getCities(@QueryParam("province") String province)
     {
         return Response.ok(siteService.getCities(province)).build();
     }
 
     @GET
-    @Path("addresses/provinces/{province}/cities/{city}/barangays")
-    public Response getBarangays(@PathParam("province") String province, @PathParam("city") String city)
+    @Path("addresses/barangays")
+    public Response getBarangays(@QueryParam("province") String province, @QueryParam("city") String city)
     {
         return Response.ok(siteService.getBarangays(province, city)).build();
     }

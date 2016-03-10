@@ -1,6 +1,7 @@
 package handa.site;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.emptyToNull;
 
 import java.util.List;
 import java.util.Map;
@@ -37,15 +38,15 @@ implements SiteDAO
     @Override
     public List<Map<String, Object>> getCities(String province)
     {
-        checkNotNull(province, "province should not be null");
+        checkNotNull(emptyToNull(province), "province should not be null");
         return addressLovProcedure.list(AddressContext.CITIES, province, null);
     }
 
     @Override
     public List<Map<String, Object>> getBarangays(String province, String city)
     {
-        checkNotNull(province, "province should not be null");
-        checkNotNull(city, "city should not be null");
+        checkNotNull(emptyToNull(province), "province should not be null");
+        checkNotNull(emptyToNull(city), "city should not be null");
         return addressLovProcedure.list(AddressContext.BARANGAYS, province, city);
     }
 }
