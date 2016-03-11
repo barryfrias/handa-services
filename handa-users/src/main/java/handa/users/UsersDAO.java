@@ -5,11 +5,9 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import handa.beans.dto.AuthInfo;
-import handa.beans.dto.City;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
-import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
@@ -31,8 +29,6 @@ public interface UsersDAO
     List<UserInfo> getUsers();
     String checkAppVersion(String versionString);
     List<UserInfo> searchByName(UserSearch userSearch);
-    List<City> getCitiesLov();
-    List<Province> getProvincesLov();
     String addUser(User user);
     String editUser(User user);
     List<Company> getCompaniesLov();
