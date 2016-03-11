@@ -33,6 +33,10 @@ public class UserInfo
     private String adUsername;
     private String province;
     private String modifiedBy;
+    private String barangay;
+    private String permAddProvince;
+    private String permAddCity;
+    private String permAddBarangay; 
 
     public int getRowNum()
     {
@@ -294,6 +298,46 @@ public class UserInfo
         this.modifiedBy = modifiedBy;
     }
 
+    public String getBarangay()
+    {
+        return barangay;
+    }
+
+    public void setBarangay(String barangay)
+    {
+        this.barangay = barangay;
+    }
+
+    public String getPermAddProvince()
+    {
+        return permAddProvince;
+    }
+
+    public void setPermAddProvince(String permAddProvince)
+    {
+        this.permAddProvince = permAddProvince;
+    }
+
+    public String getPermAddCity()
+    {
+        return permAddCity;
+    }
+
+    public void setPermAddCity(String permAddCity)
+    {
+        this.permAddCity = permAddCity;
+    }
+
+    public String getPermAddBarangay()
+    {
+        return permAddBarangay;
+    }
+
+    public void setPermAddBarangay(String permAddBarangay)
+    {
+        this.permAddBarangay = permAddBarangay;
+    }
+
     @Override
     public String toString()
     {
@@ -323,6 +367,10 @@ public class UserInfo
                .add("adUsername", adUsername)
                .add("province", province)
                .add("modifiedBy", modifiedBy)
+               .add("barangay", barangay)
+               .add("permAddProvince", permAddProvince)
+               .add("permAddCity", permAddCity)
+               .add("permAddBarangay", permAddBarangay)
                .toString();
     }
 }
