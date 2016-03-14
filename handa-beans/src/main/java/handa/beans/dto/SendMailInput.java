@@ -16,6 +16,7 @@ public class SendMailInput
     private String[] bcc;
     private String subject;
     private String message;
+    private boolean html;
 
     public String getAppCode()
     {
@@ -87,6 +88,16 @@ public class SendMailInput
         this.message = message;
     }
 
+    public boolean isHtml()
+    {
+        return html;
+    }
+
+    public void setHtml(boolean html)
+    {
+        this.html = html;
+    }
+
     @Override
     public String toString()
     {
@@ -98,6 +109,7 @@ public class SendMailInput
                .add("bcc", Arrays.toString(bcc))
                .add("subject", subject)
                .add("message", message)
+               .add("html", html)
                .toString();
     }
 }

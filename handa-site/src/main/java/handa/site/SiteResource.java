@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -26,14 +27,16 @@ public class SiteResource
 {
     static Logger log = LoggerFactory.getLogger(SiteResource.class);
 
-    private HandaProperties handaProperties;
-    private CacheService cacheService;
+    private final HandaProperties handaProperties;
+    private final CacheService cacheService;
+    private final SiteService siteService;
 
     @Autowired
-    public SiteResource(HandaProperties handaProperties, CacheService cacheService)
+    public SiteResource(HandaProperties handaProperties, CacheService cacheService, SiteService siteService)
     {
         this.handaProperties = handaProperties;
         this.cacheService = cacheService;
+        this.siteService = siteService;
     }
 
     @GET
@@ -70,5 +73,26 @@ public class SiteResource
     {
         cacheService.put(key, jsonPayload);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("addresses/provinces")
+    public Response getProvinces()
+    {
+        return Response.ok(siteService.getProvinces()).build();
+    }
+
+    @GET
+    @Path("addresses/cities")
+    public Response getCities(@QueryParam("province") String province)
+    {
+        return Response.ok(siteService.getCities(province)).build();
+    }
+
+    @GET
+    @Path("addresses/barangays")
+    public Response getBarangays(@QueryParam("province") String province, @QueryParam("city") String city)
+    {
+        return Response.ok(siteService.getBarangays(province, city)).build();
     }
 }

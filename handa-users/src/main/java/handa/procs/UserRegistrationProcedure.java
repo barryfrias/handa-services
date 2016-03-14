@@ -1,7 +1,9 @@
 package handa.procs;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -20,6 +22,7 @@ extends StoredProcedure
 {
     static Logger log = LoggerFactory.getLogger(UserRegistrationProcedure.class);
     private static final String RESULT = "RESULT";
+    private static final String REG_ID = "REG_ID";
 
     public UserRegistrationProcedure(DataSource dataSource)
     {
@@ -30,12 +33,17 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_LAST_NAME", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_COMPANY_CODE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_MOBILE_NO", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_ADDRESS", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_PROVINCE", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_CITY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_BARANGAY", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
+        declareParameter(new SqlOutParameter(REG_ID, OracleTypes.NUMBER));
         setFunction(false);
         compile();
     }
 
-    public String register(UserRegistration userRegistration)
+    public RegistrationRequestResult register(UserRegistration userRegistration)
     {
         checkNotNull(userRegistration, "userRegistration object can't be null");
         checkNotNull(userRegistration.getCompanyCode(), "companyCode can't be null");
@@ -50,9 +58,46 @@ extends StoredProcedure
             userRegistration.getFirstName(),
             userRegistration.getLastName(),
             userRegistration.getCompanyCode(),
-            userRegistration.getMobileNumber()
+            userRegistration.getMobileNumber(),
+            userRegistration.getAddress(),
+            userRegistration.getProvince(),
+            userRegistration.getCity(),
+            userRegistration.getBarangay(),
         };
         Map<String, Object> map = execute(params);
-        return (String) map.get(RESULT);
+        RegistrationRequestResult result = new RegistrationRequestResult();
+        result.setRegistrationId((BigDecimal)map.get(REG_ID));
+        result.setMessage((String) map.get(RESULT));
+        return result;
+    }
+
+    public static class RegistrationRequestResult
+    {
+        private BigDecimal registrationId;
+        private String message;
+        public BigDecimal getRegistrationId()
+        {
+            return registrationId;
+        }
+        private void setRegistrationId(BigDecimal registrationId)
+        {
+            this.registrationId = registrationId;
+        }
+        public String getMessage()
+        {
+            return message;
+        }
+        private void setMessage(String message)
+        {
+            this.message = message;
+        }
+        @Override
+        public String toString()
+        {
+            return toStringHelper(this)
+                   .add("registrationId", registrationId)
+                   .add("message", message)
+                   .toString();
+        }
     }
 }

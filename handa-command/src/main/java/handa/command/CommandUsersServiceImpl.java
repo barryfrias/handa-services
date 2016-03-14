@@ -14,6 +14,7 @@ import handa.beans.dto.AppLog;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.UserLogin;
+import handa.config.HandaCommandConstants;
 import handa.core.DBLoggerDAO;
 import handa.core.HandaProperties;
 import handa.core.MailerRestClient;
@@ -25,7 +26,6 @@ import handa.core.TexterRestClient;
 @Component
 public class CommandUsersServiceImpl implements CommandUsersService
 {
-    private static final String CODE = "{code}";
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     private final LDAPController ldapController;
@@ -36,7 +36,6 @@ public class CommandUsersServiceImpl implements CommandUsersService
     private final String smsActivationMsg;
     private final String mailActivationMsg;
     private final String mailFrom;
-    private final String mailSubject;
 
     @Autowired
     public CommandUsersServiceImpl(LDAPController ldapController,
@@ -54,7 +53,6 @@ public class CommandUsersServiceImpl implements CommandUsersService
         this.smsActivationMsg = checkNotNull(props.get("handa.sms2.activation.message"));
         this.mailActivationMsg = checkNotNull(props.get("handa.mail.activation.message"));
         this.mailFrom = checkNotNull(props.get("handa.mail.otp.from"));
-        this.mailSubject = checkNotNull(props.get("handa.mail.otp.subject"));
     }
 
     @Override
@@ -98,29 +96,24 @@ public class CommandUsersServiceImpl implements CommandUsersService
         dbLoggerDAO.log(AppLog.server(action.getUsername(),
                                       "Registration action [%s] on id [%s] and result was %s",
                                       action.getAction(), registrationId, result));
-        if(result.getPasscode() != null)
+        if(HandaCommandConstants.OK.equals(result.getMessage()))
         {
-            sendActivationMailAndSms(result.getPasscode(), result.getMail(), result.getMobileNumber());
+            sendActivationMailAndSms(result.getMail(), result.getMobileNumber());
         }
         return result;
     }
 
-    private void sendActivationMailAndSms(String passcode, String email, String mobileNumber)
+    private void sendActivationMailAndSms(String email, String mobileNumber)
     {
-        if(passcode != null)
+        if(null != email && email.matches(EMAIL_PATTERN))
         {
-            if(null != email && email.matches(EMAIL_PATTERN))
-            {
-                String message = mailActivationMsg.replace(CODE, passcode);
-                mailerRestClient.sendMail(this.mailFrom, email, this.mailSubject, message);
-                dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation passcode sent via mail to %s", email));
-            }
-            if(mobileNumber != null)
-            {
-                String message = smsActivationMsg.replace(CODE, passcode);
-                texterRestClient.sendSms(mobileNumber, message);
-                dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation passcode sent via sms to %s", mobileNumber));
-            }
+            mailerRestClient.sendMail(this.mailFrom, email, null, null, "Welcome HANDA User!", mailActivationMsg, false);
+            dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation notification sent via mail to %s", email));
+        }
+        if(mobileNumber != null)
+        {
+            texterRestClient.sendSms(mobileNumber, smsActivationMsg);
+            dbLoggerDAO.log(AppLog.server("CommandUsersService", "Activation notification sent via sms to %s", mobileNumber));
         }
     }
 }
