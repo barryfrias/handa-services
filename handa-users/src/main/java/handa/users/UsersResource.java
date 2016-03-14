@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -95,6 +97,21 @@ public class UsersResource
     public Response editUser(User user)
     {
         String result = usersService.editUser(user);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully modified".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+    }
+
+    @DELETE
+    @Path("{mobileNumber}")
+    public Response deleteUser(@PathParam("mobileNumber") String mobileNumber,
+                               @QueryParam("createdDate") String createdDate,
+                               @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = usersService.deleteUser(mobileNumber, createdDate, deletedBy);
         ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
         if("Successfully modified".equals(result))
         {

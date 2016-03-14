@@ -31,6 +31,7 @@ public interface UsersDAO
     List<UserInfo> searchByName(UserSearch userSearch);
     String addUser(User user);
     String editUser(User user);
+    String deleteUser(String mobileNumber, String createdDate, String deletedBy);
     List<Company> getCompaniesLov();
     RegistrationRequestResult register(UserRegistration registration);
     DomainRegistrationRequestResult registerDomainUser(UserRegistration userRegistration);

@@ -33,6 +33,7 @@ public interface UsersService
     List<UserInfo> searchByName(UserSearch userSearch);
     String addUser(User user);
     String editUser(User user);
+    String deleteUser(String mobileNumber, String createdDate, String deletedBy);
     Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch);
     String register(UserRegistration registration, DeviceInfo deviceInfo);
     List<Company> getCompaniesLov();

@@ -25,6 +25,7 @@ import handa.procs.AddUserProcedure;
 import handa.procs.AuthByMobileAndUsernameProcedure;
 import handa.procs.AuthByMobileProcedure;
 import handa.procs.CheckMobileAppVersionProcedure;
+import handa.procs.DeleteUserProcedure;
 import handa.procs.DomainUserRegistrationProcedure;
 import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResult;
 import handa.procs.EditUserProcedure;
@@ -54,6 +55,7 @@ implements UsersDAO
     private final GetCompaniesLovProcedure getCompaniesLovProcedure;
     private final AddUserProcedure addUserProcedure;
     private final EditUserProcedure editUserProcedure;
+    private final DeleteUserProcedure deleteUserProcedure;
     private final UserRegistrationProcedure userRegistrationProcedure;
     private final DomainUserRegistrationProcedure domainUserRegistrationProcedure;
     private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
@@ -74,6 +76,7 @@ implements UsersDAO
         this.getCompaniesLovProcedure = new GetCompaniesLovProcedure(dataSource());
         this.addUserProcedure = new AddUserProcedure(dataSource());
         this.editUserProcedure = new EditUserProcedure(dataSource());
+        this.deleteUserProcedure = new DeleteUserProcedure(dataSource());
         this.userRegistrationProcedure = new UserRegistrationProcedure(dataSource());
         this.domainUserRegistrationProcedure = new DomainUserRegistrationProcedure(dataSource());
         this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
@@ -145,6 +148,12 @@ implements UsersDAO
     public String editUser(User user)
     {
         return editUserProcedure.edit(user);
+    }
+
+    @Override
+    public String deleteUser(String mobileNumber, String createdDate, String deletedBy)
+    {
+        return deleteUserProcedure.delete(mobileNumber, createdDate, deletedBy);
     }
 
     @Override

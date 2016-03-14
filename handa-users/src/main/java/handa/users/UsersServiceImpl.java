@@ -229,6 +229,14 @@ implements UsersService
     }
 
     @Override
+    public String deleteUser(String mobileNumber, String createdDate, String deletedBy)
+    {
+        String result = usersDAO.deleteUser(mobileNumber, createdDate, deletedBy);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted user with mobile number: %s", mobileNumber));
+        return result;
+    }
+
+    @Override
     public Optional<LdapUser> ldapSearchUser(LdapUserSearch userSearch)
     {
         return ldapSearchUserRestClient.search(userSearch);
