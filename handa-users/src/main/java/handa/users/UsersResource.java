@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -34,13 +36,11 @@ import com.google.common.collect.ImmutableMap;
 import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.AuthInfo;
-import handa.beans.dto.City;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
-import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
@@ -99,6 +99,21 @@ public class UsersResource
         String result = usersService.editUser(user);
         ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
         if("Successfully modified".equals(result))
+        {
+            return Response.ok(jsonMessage).build();
+        }
+        return Response.status(Status.BAD_REQUEST).entity(jsonMessage).build();
+    }
+
+    @DELETE
+    @Path("{mobileNumber}")
+    public Response deleteUser(@PathParam("mobileNumber") String mobileNumber,
+                               @QueryParam("createdDate") String createdDate,
+                               @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = usersService.deleteUser(mobileNumber, createdDate, deletedBy);
+        ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
+        if("Successfully deleted".equals(result))
         {
             return Response.ok(jsonMessage).build();
         }
@@ -242,22 +257,6 @@ public class UsersResource
     {
         String result = usersService.checkAppVersion(versionString);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
-    }
-
-    @GET
-    @Path("cities")
-    public Response getCitiesLov()
-    {
-        List<City> result = usersService.getCitiesLov();
-        return Response.ok(result).build();
-    }
-
-    @GET
-    @Path("provinces")
-    public Response getProvincesLov()
-    {
-        List<Province> result = usersService.getProvincesLov();
-        return Response.ok(result).build();
     }
 
     @GET

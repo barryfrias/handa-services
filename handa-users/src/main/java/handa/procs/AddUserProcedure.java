@@ -22,7 +22,7 @@ extends StoredProcedure
     public AddUserProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("ADD_USER");
+        setSql("HANDA_USER_MGMT.ADD_USER");
         declareParameter(new SqlParameter("P_USER", OracleTypes.STRUCT));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
@@ -36,10 +36,16 @@ extends StoredProcedure
         checkNotNull(user.getLastName(), "lastName should not be null");
         checkNotNull(user.getAdUsername(), "adUsername should not be null");
         checkNotNull(user.getMobileNumber(), "mobileNumber should not be null");
-        checkNotNull(user.getCity(), "city should not be null");
-        checkNotNull(user.getProvince(), "province should not be null");
         checkNotNull(user.getCurrentAddress(), "current address should not be null");
-        checkNotNull(user.getPermanentAddress(), "permanent address should not be null");
+        checkNotNull(user.getProvince(), "province should not be null");
+        checkNotNull(user.getCity(), "city should not be null");
+        checkNotNull(user.getBarangay(), "barangay should not be null");
+        if(null != user.getPermanentAddress())
+        {
+            checkNotNull(user.getPermAddProvince(), "permanent address province should not be null");
+            checkNotNull(user.getPermAddCity(), "permanent address city should not be null");
+            checkNotNull(user.getPermAddBarangay(), "permanent address barangay should not be null");
+        }
         checkNotNull(user.getModifiedBy(), "modifiedBy should not be null");
         Object[] params = { user };
         try

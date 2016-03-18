@@ -41,6 +41,10 @@ implements RowMapper<UserInfo>
         userInfo.setProvince(getString(rs, "PROVINCE"));
         userInfo.setRemarks(getString(rs, "REMARKS"));
         userInfo.setModifiedBy(getString(rs, "MODIFIED_BY"));
+        userInfo.setBarangay(getString(rs, "BARANGAY"));
+        userInfo.setPermAddProvince(getString(rs, "PA_PROVINCE"));
+        userInfo.setPermAddCity(getString(rs, "PA_CITY"));
+        userInfo.setPermAddBarangay(getString(rs, "PA_BARANGAY"));
         return userInfo;
     }
 }

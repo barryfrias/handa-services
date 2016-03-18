@@ -27,13 +27,11 @@ import com.google.common.base.Optional;
 import frias.barry.LDAPController;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
-import handa.beans.dto.City;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
-import handa.beans.dto.Province;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPrompt;
@@ -209,18 +207,6 @@ implements UsersService
     }
 
     @Override
-    public List<City> getCitiesLov()
-    {
-        return usersDAO.getCitiesLov();
-    }
-
-    @Override
-    public List<Province> getProvincesLov()
-    {
-        return usersDAO.getProvincesLov();
-    }
-
-    @Override
     public List<Company> getCompaniesLov()
     {
         return usersDAO.getCompaniesLov();
@@ -239,6 +225,14 @@ implements UsersService
     {
         String result = usersDAO.editUser(user);
         dbLoggerDAO.log(AppLog.server(user.getModifiedBy(), "Tried to modify user %s, result was %s", user.getAdUsername(), result));
+        return result;
+    }
+
+    @Override
+    public String deleteUser(String mobileNumber, String createdDate, String deletedBy)
+    {
+        String result = usersDAO.deleteUser(mobileNumber, createdDate, deletedBy);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted user with mobile number: %s", mobileNumber));
         return result;
     }
 

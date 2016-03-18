@@ -35,6 +35,10 @@ implements SQLData
     private String modifiedBy;
     private String createdDate;
     private String key;
+    private String barangay;
+    private String permAddProvince;
+    private String permAddCity;
+    private String permAddBarangay;
 
     public long getEmployeeNumber()
     {
@@ -286,6 +290,46 @@ implements SQLData
         this.key = key;
     }
 
+    public String getBarangay()
+    {
+        return barangay;
+    }
+
+    public void setBarangay(String barangay)
+    {
+        this.barangay = barangay;
+    }
+
+    public String getPermAddProvince()
+    {
+        return permAddProvince;
+    }
+
+    public void setPermAddProvince(String permAddProvince)
+    {
+        this.permAddProvince = permAddProvince;
+    }
+
+    public String getPermAddCity()
+    {
+        return permAddCity;
+    }
+
+    public void setPermAddCity(String permAddCity)
+    {
+        this.permAddCity = permAddCity;
+    }
+
+    public String getPermAddBarangay()
+    {
+        return permAddBarangay;
+    }
+
+    public void setPermAddBarangay(String permAddBarangay)
+    {
+        this.permAddBarangay = permAddBarangay;
+    }
+
     @JsonIgnore @Override
     public String getSQLTypeName() throws SQLException
     {
@@ -308,9 +352,14 @@ implements SQLData
         stream.writeString(getDepartment());
         stream.writeString(getLandlineNo());
         stream.writeString(getMobileNumber());
-        stream.writeString(getPermanentAddress());
         stream.writeString(getCurrentAddress());
+        stream.writeString(getProvince());
         stream.writeString(getCity());
+        stream.writeString(getBarangay());
+        stream.writeString(getPermanentAddress());
+        stream.writeString(getPermAddProvince());
+        stream.writeString(getPermAddCity());
+        stream.writeString(getPermAddBarangay());
         stream.writeString(getIceContactPerson());
         stream.writeString(getIceLandlineNumber());
         stream.writeString(getIceMobileNumber());
@@ -322,7 +371,6 @@ implements SQLData
         stream.writeString(getImmediateHead());
         stream.writeString(getCompany());
         stream.writeString(getPosition());
-        stream.writeString(getProvince());
         stream.writeString(getModifiedBy());
         stream.writeString(getCreatedDate());
         stream.writeString(getKey());
