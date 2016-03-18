@@ -113,7 +113,7 @@ public class UsersResource
     {
         String result = usersService.deleteUser(mobileNumber, createdDate, deletedBy);
         ImmutableMap<String, String> jsonMessage = ImmutableMap.of("message", result);
-        if("Successfully modified".equals(result))
+        if("Successfully deleted".equals(result))
         {
             return Response.ok(jsonMessage).build();
         }
