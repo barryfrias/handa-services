@@ -58,4 +58,5 @@ public interface CommandDAO
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id);
+    String addSmsCustomGroup(DistributionCustomGroup customGroup);
 }

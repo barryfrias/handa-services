@@ -461,6 +461,14 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
+    @POST
+    @Path("sms/distributionList/custom")
+    public Response addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandSmsService.addSmsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     @GET
     @Path("calltrees")
     @Consumes({ MediaType.APPLICATION_JSON })

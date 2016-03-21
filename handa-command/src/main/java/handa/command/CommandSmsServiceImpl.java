@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
+import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
@@ -108,5 +109,13 @@ implements CommandSmsService
     public List<LovItem> getSmsDistributionLov(String distributionListCode)
     {
         return commandDAO.getSmsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public String addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.addSmsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom sms group, result was: %s", result));
+        return result;
     }
 }

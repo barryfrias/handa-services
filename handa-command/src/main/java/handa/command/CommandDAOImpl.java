@@ -30,6 +30,7 @@ import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
+import handa.procs.AddSmsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
@@ -99,6 +100,7 @@ implements CommandDAO
     private final InsertCallTreeProcedure insertCallTreeProcedure;
     private final UpdateCallTreeProcedure updateCallTreeProcedure;
     private final DeleteCallTreeProcedure deleteCallTreeProcedure;
+    private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -138,6 +140,7 @@ implements CommandDAO
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
         this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
         this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
+        this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
     }
 
     @Override
@@ -360,5 +363,11 @@ implements CommandDAO
     public String deleteCallTree(long id)
     {
         return deleteCallTreeProcedure.delete(id);
+    }
+
+    @Override
+    public String addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return addSmsCustomGroupProcedure.insert(customGroup);
     }
 }
