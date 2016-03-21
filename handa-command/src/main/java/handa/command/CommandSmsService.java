@@ -23,4 +23,5 @@ public interface CommandSmsService
     List<LovItem> getSmsDistributionLov(String distributionListCode);
     String addSmsCustomGroup(DistributionCustomGroup customGroup);
     String editSmsCustomGroup(DistributionCustomGroup customGroup);
+    String deleteSmsCustomGroup(long id, String deletedBy);
 }

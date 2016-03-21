@@ -36,6 +36,7 @@ import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
+import handa.procs.DeleteSmsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.EditSmsCustomGroupProcedure;
@@ -103,6 +104,7 @@ implements CommandDAO
     private final DeleteCallTreeProcedure deleteCallTreeProcedure;
     private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
     private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
+    private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -144,6 +146,7 @@ implements CommandDAO
         this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
         this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
         this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
+        this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
     }
 
     @Override
@@ -378,5 +381,11 @@ implements CommandDAO
     public String editSmsCustomGroup(DistributionCustomGroup customGroup)
     {
         return editSmsCustomGroupProcedure.edit(customGroup);
+    }
+
+    @Override
+    public String deleteSmsCustomGroup(long id)
+    {
+        return deleteSmsCustomGroupProcedure.delete(id);
     }
 }

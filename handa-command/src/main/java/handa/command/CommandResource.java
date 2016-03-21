@@ -477,6 +477,14 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
+    @DELETE
+    @Path("sms/distributionList/custom/{id}")
+    public Response deleteSmsCustomGroup(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandSmsService.deleteSmsCustomGroup(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     @GET
     @Path("calltrees")
     @Consumes({ MediaType.APPLICATION_JSON })

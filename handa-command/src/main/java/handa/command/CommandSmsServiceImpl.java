@@ -1,5 +1,9 @@
 package handa.command;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -124,6 +128,15 @@ implements CommandSmsService
     {
         String result = commandDAO.editSmsCustomGroup(customGroup);
         dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom sms group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String deleteSmsCustomGroup(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteSmsCustomGroup(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted custom sms group id %s, result was: %s", id, result));
         return result;
     }
 }
