@@ -18,5 +18,6 @@ public interface CommandSmsService
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
     List<DistributionList> getSmsDistributionList();
+    List<DistributionList> getCustomSmsDistributionList();
     List<LovItem> getSmsDistributionLov(String distributionListCode);
 }

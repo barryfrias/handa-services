@@ -99,6 +99,12 @@ implements CommandSmsService
     }
 
     @Override
+    public List<DistributionList> getCustomSmsDistributionList()
+    {
+        return commandDAO.getSmsDistributionList("custom");
+    }
+
+    @Override
     public List<LovItem> getSmsDistributionLov(String distributionListCode)
     {
         return commandDAO.getSmsDistributionLov(distributionListCode);

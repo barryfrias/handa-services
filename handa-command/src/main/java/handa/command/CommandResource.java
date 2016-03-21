@@ -450,6 +450,18 @@ public class CommandResource
     }
 
     @GET
+    @Path("sms/distributionList/custom")
+    public Response getCustomSmsList()
+    {
+        List<DistributionList> result = commandSmsService.getCustomSmsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("calltrees")
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response list()
