@@ -30,13 +30,16 @@ import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
+import handa.procs.AddSmsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
+import handa.procs.DeleteSmsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
+import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
@@ -99,6 +102,9 @@ implements CommandDAO
     private final InsertCallTreeProcedure insertCallTreeProcedure;
     private final UpdateCallTreeProcedure updateCallTreeProcedure;
     private final DeleteCallTreeProcedure deleteCallTreeProcedure;
+    private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
+    private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
+    private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -138,6 +144,9 @@ implements CommandDAO
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
         this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
         this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
+        this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
+        this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
+        this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
     }
 
     @Override
@@ -360,5 +369,23 @@ implements CommandDAO
     public String deleteCallTree(long id)
     {
         return deleteCallTreeProcedure.delete(id);
+    }
+
+    @Override
+    public String addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return addSmsCustomGroupProcedure.insert(customGroup);
+    }
+
+    @Override
+    public String editSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return editSmsCustomGroupProcedure.edit(customGroup);
+    }
+
+    @Override
+    public String deleteSmsCustomGroup(long id)
+    {
+        return deleteSmsCustomGroupProcedure.delete(id);
     }
 }

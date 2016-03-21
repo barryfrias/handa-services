@@ -450,6 +450,42 @@ public class CommandResource
     }
 
     @GET
+    @Path("sms/distributionList/custom")
+    public Response getCustomSmsList()
+    {
+        List<DistributionList> result = commandSmsService.getCustomSmsDistributionList();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("sms/distributionList/custom")
+    public Response addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandSmsService.addSmsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @PUT
+    @Path("sms/distributionList/custom")
+    public Response editSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandSmsService.editSmsCustomGroup(customGroup);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("sms/distributionList/custom/{id}")
+    public Response deleteSmsCustomGroup(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandSmsService.deleteSmsCustomGroup(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @GET
     @Path("calltrees")
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response list()
