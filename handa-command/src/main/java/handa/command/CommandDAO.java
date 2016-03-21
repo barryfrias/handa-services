@@ -47,7 +47,7 @@ public interface CommandDAO
     String sendSms(SendSms sendSms);
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
-    List<DistributionList> getSmsDistributionList();
+    List<DistributionList> getSmsDistributionList(String type);
     List<LovItem> getSmsDistributionLov(String distributionListCode);
     List<DistributionList> getNewsFeedsDistributionList(String type);
     List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);

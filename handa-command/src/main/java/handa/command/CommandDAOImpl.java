@@ -26,7 +26,6 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
-import handa.mappers.DistributionListRowMapper;
 import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
@@ -43,6 +42,7 @@ import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
+import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
@@ -88,7 +88,7 @@ implements CommandDAO
     private final SendSmsProcedure sendSmsProcedure;
     private final GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
     private final DeleteSmsProcedure deleteSmsOutboxProcedure;
-    private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
+    private final GetSmsDistributionListProcedure getSmsDistributionListProcedure;
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
     private final GetNewsFeedsDistributionListProcedure getNewsFeedsDistributionListProcedure;
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
@@ -128,7 +128,7 @@ implements CommandDAO
         this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
         this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
-        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getSmsDistributionListProcedure = new GetSmsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionListProcedure = new GetNewsFeedsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
         this.addNewsFeedsCustomGroupProcedure = new AddNewsFeedsCustomGroupProcedure(dataSource());
@@ -297,9 +297,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<DistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList(String type)
     {
-        return getSmsDistributionListProcedure.listValues();
+        return getSmsDistributionListProcedure.list(type);
     }
 
     @Override
