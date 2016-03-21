@@ -118,4 +118,12 @@ implements CommandSmsService
         dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom sms group, result was: %s", result));
         return result;
     }
+
+    @Override
+    public String editSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.editSmsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom sms group, result was: %s", result));
+        return result;
+    }
 }
