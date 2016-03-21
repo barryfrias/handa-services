@@ -95,7 +95,7 @@ implements CommandSmsService
     @Override
     public List<DistributionList> getSmsDistributionList()
     {
-        return commandDAO.getSmsDistributionList();
+        return commandDAO.getSmsDistributionList("default");
     }
 
     @Override
