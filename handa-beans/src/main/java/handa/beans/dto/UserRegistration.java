@@ -26,6 +26,10 @@ public class UserRegistration
     private String province;
     private String city;
     private String barangay;
+    private String iceContactPerson;
+    private String iceLandlineNumber;
+    private String iceMobileNumber;
+    private String bloodType;
 
     public long getEmployeeNumber()
     {
@@ -187,6 +191,46 @@ public class UserRegistration
         this.barangay = barangay;
     }
 
+    public String getIceContactPerson()
+    {
+        return iceContactPerson;
+    }
+
+    public void setIceContactPerson(String iceContactPerson)
+    {
+        this.iceContactPerson = iceContactPerson;
+    }
+
+    public String getIceLandlineNumber()
+    {
+        return iceLandlineNumber;
+    }
+
+    public void setIceLandlineNumber(String iceLandlineNumber)
+    {
+        this.iceLandlineNumber = iceLandlineNumber;
+    }
+
+    public String getIceMobileNumber()
+    {
+        return iceMobileNumber;
+    }
+
+    public void setIceMobileNumber(String iceMobileNumber)
+    {
+        this.iceMobileNumber = iceMobileNumber;
+    }
+
+    public String getBloodType()
+    {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType)
+    {
+        this.bloodType = bloodType;
+    }
+
     @Override
     public String toString()
     {
@@ -201,6 +245,10 @@ public class UserRegistration
                .add("province", province)
                .add("city", city)
                .add("barangay", barangay)
+               .add("iceContactPerson", iceContactPerson)
+               .add("iceLandlineNumber", iceLandlineNumber)
+               .add("iceMobileNumber", iceMobileNumber)
+               .add("bloodType", bloodType)
                .toString();
     }
 }
