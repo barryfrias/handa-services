@@ -41,12 +41,8 @@ import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
-import handa.beans.dto.ReadSms;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
-import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsInboxMessage;
-import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPrompt;
@@ -59,16 +55,22 @@ public class CommandResource
 {
     static Logger log = LoggerFactory.getLogger(CommandResource.class);
 
+    private CommandSmsSubResource commandSmsSubResource;
     private CommandService commandService;
     private CommandUsersService usersService;
-    private CommandSmsService commandSmsService;
 
     @Autowired
-    public CommandResource(CommandService commandService, CommandUsersService usersService, CommandSmsService commandSmsService)
+    public CommandResource(CommandSmsSubResource commandSmsSubResource, CommandService commandService, CommandUsersService usersService)
     {
+        this.commandSmsSubResource = commandSmsSubResource;
         this.commandService = commandService;
         this.usersService = usersService;
-        this.commandSmsService = commandSmsService;
+    }
+
+    @Path("sms")
+    public CommandSmsSubResource getCommandSmsResource()
+    {
+        return this.commandSmsSubResource;
     }
 
     @POST
@@ -367,131 +369,6 @@ public class CommandResource
         }
         String result = commandService.uploadFile(uploadedInputStream, name);
         return buildResponse(result);
-    }
-
-    @GET
-    @Path("sms/inbox")
-    public Response getSmsInbox()
-    {
-        List<SmsInboxMessage> result = commandSmsService.getSmsInbox();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @POST
-    @Path("sms/inbox/{id}")
-    public Response readSmsInbox(@PathParam("id") int id, ReadSms readSms)
-    {
-        int result = commandSmsService.readSmsInbox(id, readSms);
-        return httpOk(result);
-    }
-
-    @DELETE
-    @Path("sms/inbox/{id}")
-    public Response deleteSmsInbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
-    {
-        int rowsAffected = commandSmsService.deleteSmsInbox(id, deletedBy);
-        return httpOk(rowsAffected);
-    }
-
-    @GET
-    @Path("sms/outbox")
-    public Response getSmsOutbox()
-    {
-        List<SmsOutboxMessage> result = commandSmsService.getSmsOutbox();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @POST
-    @Path("sms/outbox")
-    public Response sendSms(SendSms sendSms)
-    {
-        String result = commandSmsService.sendSms(sendSms);
-        return httpOk(result);
-    }
-
-    @DELETE
-    @Path("sms/outbox/{id}")
-    public Response deleteSmsOutbox(@PathParam("id") int id, @QueryParam("deletedBy") String deletedBy)
-    {
-        int rowsAffected = commandSmsService.deleteSmsOutbox(id, deletedBy);
-        return httpOk(rowsAffected);
-    }
-
-    @GET
-    @Path("sms/distributionList")
-    public Response getSmsDistributionList()
-    {
-        List<DistributionList> result = commandSmsService.getSmsDistributionList();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @GET
-    @Path("sms/distributionList/{distributionListCode}")
-    public Response getSmsDistributionLov(@PathParam("distributionListCode") String distributionListCode)
-    {
-        List<LovItem> result = commandSmsService.getSmsDistributionLov(distributionListCode);
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @GET
-    @Path("sms/distributionList/custom")
-    public Response getCustomSmsList()
-    {
-        List<DistributionList> result = commandSmsService.getCustomSmsDistributionList();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @POST
-    @Path("sms/distributionList/custom")
-    public Response addSmsCustomGroup(DistributionCustomGroup customGroup)
-    {
-        String result = commandSmsService.addSmsCustomGroup(customGroup);
-        return Response.ok(ImmutableMap.of("message", result)).build();
-    }
-
-    @PUT
-    @Path("sms/distributionList/custom")
-    public Response editSmsCustomGroup(DistributionCustomGroup customGroup)
-    {
-        String result = commandSmsService.editSmsCustomGroup(customGroup);
-        return Response.ok(ImmutableMap.of("message", result)).build();
-    }
-
-    @DELETE
-    @Path("sms/distributionList/custom/{id}")
-    public Response deleteSmsCustomGroup(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
-    {
-        String result = commandSmsService.deleteSmsCustomGroup(id, deletedBy);
-        return Response.ok(ImmutableMap.of("message", result)).build();
-    }
-
-    @GET
-    @Path("calltrees")
-    @Consumes({ MediaType.APPLICATION_JSON })
-    public Response list()
-    {
-        List<CallTree> result = commandService.list();
-        return Response.ok(result).build();
     }
 
     @GET
