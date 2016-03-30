@@ -51,6 +51,18 @@ public class CommandSmsSubResource
         return Response.ok().entity(result).build();
     }
 
+    @GET
+    @Path("inbox/clutter")
+    public Response getClutterSmsInbox()
+    {
+        List<SmsInboxMessage> result = commandSmsService.getClutterSmsInbox();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
     @POST
     @Path("inbox/{id}")
     public Response readSmsInbox(@PathParam("id") int id, ReadSms readSms)

@@ -42,6 +42,7 @@ public interface CommandDAO
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
     int closeUserReport(int id, CloseUserReport closeUserReport);
     List<SmsInboxMessage> getSmsInbox();
+    List<SmsInboxMessage> getClutterSmsInbox();
     int readSms(int id, ReadSms readSms);
     int deleteSms(int id, String deletedBy);
     String sendSms(SendSms sendSms);

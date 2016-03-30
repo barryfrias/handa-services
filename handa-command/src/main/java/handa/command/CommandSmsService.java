@@ -13,6 +13,7 @@ import handa.beans.dto.SmsOutboxMessage;
 public interface CommandSmsService
 {
     List<SmsInboxMessage> getSmsInbox();
+    List<SmsInboxMessage> getClutterSmsInbox();
     int readSmsInbox(int id, ReadSms readSms);
     int deleteSmsInbox(int id, String deletedBy);
     String sendSms(SendSms sendSms);

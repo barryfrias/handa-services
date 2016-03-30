@@ -27,7 +27,6 @@ import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
 import handa.mappers.PromptCountRowMapper;
-import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
@@ -47,6 +46,7 @@ import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
 import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
+import handa.procs.GetSmsInboxProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
@@ -85,7 +85,7 @@ implements CommandDAO
     private final ClosePromptProcedure closePromptProcedure;
     private final UsersCountProcedure usersCountProcedure;
     private final CloseUserReportProcedure closeUserReportProcedure;
-    private final GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
+    private final GetSmsInboxProcedure getSmsInboxProcedure;
     private final ReadSmsInboxProcedure readSmsInboxProcedure;
     private final DeleteSmsProcedure deleteSmsInboxProcedure;
     private final SendSmsProcedure sendSmsProcedure;
@@ -132,7 +132,7 @@ implements CommandDAO
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
         this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
         this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
-        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
+        this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GetSmsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionListProcedure = new GetNewsFeedsDistributionListProcedure(dataSource());
@@ -272,7 +272,13 @@ implements CommandDAO
     @Override
     public List<SmsInboxMessage> getSmsInbox()
     {
-        return getSmsInboxProcedure.listValues();
+        return getSmsInboxProcedure.list(false);
+    }
+
+    @Override
+    public List<SmsInboxMessage> getClutterSmsInbox()
+    {
+        return getSmsInboxProcedure.list(true);
     }
 
     @Override

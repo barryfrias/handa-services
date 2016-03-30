@@ -50,6 +50,12 @@ implements CommandSmsService
     }
 
     @Override
+    public List<SmsInboxMessage> getClutterSmsInbox()
+    {
+        return commandDAO.getClutterSmsInbox();
+    }
+
+    @Override
     public int readSmsInbox(int id, ReadSms readSms)
     {
         int result = commandDAO.readSms(id, readSms);
