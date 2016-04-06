@@ -55,7 +55,7 @@ public interface CommandDAO
     String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String deleteNewsFeedsCustomGroup(long id);
-    List<CallTree> list(Long id);
+    List<CallTree> listCallTree(Long id);
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id);

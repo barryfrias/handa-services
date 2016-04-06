@@ -47,8 +47,8 @@ public interface CommandService
     String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String deleteNewsFeedsCustomGroup(long id, String deletedBy);
-    List<CallTree> list();
-    Optional<CallTree> getById(long id);
+    List<CallTree> listCallTree();
+    Optional<CallTree> getCallTreeById(long id);
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id, String deletedBy);

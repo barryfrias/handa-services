@@ -372,11 +372,20 @@ public class CommandResource
     }
 
     @GET
+    @Path("calltrees")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response listCallTree()
+    {
+        List<CallTree> result = commandService.listCallTree();
+        return Response.ok(result).build();
+    }
+
+    @GET
     @Path("calltrees/{id}")
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response getById(@PathParam("id") long id)
+    public Response getCallTreeById(@PathParam("id") long id)
     {
-        Optional<CallTree> result = commandService.getById(id);
+        Optional<CallTree> result = commandService.getCallTreeById(id);
         if(result.isPresent())
         {
             return Response.ok(result.get()).build();

@@ -354,7 +354,7 @@ implements CommandDAO
     }
 
     @Override
-    public List<CallTree> list(Long id)
+    public List<CallTree> listCallTree(Long id)
     {
         return listCallTreesProcedure.list(id);
     }
