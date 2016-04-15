@@ -262,15 +262,15 @@ implements CommandService
     }
 
     @Override
-    public List<CallTree> list()
+    public List<CallTree> listCallTree()
     {
-        return commandDAO.list(null);
+        return commandDAO.listCallTree(null);
     }
 
     @Override
-    public Optional<CallTree> getById(long id)
+    public Optional<CallTree> getCallTreeById(long id)
     {
-        List<CallTree> list = commandDAO.list(id);
+        List<CallTree> list = commandDAO.listCallTree(id);
         if(list.isEmpty())
         {
             return absent();

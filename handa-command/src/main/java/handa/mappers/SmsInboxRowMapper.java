@@ -26,6 +26,8 @@ implements RowMapper<SmsInboxMessage>
         message.setReadBy(rs.getString("READ_BY"));
         message.setReadDate(rs.getString("READ_DTTM"));
         message.setReadFlag(rs.getString("READ_FLAG"));
+        message.setSender(rs.getString("SENDER"));
+        message.setRowNum(++rowNum);
         return message;
     }
 }

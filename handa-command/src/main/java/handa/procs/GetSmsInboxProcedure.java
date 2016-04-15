@@ -13,34 +13,34 @@ import org.springframework.jdbc.object.StoredProcedure;
 
 import com.google.common.collect.ImmutableList;
 
-import handa.beans.dto.LovItem;
-import handa.mappers.DistributionLovRowMapper;
+import handa.beans.dto.SmsInboxMessage;
+import handa.mappers.SmsInboxRowMapper;
 import oracle.jdbc.OracleTypes;
 
-public class GetSmsDistributionLovProcedure
+public class GetSmsInboxProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "out";
 
-    public GetSmsDistributionLovProcedure(DataSource dataSource)
+    public GetSmsInboxProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_SMS_DIST.DISTRIBUTION_LOV");
-        declareParameter(new SqlParameter("DIST_LIST_CODE", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new DistributionLovRowMapper()));
+        setSql("GET_SMS_INBOX");
+        declareParameter(new SqlParameter("P_CLUTTER", OracleTypes.NUMBER));
+        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new SmsInboxRowMapper()));
         setFunction(false);
         compile();
     }
 
     @SuppressWarnings("unchecked")
-    public List<LovItem> list(String distributionListCode)
+    public List<SmsInboxMessage> list(boolean isClutter)
     {
         Object[] params = new Object[]
         {
-                checkNotNull(distributionListCode, "distributionListCode can't be null")
+                isClutter? 1 : 0
         };
         Map<String, Object> map = execute(params);
-        List<LovItem> list = (List<LovItem>) map.get(RESULT);
+        List<SmsInboxMessage> list = (List<SmsInboxMessage>) map.get(RESULT);
         if(list == null) return ImmutableList.of();
         return list;
     }

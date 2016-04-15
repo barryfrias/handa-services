@@ -37,6 +37,10 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_PROVINCE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_CITY", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_BARANGAY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_ICE_CONTACT_PERSON", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_ICE_LANDLINE_NO", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_ICE_MOBILE_NO", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_BLOOD_TYPE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(REG_ID, OracleTypes.NUMBER));
         setFunction(false);
@@ -63,6 +67,10 @@ extends StoredProcedure
             userRegistration.getProvince(),
             userRegistration.getCity(),
             userRegistration.getBarangay(),
+            userRegistration.getIceContactPerson(),
+            userRegistration.getIceLandlineNumber(),
+            userRegistration.getIceMobileNumber(),
+            userRegistration.getBloodType()
         };
         Map<String, Object> map = execute(params);
         RegistrationRequestResult result = new RegistrationRequestResult();

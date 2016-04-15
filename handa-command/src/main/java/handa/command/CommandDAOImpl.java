@@ -26,24 +26,27 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
-import handa.mappers.DistributionListRowMapper;
 import handa.mappers.PromptCountRowMapper;
-import handa.mappers.SmsInboxRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
+import handa.procs.AddSmsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
+import handa.procs.DeleteSmsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
+import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetNoResponseProcedure;
+import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
+import handa.procs.GetSmsInboxProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
@@ -82,13 +85,13 @@ implements CommandDAO
     private final ClosePromptProcedure closePromptProcedure;
     private final UsersCountProcedure usersCountProcedure;
     private final CloseUserReportProcedure closeUserReportProcedure;
-    private final GenericProcedure<SmsInboxMessage> getSmsInboxProcedure;
+    private final GetSmsInboxProcedure getSmsInboxProcedure;
     private final ReadSmsInboxProcedure readSmsInboxProcedure;
     private final DeleteSmsProcedure deleteSmsInboxProcedure;
     private final SendSmsProcedure sendSmsProcedure;
     private final GenericProcedure<SmsOutboxMessage> getSmsOutboxProcedure;
     private final DeleteSmsProcedure deleteSmsOutboxProcedure;
-    private final GenericProcedure<DistributionList> getSmsDistributionListProcedure;
+    private final GetSmsDistributionListProcedure getSmsDistributionListProcedure;
     private final GetSmsDistributionLovProcedure getSmsDistributionLovProcedure;
     private final GetNewsFeedsDistributionListProcedure getNewsFeedsDistributionListProcedure;
     private final GetNewsFeedsDistributionLovProcedure getNewsFeedsDistributionLovProcedure;
@@ -99,6 +102,9 @@ implements CommandDAO
     private final InsertCallTreeProcedure insertCallTreeProcedure;
     private final UpdateCallTreeProcedure updateCallTreeProcedure;
     private final DeleteCallTreeProcedure deleteCallTreeProcedure;
+    private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
+    private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
+    private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -126,9 +132,9 @@ implements CommandDAO
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
         this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
         this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
-        this.getSmsInboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_INBOX", new SmsInboxRowMapper());
+        this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
-        this.getSmsDistributionListProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_DISTRIBUTION_LIST", new DistributionListRowMapper());
+        this.getSmsDistributionListProcedure = new GetSmsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionListProcedure = new GetNewsFeedsDistributionListProcedure(dataSource());
         this.getNewsFeedsDistributionLovProcedure = new GetNewsFeedsDistributionLovProcedure(dataSource());
         this.addNewsFeedsCustomGroupProcedure = new AddNewsFeedsCustomGroupProcedure(dataSource());
@@ -138,6 +144,9 @@ implements CommandDAO
         this.insertCallTreeProcedure = new InsertCallTreeProcedure(dataSource());
         this.updateCallTreeProcedure = new UpdateCallTreeProcedure(dataSource());
         this.deleteCallTreeProcedure = new DeleteCallTreeProcedure(dataSource());
+        this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
+        this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
+        this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
     }
 
     @Override
@@ -263,7 +272,13 @@ implements CommandDAO
     @Override
     public List<SmsInboxMessage> getSmsInbox()
     {
-        return getSmsInboxProcedure.listValues();
+        return getSmsInboxProcedure.list(false);
+    }
+
+    @Override
+    public List<SmsInboxMessage> getClutterSmsInbox()
+    {
+        return getSmsInboxProcedure.list(true);
     }
 
     @Override
@@ -297,9 +312,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<DistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList(String type)
     {
-        return getSmsDistributionListProcedure.listValues();
+        return getSmsDistributionListProcedure.list(type);
     }
 
     @Override
@@ -339,7 +354,7 @@ implements CommandDAO
     }
 
     @Override
-    public List<CallTree> list(Long id)
+    public List<CallTree> listCallTree(Long id)
     {
         return listCallTreesProcedure.list(id);
     }
@@ -360,5 +375,23 @@ implements CommandDAO
     public String deleteCallTree(long id)
     {
         return deleteCallTreeProcedure.delete(id);
+    }
+
+    @Override
+    public String addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return addSmsCustomGroupProcedure.insert(customGroup);
+    }
+
+    @Override
+    public String editSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        return editSmsCustomGroupProcedure.edit(customGroup);
+    }
+
+    @Override
+    public String deleteSmsCustomGroup(long id)
+    {
+        return deleteSmsCustomGroupProcedure.delete(id);
     }
 }

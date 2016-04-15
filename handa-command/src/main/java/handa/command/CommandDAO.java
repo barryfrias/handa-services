@@ -42,20 +42,24 @@ public interface CommandDAO
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
     int closeUserReport(int id, CloseUserReport closeUserReport);
     List<SmsInboxMessage> getSmsInbox();
+    List<SmsInboxMessage> getClutterSmsInbox();
     int readSms(int id, ReadSms readSms);
     int deleteSms(int id, String deletedBy);
     String sendSms(SendSms sendSms);
     List<SmsOutboxMessage> getSmsOutbox();
     int deleteSmsOutbox(int id, String deletedBy);
-    List<DistributionList> getSmsDistributionList();
+    List<DistributionList> getSmsDistributionList(String type);
     List<LovItem> getSmsDistributionLov(String distributionListCode);
     List<DistributionList> getNewsFeedsDistributionList(String type);
     List<LovItem> getNewsFeedsDistributionLov(String distributionListCode);
     String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup);
     String deleteNewsFeedsCustomGroup(long id);
-    List<CallTree> list(Long id);
+    List<CallTree> listCallTree(Long id);
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id);
+    String addSmsCustomGroup(DistributionCustomGroup customGroup);
+    String editSmsCustomGroup(DistributionCustomGroup customGroup);
+    String deleteSmsCustomGroup(long id);
 }
