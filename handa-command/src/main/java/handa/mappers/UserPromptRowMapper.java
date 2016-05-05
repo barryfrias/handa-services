@@ -15,6 +15,7 @@ implements RowMapper<UserPrompt>
     {
         UserPrompt userPrompt = new UserPrompt();
         userPrompt.setName(rs.getString("NAME"));
+        userPrompt.setCompany(rs.getString("COMPANY"));
         userPrompt.setBatteryLevel(rs.getString("BATTERY_LEVEL"));
         userPrompt.setCreatedDate(rs.getString("CREATED_DTTM"));
         userPrompt.setId(rs.getInt("ID"));
