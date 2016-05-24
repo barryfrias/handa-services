@@ -56,13 +56,15 @@ public class CommandResource
     static Logger log = LoggerFactory.getLogger(CommandResource.class);
 
     private CommandSmsSubResource commandSmsSubResource;
+    private CommandAnalyticsSubResource commandAnalyticsSubResource;
     private CommandService commandService;
     private CommandUsersService usersService;
 
     @Autowired
-    public CommandResource(CommandSmsSubResource commandSmsSubResource, CommandService commandService, CommandUsersService usersService)
+    public CommandResource(CommandSmsSubResource commandSmsSubResource, CommandAnalyticsSubResource commandAnalyticsSubResource, CommandService commandService, CommandUsersService usersService)
     {
         this.commandSmsSubResource = commandSmsSubResource;
+        this.commandAnalyticsSubResource = commandAnalyticsSubResource;
         this.commandService = commandService;
         this.usersService = usersService;
     }
@@ -71,6 +73,12 @@ public class CommandResource
     public CommandSmsSubResource getCommandSmsResource()
     {
         return this.commandSmsSubResource;
+    }
+
+    @Path("analytics")
+    public CommandAnalyticsSubResource getCommandAnalyticsResource()
+    {
+        return this.commandAnalyticsSubResource;
     }
 
     @POST
