@@ -11,14 +11,14 @@ import handa.beans.dto.ReportInput;
 import handa.procs.ReportsByEventProcedure;
 
 @Component
-public class CommandReportsDAOImpl
+public class CommandAnalyticsDAOImpl
 extends AbstractJdbcDAO
 implements CommandAnalyticsDAO
 {
     private final ReportsByEventProcedure reportsByEventProcedure;
 
     @Autowired
-    public CommandReportsDAOImpl(JdbcTemplate jdbcTemplate)
+    public CommandAnalyticsDAOImpl(JdbcTemplate jdbcTemplate)
     {
         super(jdbcTemplate);
         this.reportsByEventProcedure = new ReportsByEventProcedure(dataSource());

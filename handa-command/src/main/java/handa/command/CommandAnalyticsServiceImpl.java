@@ -9,15 +9,15 @@ import handa.beans.dto.EventReport;
 import handa.beans.dto.ReportInput;
 
 @Component
-public class CommandReportsServiceImpl
+public class CommandAnalyticsServiceImpl
 implements CommandAnalyticsService
 {
-    final static Logger log = LoggerFactory.getLogger(CommandReportsServiceImpl.class);
+    final static Logger log = LoggerFactory.getLogger(CommandAnalyticsServiceImpl.class);
 
     private CommandAnalyticsDAO commandAnalyticsDAO;
 
     @Autowired
-    public CommandReportsServiceImpl(CommandAnalyticsDAO commandAnalyticsDAO)
+    public CommandAnalyticsServiceImpl(CommandAnalyticsDAO commandAnalyticsDAO)
     {
         this.commandAnalyticsDAO = commandAnalyticsDAO;
     }
