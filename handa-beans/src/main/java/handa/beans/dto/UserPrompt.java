@@ -12,6 +12,7 @@ public class UserPrompt
 {
     private int id;
     private String name;
+    private String company;
     private String mobileNumber;
     private String deviceInfo;
     private String longitude;
@@ -30,6 +31,16 @@ public class UserPrompt
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getCompany()
+    {
+        return company;
+    }
+
+    public void setCompany(String company)
+    {
+        this.company = company;
     }
 
     public int getId()
@@ -138,6 +149,7 @@ public class UserPrompt
         return toStringHelper(this)
                .add("id", id)
                .add("name", name)
+               .add("company", company)
                .add("mobileNumber", mobileNumber)
                .add("longitude", longitude)
                .add("latitude", latitude)
