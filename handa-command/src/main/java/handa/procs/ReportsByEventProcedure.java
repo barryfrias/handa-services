@@ -116,6 +116,8 @@ extends StoredProcedure
             details.setIceMobileNumber(rs.getString("ICE_MOBILE_NO"));
             details.setImmediateHead(rs.getString("IMMEDIATE_HEAD"));
             details.setLandlineNumber(rs.getString("LANDLINE_NO"));
+            details.setLatitude(rs.getString("LATITUDE"));
+            details.setLongitude(rs.getString("LONGITUDE"));
             details.setMobileNumber(rs.getString("MOBILE_NO"));
             details.setName(rs.getString("NAME"));
             details.setPosition(rs.getString("POSITION"));
