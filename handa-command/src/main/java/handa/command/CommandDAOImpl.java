@@ -186,15 +186,15 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserPrompt> getSos(String city)
+    public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SOS, city);
+        return getUserPromptsProcedure.list(PromptType.SOS, city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city)
+    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SAFE, city);
+        return getUserPromptsProcedure.list(PromptType.SAFE, city, startDate, endDate);
     }
 
     @Override

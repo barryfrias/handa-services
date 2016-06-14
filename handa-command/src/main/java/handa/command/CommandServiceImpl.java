@@ -98,15 +98,15 @@ implements CommandService
     }
 
     @Override
-    public List<UserPrompt> getSos(String city)
+    public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
-        return commandDAO.getSos(city);
+        return commandDAO.getSos(city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city)
+    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
-        return commandDAO.getSafe(city);
+        return commandDAO.getSafe(city, startDate, endDate);
     }
 
     @Override
