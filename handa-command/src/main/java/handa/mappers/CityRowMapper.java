@@ -14,6 +14,7 @@ implements RowMapper<City>
     public City mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         City city = new City();
+        city.setRowNum(++rowNum);
         city.setName(rs.getString("NAME"));
         return city;
     }
