@@ -43,7 +43,6 @@ import handa.procs.GenericProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
-import handa.procs.GetNoResponseProcedure;
 import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetSmsInboxProcedure;
@@ -78,7 +77,6 @@ implements CommandDAO
     private final ReportsCountProcedure reportsCountProcedure;
     private final GenericProcedure<City> citiesProcedure;
     private final NoResponseCountProcedure noResponseCountProcedure;
-    private final GetNoResponseProcedure getNoResponseProcedure;
     private final GenericProcedure<PromptCount> getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
@@ -119,7 +117,6 @@ implements CommandDAO
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
         this.reportsCountProcedure = new ReportsCountProcedure(dataSource());
         this.noResponseCountProcedure = new NoResponseCountProcedure(dataSource());
-        this.getNoResponseProcedure = new GetNoResponseProcedure(dataSource());
         this.resetEventsProcedure = new ResetEventsProcedure(dataSource());
         this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource());
         this.closePromptProcedure = new ClosePromptProcedure(dataSource());
@@ -228,9 +225,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city)
+    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
     {
-        return getNoResponseProcedure.list(city);
+        return getUserPromptsProcedure.list(PromptType.NR, city, startDate, endDate);
     }
 
     @Override

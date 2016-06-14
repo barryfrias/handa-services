@@ -228,9 +228,11 @@ public class CommandResource
 
     @GET
     @Path("noResponse")
-    public Response getNoResponse(@DefaultValue(ALL) @QueryParam(CITY) String city)
+    public Response getNoResponse(@DefaultValue(ALL) @QueryParam(CITY) String city,
+                                  @QueryParam(START_DATE) String startDate,
+                                  @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getNoResponse(city);
+        List<UserPrompt> result = commandService.getNoResponse(city, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

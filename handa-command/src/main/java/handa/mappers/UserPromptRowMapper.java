@@ -14,6 +14,7 @@ implements RowMapper<UserPrompt>
     public UserPrompt mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         UserPrompt userPrompt = new UserPrompt();
+        userPrompt.setRowNum(++rowNum);
         userPrompt.setName(rs.getString("NAME"));
         userPrompt.setCompany(rs.getString("COMPANY"));
         userPrompt.setBatteryLevel(rs.getString("BATTERY_LEVEL"));

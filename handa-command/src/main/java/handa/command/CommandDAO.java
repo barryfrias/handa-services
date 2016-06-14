@@ -32,7 +32,7 @@ public interface CommandDAO
     int getReportsCount();
     List<City> getCities();
     int getNoResponseCount(String city);
-    List<UserPrompt> getNoResponse(String city);
+    List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity();
     void resetEvents();
     List<UserLocation> getUsersLocations(String city, String starDate, String endDate);

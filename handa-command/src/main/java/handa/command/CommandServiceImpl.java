@@ -140,9 +140,9 @@ implements CommandService
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city)
+    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
     {
-        return commandDAO.getNoResponse(city);
+        return commandDAO.getNoResponse(city, startDate, endDate);
     }
 
     @Override
