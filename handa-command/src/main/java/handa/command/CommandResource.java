@@ -329,6 +329,7 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
+    //TODO: PLEASE REMOVE IF NOT USED
     @GET
     @Path("reports")
     public Response getUserReports()
