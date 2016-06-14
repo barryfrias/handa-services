@@ -178,9 +178,10 @@ public class CommandResource
 
     @GET
     @Path("sos/countPerCity")
-    public Response getSosCountPerCity()
+    public Response getSosCountPerCity(@QueryParam(START_DATE) String startDate,
+                                       @QueryParam(END_DATE) String endDate)
     {
-        List<PromptCount> promptCounts = commandService.getSosCountPerCity();
+        List<PromptCount> promptCounts = commandService.getSosCountPerCity(startDate, endDate);
         if(promptCounts.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

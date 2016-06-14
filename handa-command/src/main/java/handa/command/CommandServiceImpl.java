@@ -146,9 +146,9 @@ implements CommandService
     }
 
     @Override
-    public List<PromptCount> getSosCountPerCity()
+    public List<PromptCount> getSosCountPerCity(String startDate, String endDate)
     {
-        return commandDAO.getSosCountPerCity();
+        return commandDAO.getSosCountPerCity(startDate, endDate);
     }
 
     @Override

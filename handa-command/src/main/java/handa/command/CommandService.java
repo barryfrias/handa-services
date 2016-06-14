@@ -32,7 +32,7 @@ public interface CommandService
     List<City> getCities();
     int getNoResponseCount(String city);
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
-    List<PromptCount> getSosCountPerCity();
+    List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
     List<UserLocation> getUsersLocations(String city, String startDate, String endDate);

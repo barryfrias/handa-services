@@ -26,7 +26,6 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
-import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
@@ -46,6 +45,7 @@ import handa.procs.GetNewsFeedsProcedure;
 import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetSmsInboxProcedure;
+import handa.procs.GetSosCountPerCityProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
@@ -77,7 +77,7 @@ implements CommandDAO
     private final ReportsCountProcedure reportsCountProcedure;
     private final GenericProcedure<City> citiesProcedure;
     private final NoResponseCountProcedure noResponseCountProcedure;
-    private final GenericProcedure<PromptCount> getSosCountPerCityProcedure;
+    private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
     private final ClosePromptProcedure closePromptProcedure;
@@ -128,7 +128,7 @@ implements CommandDAO
         this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_INBOX");
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
         this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
-        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
+        this.getSosCountPerCityProcedure = new GetSosCountPerCityProcedure(dataSource());
         this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GetSmsDistributionListProcedure(dataSource());
@@ -231,9 +231,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<PromptCount> getSosCountPerCity()
+    public List<PromptCount> getSosCountPerCity(String startDate, String endDate)
     {
-        return getSosCountPerCityProcedure.listValues();
+        return getSosCountPerCityProcedure.listValues(startDate, endDate);
     }
 
     @Override
