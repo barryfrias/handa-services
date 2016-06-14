@@ -2,10 +2,10 @@ package handa.procs;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static handa.core.HandaUtils.checkDate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +30,6 @@ import oracle.jdbc.OracleTypes;
 public class ReportsByEventProcedure
 extends StoredProcedure
 {
-    private static final SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-    static { df.setLenient(false); }
     private static final String P_OUT = "P_OUT";
     private static final String P_OUT_COMP = "P_OUT_COMP";
     private static final String P_OUT_DEPT = "P_OUT_DEPT";
@@ -80,21 +78,6 @@ extends StoredProcedure
         report.setStatsByBgy((List<StatsByBgy>) map.get(P_OUT_BGY));
         report.setStatsByType((List<StatsByType>) map.get(P_OUT_TYPE));
         return report;
-    }
-
-    private boolean checkDate(String date)
-    {
-        if(null == date || date.length() != 8) return false;
-        try
-        {
-            Integer.valueOf(date);
-            df.parse(date);
-            return true;
-        }
-        catch(Exception e)
-        {
-            return false;
-        }
     }
 
     private class EventDetailsRowMapper implements RowMapper<EventReport.Details>

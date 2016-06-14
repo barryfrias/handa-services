@@ -191,9 +191,9 @@ implements CommandService
     }
 
     @Override
-    public List<UserLocation> getUsersLocations(String city)
+    public List<UserLocation> getUsersLocations(String city, String startDate, String endDate)
     {
-        return commandDAO.getUsersLocations(city);
+        return commandDAO.getUsersLocations(city, startDate, endDate);
     }
 
     @Override

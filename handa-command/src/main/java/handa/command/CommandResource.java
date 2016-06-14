@@ -3,6 +3,8 @@ package handa.command;
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
 import static handa.config.HandaCommandConstants.OK;
+import static handa.config.HandaCommandConstants.START_DATE;
+import static handa.config.HandaCommandConstants.END_DATE;
 
 import java.io.InputStream;
 import java.util.List;
@@ -108,9 +110,11 @@ public class CommandResource
 
     @GET
     @Path("users/locations")
-    public Response getUsersLocation(@DefaultValue(ALL) @QueryParam(CITY) String city)
+    public Response getUsersLocation(@DefaultValue(ALL) @QueryParam(CITY) String city,
+                                    @QueryParam(START_DATE) String startDate,
+                                    @QueryParam(END_DATE) String endDate)
     {
-        List<UserLocation> result = commandService.getUsersLocations(city);
+        List<UserLocation> result = commandService.getUsersLocations(city, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

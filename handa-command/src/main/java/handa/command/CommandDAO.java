@@ -35,7 +35,7 @@ public interface CommandDAO
     List<UserPrompt> getNoResponse(String city);
     List<PromptCount> getSosCountPerCity();
     void resetEvents();
-    List<UserLocation> getUsersLocations(String city);
+    List<UserLocation> getUsersLocations(String city, String starDate, String endDate);
     int closePrompt(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);

@@ -246,9 +246,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserLocation> getUsersLocations(String city)
+    public List<UserLocation> getUsersLocations(String city, String starDate, String endDate)
     {
-        return getUsersLocationsProcedure.list(city);
+        return getUsersLocationsProcedure.list(city, starDate, endDate);
     }
 
     @Override

@@ -35,7 +35,7 @@ public interface CommandService
     List<PromptCount> getSosCountPerCity();
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
-    List<UserLocation> getUsersLocations(String city);
+    List<UserLocation> getUsersLocations(String city, String startDate, String endDate);
     int closePrompt(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);
