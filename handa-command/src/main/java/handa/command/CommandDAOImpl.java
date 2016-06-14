@@ -1,6 +1,7 @@
 package handa.command;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,7 +53,6 @@ import handa.procs.GetUserReportsProcedure;
 import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
 import handa.procs.ListCallTreesProcedure;
-import handa.procs.NoResponseCountProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
@@ -76,7 +76,6 @@ implements CommandDAO
     private final GetUserReportsProcedure getUserReportsProcedure;
     private final ReportsCountProcedure reportsCountProcedure;
     private final GenericProcedure<City> citiesProcedure;
-    private final NoResponseCountProcedure noResponseCountProcedure;
     private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
@@ -116,7 +115,6 @@ implements CommandDAO
         this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
         this.reportsCountProcedure = new ReportsCountProcedure(dataSource());
-        this.noResponseCountProcedure = new NoResponseCountProcedure(dataSource());
         this.resetEventsProcedure = new ResetEventsProcedure(dataSource());
         this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource());
         this.closePromptProcedure = new ClosePromptProcedure(dataSource());
@@ -147,15 +145,9 @@ implements CommandDAO
     }
 
     @Override
-    public int getSosCount(String city)
+    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
     {
-        return promptsCountProcedure.getPromptCount(PromptType.SOS, city);
-    }
-
-    @Override
-    public int getSafeCount(String city)
-    {
-        return promptsCountProcedure.getPromptCount(PromptType.SAFE, city);
+        return promptsCountProcedure.getPromptCount(city, startDate, endDate);
     }
 
     @Override
@@ -216,12 +208,6 @@ implements CommandDAO
     public List<City> getCities()
     {
         return citiesProcedure.listValues();
-    }
-
-    @Override
-    public int getNoResponseCount(String city)
-    {
-        return noResponseCountProcedure.getCount(city);
     }
 
     @Override

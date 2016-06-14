@@ -1,6 +1,7 @@
 package handa.command;
 
 import java.util.List;
+import java.util.Map;
 
 import handa.beans.dto.CallTree;
 import handa.beans.dto.City;
@@ -21,8 +22,7 @@ import handa.beans.dto.UserReport;
 
 public interface CommandDAO
 {
-    int getSosCount(String city);
-    int getSafeCount(String city);
+    Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
     List<UserPrompt> getSos(String city, String startDate, String endDate);
@@ -31,7 +31,6 @@ public interface CommandDAO
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
-    int getNoResponseCount(String city);
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     void resetEvents();

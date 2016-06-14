@@ -198,14 +198,6 @@ public class CommandResource
     }
 
     @GET
-    @Path("sos/count")
-    public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city)
-    {
-        int result = commandService.getSosCount(city);
-        return httpOk(result);
-    }
-
-    @GET
     @Path("safe")
     public Response getSafe(@DefaultValue(ALL) @QueryParam(CITY) String city,
                             @QueryParam(START_DATE) String startDate,
@@ -217,14 +209,6 @@ public class CommandResource
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.ok().entity(result).build();
-    }
-
-    @GET
-    @Path("safe/count")
-    public Response getSafeCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
-    {
-        int result = commandService.getSafeCount(city);
-        return httpOk(result);
     }
 
     @GET
@@ -242,11 +226,13 @@ public class CommandResource
     }
 
     @GET
-    @Path("noResponse/count")
-    public Response getNoResponseCount(@DefaultValue(ALL) @QueryParam(CITY) String city)
+    @Path("users/prompts/count")
+    public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city,
+                                       @QueryParam(START_DATE) String startDate,
+                                       @QueryParam(END_DATE) String endDate)
     {
-        int result = commandService.getNoResponseCount(city);
-        return httpOk(result);
+        Map<String, Integer> result = commandService.getPromptCount(city, startDate, endDate);
+        return Response.ok(result).build();
     }
 
     @GET

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,15 +57,9 @@ implements CommandService
     }
 
     @Override
-    public int getSosCount(String city)
+    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
     {
-        return commandDAO.getSosCount(city);
-    }
-
-    @Override
-    public int getSafeCount(String city)
-    {
-        return commandDAO.getSafeCount(city);
+        return commandDAO.getPromptCount(city, startDate, endDate);
     }
 
     @Override
@@ -131,12 +126,6 @@ implements CommandService
     public List<City> getCities()
     {
         return commandDAO.getCities();
-    }
-
-    @Override
-    public int getNoResponseCount(String city)
-    {
-        return commandDAO.getNoResponseCount(city);
     }
 
     @Override

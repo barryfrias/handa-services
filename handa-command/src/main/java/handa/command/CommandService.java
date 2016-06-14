@@ -2,6 +2,7 @@ package handa.command;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -20,8 +21,7 @@ import handa.beans.dto.UserReport;
 
 public interface CommandService
 {
-    int getSosCount(String city);
-    int getSafeCount(String city);
+    Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
     List<UserPrompt> getSos(String city, String startDate, String endDate);
@@ -30,7 +30,6 @@ public interface CommandService
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
-    int getNoResponseCount(String city);
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);
