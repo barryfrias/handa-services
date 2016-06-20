@@ -7,4 +7,6 @@ public final class HandaCommandConstants
     public static enum PromptType { SOS, SAFE, NR };
     public static final String CITY = "city";
     public static final String ALL = "all";
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
 }

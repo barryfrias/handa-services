@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,15 +57,9 @@ implements CommandService
     }
 
     @Override
-    public int getSosCount(String city)
+    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
     {
-        return commandDAO.getSosCount(city);
-    }
-
-    @Override
-    public int getSafeCount(String city)
-    {
-        return commandDAO.getSafeCount(city);
+        return commandDAO.getPromptCount(city, startDate, endDate);
     }
 
     @Override
@@ -98,15 +93,15 @@ implements CommandService
     }
 
     @Override
-    public List<UserPrompt> getSos(String city)
+    public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
-        return commandDAO.getSos(city);
+        return commandDAO.getSos(city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city)
+    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
-        return commandDAO.getSafe(city);
+        return commandDAO.getSafe(city, startDate, endDate);
     }
 
     @Override
@@ -134,21 +129,15 @@ implements CommandService
     }
 
     @Override
-    public int getNoResponseCount(String city)
+    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
     {
-        return commandDAO.getNoResponseCount(city);
+        return commandDAO.getNoResponse(city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city)
+    public List<PromptCount> getSosCountPerCity(String startDate, String endDate)
     {
-        return commandDAO.getNoResponse(city);
-    }
-
-    @Override
-    public List<PromptCount> getSosCountPerCity()
-    {
-        return commandDAO.getSosCountPerCity();
+        return commandDAO.getSosCountPerCity(startDate, endDate);
     }
 
     @Override
@@ -191,9 +180,9 @@ implements CommandService
     }
 
     @Override
-    public List<UserLocation> getUsersLocations(String city)
+    public List<UserLocation> getUsersLocations(String city, String startDate, String endDate)
     {
-        return commandDAO.getUsersLocations(city);
+        return commandDAO.getUsersLocations(city, startDate, endDate);
     }
 
     @Override

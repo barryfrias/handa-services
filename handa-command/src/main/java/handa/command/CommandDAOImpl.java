@@ -1,6 +1,7 @@
 package handa.command;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +27,6 @@ import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.CityRowMapper;
-import handa.mappers.PromptCountRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
@@ -43,17 +43,16 @@ import handa.procs.GenericProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
-import handa.procs.GetNoResponseProcedure;
 import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetSmsInboxProcedure;
+import handa.procs.GetSosCountPerCityProcedure;
 import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
 import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
 import handa.procs.ListCallTreesProcedure;
-import handa.procs.NoResponseCountProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
@@ -77,9 +76,7 @@ implements CommandDAO
     private final GetUserReportsProcedure getUserReportsProcedure;
     private final ReportsCountProcedure reportsCountProcedure;
     private final GenericProcedure<City> citiesProcedure;
-    private final NoResponseCountProcedure noResponseCountProcedure;
-    private final GetNoResponseProcedure getNoResponseProcedure;
-    private final GenericProcedure<PromptCount> getSosCountPerCityProcedure;
+    private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
     private final ClosePromptProcedure closePromptProcedure;
@@ -118,8 +115,6 @@ implements CommandDAO
         this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
         this.reportsCountProcedure = new ReportsCountProcedure(dataSource());
-        this.noResponseCountProcedure = new NoResponseCountProcedure(dataSource());
-        this.getNoResponseProcedure = new GetNoResponseProcedure(dataSource());
         this.resetEventsProcedure = new ResetEventsProcedure(dataSource());
         this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource());
         this.closePromptProcedure = new ClosePromptProcedure(dataSource());
@@ -131,7 +126,7 @@ implements CommandDAO
         this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_INBOX");
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
         this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
-        this.getSosCountPerCityProcedure = new GenericProcedure<>(dataSource(), "GET_SOS_COUNT_PER_CITY", new PromptCountRowMapper());
+        this.getSosCountPerCityProcedure = new GetSosCountPerCityProcedure(dataSource());
         this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
         this.getSmsDistributionListProcedure = new GetSmsDistributionListProcedure(dataSource());
@@ -150,15 +145,9 @@ implements CommandDAO
     }
 
     @Override
-    public int getSosCount(String city)
+    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
     {
-        return promptsCountProcedure.getPromptCount(PromptType.SOS, city);
-    }
-
-    @Override
-    public int getSafeCount(String city)
-    {
-        return promptsCountProcedure.getPromptCount(PromptType.SAFE, city);
+        return promptsCountProcedure.getPromptCount(city, startDate, endDate);
     }
 
     @Override
@@ -186,15 +175,15 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserPrompt> getSos(String city)
+    public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SOS, city);
+        return getUserPromptsProcedure.list(PromptType.SOS, city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city)
+    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SAFE, city);
+        return getUserPromptsProcedure.list(PromptType.SAFE, city, startDate, endDate);
     }
 
     @Override
@@ -222,21 +211,15 @@ implements CommandDAO
     }
 
     @Override
-    public int getNoResponseCount(String city)
+    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
     {
-        return noResponseCountProcedure.getCount(city);
+        return getUserPromptsProcedure.list(PromptType.NR, city, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city)
+    public List<PromptCount> getSosCountPerCity(String startDate, String endDate)
     {
-        return getNoResponseProcedure.list(city);
-    }
-
-    @Override
-    public List<PromptCount> getSosCountPerCity()
-    {
-        return getSosCountPerCityProcedure.listValues();
+        return getSosCountPerCityProcedure.listValues(startDate, endDate);
     }
 
     @Override
@@ -246,9 +229,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserLocation> getUsersLocations(String city)
+    public List<UserLocation> getUsersLocations(String city, String starDate, String endDate)
     {
-        return getUsersLocationsProcedure.list(city);
+        return getUsersLocationsProcedure.list(city, starDate, endDate);
     }
 
     @Override

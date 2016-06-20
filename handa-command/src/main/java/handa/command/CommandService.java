@@ -2,6 +2,7 @@ package handa.command;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -20,22 +21,20 @@ import handa.beans.dto.UserReport;
 
 public interface CommandService
 {
-    int getSosCount(String city);
-    int getSafeCount(String city);
+    Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
-    List<UserPrompt> getSos(String city);
-    List<UserPrompt> getSafe(String city);
+    List<UserPrompt> getSos(String city, String startDate, String endDate);
+    List<UserPrompt> getSafe(String city, String startDate, String endDate);
     List<UserReport> getUserReports();
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
-    int getNoResponseCount(String city);
-    List<UserPrompt> getNoResponse(String city);
-    List<PromptCount> getSosCountPerCity();
+    List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
+    List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
-    List<UserLocation> getUsersLocations(String city);
+    List<UserLocation> getUsersLocations(String city, String startDate, String endDate);
     int closePrompt(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);

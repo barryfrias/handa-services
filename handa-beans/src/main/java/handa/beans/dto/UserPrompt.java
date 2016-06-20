@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class UserPrompt
 {
+    private int rowNum;
     private int id;
     private String name;
     private String company;
@@ -22,6 +23,16 @@ public class UserPrompt
     private String promptType;
     private String status;
     private String createdDate;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public String getName()
     {
