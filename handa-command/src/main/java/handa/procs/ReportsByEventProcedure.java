@@ -117,7 +117,7 @@ extends StoredProcedure
         public StatsByCompany mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByCompany statsByCompany = new StatsByCompany();
-            statsByCompany.setCompany(rs.getString("COMPANY"));
+            statsByCompany.setName(rs.getString("COMPANY"));
             statsByCompany.setCount(rs.getInt("COUNT"));
             return statsByCompany;
         }
@@ -129,7 +129,7 @@ extends StoredProcedure
         public StatsByDept mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByDept statsByDept = new StatsByDept();
-            statsByDept.setDept(rs.getString("DEPT"));
+            statsByDept.setName(rs.getString("DEPT"));
             statsByDept.setCount(rs.getInt("COUNT"));
             return statsByDept;
         }
@@ -141,7 +141,7 @@ extends StoredProcedure
         public StatsByProvince mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByProvince statsByProvince = new StatsByProvince();
-            statsByProvince.setProvince(rs.getString("PROVINCE"));
+            statsByProvince.setName(rs.getString("PROVINCE"));
             statsByProvince.setCount(rs.getInt("COUNT"));
             return statsByProvince;
         }
@@ -153,7 +153,7 @@ extends StoredProcedure
         public StatsByCity mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByCity statsByCity = new StatsByCity();
-            statsByCity.setCity(rs.getString("CITY"));
+            statsByCity.setName(rs.getString("CITY"));
             statsByCity.setCount(rs.getInt("COUNT"));
             return statsByCity;
         }
@@ -165,7 +165,7 @@ extends StoredProcedure
         public StatsByBgy mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByBgy statsByBgy = new StatsByBgy();
-            statsByBgy.setBarangay(rs.getString("BGY"));
+            statsByBgy.setName(rs.getString("BGY"));
             statsByBgy.setCount(rs.getInt("COUNT"));
             return statsByBgy;
         }
@@ -178,7 +178,7 @@ extends StoredProcedure
         public StatsByType mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByType statsByType = new StatsByType();
-            statsByType.setType(rs.getString("TYPE"));
+            statsByType.setName(rs.getString("TYPE"));
             statsByType.setCount(rs.getInt("COUNT"));
             return statsByType;
         }

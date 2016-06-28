@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @XmlRootElement(name = "eventReport")
 public class EventReport
 {
@@ -289,17 +291,17 @@ public class EventReport
         }
     }
 
-    public static class StatsByCompany
+    private static abstract class EventStats
     {
-        private String company;
+        private String name;
         private int count;
-        public String getCompany()
+        protected String getName()
         {
-            return company;
+            return name;
         }
-        public void setCompany(String company)
+        public void setName(String name)
         {
-            this.company = company;
+            this.name = name;
         }
         public int getCount()
         {
@@ -311,113 +313,39 @@ public class EventReport
         }
     }
 
-    public static class StatsByDept
+    public static class StatsByCompany extends EventStats
     {
-        private String dept;
-        private int count;
-        public String getDept()
-        {
-            return dept;
-        }
-        public void setDept(String dept)
-        {
-            this.dept = dept;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("company")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByProvince
+    public static class StatsByDept extends EventStats
     {
-        private String province;
-        private int count;
-        public String getProvince()
-        {
-            return province;
-        }
-        public void setProvince(String province)
-        {
-            this.province = province;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("dept")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByCity
+    public static class StatsByProvince extends EventStats
     {
-        private String city;
-        private int count;
-        public String getCity()
-        {
-            return city;
-        }
-        public void setCity(String city)
-        {
-            this.city = city;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("province")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByBgy
+    public static class StatsByCity extends EventStats
     {
-        private String barangay;
-        private int count;
-        public String getBarangay()
-        {
-            return barangay;
-        }
-        public void setBarangay(String barangay)
-        {
-            this.barangay = barangay;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("city")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByType
+    public static class StatsByBgy extends EventStats
     {
-        private String type;
-        private int count;
-        public String getType()
-        {
-            return type;
-        }
-        public void setType(String type)
-        {
-            this.type = type;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("barangay")
+        public String getName() { return super.getName(); }
+    }
+
+    public static class StatsByType extends EventStats
+    {
+        @JsonProperty("type")
+        public String getName() { return super.getName(); }
     }
 }
