@@ -112,6 +112,7 @@ public class EventReport
         private String barangay;
         private String latitude;
         private String longitude;
+        private String locationIndicator;
         private String type;
         private String iceContactPerson;
         private String iceLandlineNumber;
@@ -229,6 +230,14 @@ public class EventReport
         public void setLongitude(String longitude)
         {
             this.longitude = longitude;
+        }
+        public String getLocationIndicator()
+        {
+            return locationIndicator;
+        }
+        public void setLocationIndicator(String locationIndicator)
+        {
+            this.locationIndicator = locationIndicator;
         }
         public String getType()
         {

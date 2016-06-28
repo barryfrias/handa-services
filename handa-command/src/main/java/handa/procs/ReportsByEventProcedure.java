@@ -101,6 +101,7 @@ extends StoredProcedure
             details.setLandlineNumber(rs.getString("LANDLINE_NO"));
             details.setLatitude(rs.getString("LATITUDE"));
             details.setLongitude(rs.getString("LONGITUDE"));
+            details.setLocationIndicator(rs.getString("LOCATION_INDICATOR"));
             details.setMobileNumber(rs.getString("MOBILE_NO"));
             details.setName(rs.getString("NAME"));
             details.setPosition(rs.getString("POSITION"));
