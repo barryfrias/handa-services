@@ -45,7 +45,7 @@ import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
-import handa.beans.dto.UserReport;
+import handa.beans.dto.UserReportInput;
 import handa.beans.dto.UserSearch;
 import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants;
@@ -181,9 +181,9 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("report")
-    public Response report(@Context HttpHeaders headers, UserReport userReport)
+    public Response report(@Context HttpHeaders headers, UserReportInput userReportInput)
     {
-        String result = usersService.report(DeviceInfo.from(headers), userReport);
+        String result = usersService.report(DeviceInfo.from(headers), userReportInput);
         return buildResponse(result);
     }
 

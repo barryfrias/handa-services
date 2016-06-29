@@ -36,7 +36,7 @@ import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
-import handa.beans.dto.UserReport;
+import handa.beans.dto.UserReportInput;
 import handa.beans.dto.UserSearch;
 import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
@@ -149,10 +149,10 @@ implements UsersService
     }
 
     @Override
-    public String report(DeviceInfo deviceInfo, UserReport userReport)
+    public String report(DeviceInfo deviceInfo, UserReportInput userReportInput)
     {
-        String result = usersDAO.report(deviceInfo, userReport);
-        dbLoggerDAO.log(AppLog.client(null, userReport.getMobileNumber(),
+        String result = usersDAO.report(deviceInfo, userReportInput);
+        dbLoggerDAO.log(AppLog.client(null, userReportInput.getMobileNumber(),
                                       "Submitted report and result was %s [%s]", result, deviceInfo));
         return result;
     }
