@@ -13,7 +13,7 @@ import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
@@ -24,7 +24,7 @@ public interface UsersService
 {
     String authByMobileNumber(AuthInfo authInfo, DeviceInfo deviceInfo);
     String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo);
-    String prompt(UserPrompt userPrompt, PromptType promptType, DeviceInfo deviceInfo);
+    String prompt(UserPromptInput userPromptInput, PromptType promptType, DeviceInfo deviceInfo);
     Optional<UserInfo> getUserInfo(String mobileNumber);
     String report(DeviceInfo deviceInfo, UserReport userReport);
     String uploadFile(InputStream uploadedInputStream, String fileName);
