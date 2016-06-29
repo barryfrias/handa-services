@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
-import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserPromptInput;
 import handa.config.HandaUsersConstants;
 import oracle.jdbc.OracleTypes;
 
@@ -28,22 +28,30 @@ extends StoredProcedure
         declareParameter(new SqlParameter("DEVICE_INFO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("LONGI", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("LATI", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("PROV", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("CTY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("BGY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("ADRS", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("BAT_LVL", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
         compile();
     }
 
-    public String prompt(UserPrompt userPrompt, HandaUsersConstants.PromptType promptType)
+    public String prompt(UserPromptInput userPromptInput, HandaUsersConstants.PromptType promptType)
     {
-        checkNotNull(userPrompt, "userPrompt object can't be null");
+        checkNotNull(userPromptInput, "userPromptInput object can't be null");
         checkNotNull(promptType);
-        Map<String, Object> map = execute(checkNotNull(userPrompt.getMobileNumber()),
+        Map<String, Object> map = execute(checkNotNull(userPromptInput.getMobileNumber()),
                                           promptType.toString(),
-                                          userPrompt.getDeviceInfo(),
-                                          checkNotNull(userPrompt.getLongitude()),
-                                          checkNotNull(userPrompt.getLatitude()),
-                                          checkNotNull(userPrompt.getBatteryLevel()));
+                                          userPromptInput.getDeviceInfo(),
+                                          checkNotNull(userPromptInput.getLongitude()),
+                                          checkNotNull(userPromptInput.getLatitude()),
+                                          userPromptInput.getProvince(),
+                                          userPromptInput.getCity(),
+                                          userPromptInput.getBarangay(),
+                                          userPromptInput.getAddress(),
+                                          checkNotNull(userPromptInput.getBatteryLevel()));
         return (String) map.get(RESULT);
     }
 }

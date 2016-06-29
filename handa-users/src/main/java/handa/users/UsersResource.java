@@ -43,7 +43,7 @@ import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
@@ -161,20 +161,20 @@ public class UsersResource
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("sos")
-    public Response sos(@Context HttpHeaders headers, UserPrompt usersPrompt)
+    public Response sos(@Context HttpHeaders headers, UserPromptInput usersPromptInput)
     {
         DeviceInfo deviceInfo = DeviceInfo.from(headers);
-        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SOS, deviceInfo);
+        String result = usersService.prompt(usersPromptInput, HandaUsersConstants.PromptType.SOS, deviceInfo);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("safe")
-    public Response safe(@Context HttpHeaders headers, UserPrompt usersPrompt)
+    public Response safe(@Context HttpHeaders headers, UserPromptInput usersPromptInput)
     {
         DeviceInfo deviceInfo = DeviceInfo.from(headers);
-        String result = usersService.prompt(usersPrompt, HandaUsersConstants.PromptType.SAFE, deviceInfo);
+        String result = usersService.prompt(usersPromptInput, HandaUsersConstants.PromptType.SAFE, deviceInfo);
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 

@@ -15,7 +15,7 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReport;
 import handa.beans.dto.UserSearch;
@@ -103,9 +103,9 @@ implements UsersDAO
     }
 
     @Override
-    public String prompt(UserPrompt userPrompt, PromptType promptType)
+    public String prompt(UserPromptInput userPromptInput, PromptType promptType)
     {
-        return userPromptProcedure.prompt(userPrompt, promptType);
+        return userPromptProcedure.prompt(userPromptInput, promptType);
     }
 
     @Override
