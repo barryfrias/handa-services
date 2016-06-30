@@ -87,26 +87,32 @@ extends StoredProcedure
         {
             Details details = new Details();
             details.setRowNum(++rowNum);
-            details.setBarangay(rs.getString("BARANGAY"));
-            details.setBloodType(rs.getString("BLOOD_TYPE"));
-            details.setCity(rs.getString("CITY"));
-            details.setCompany(rs.getString("COMPANY"));
-            details.setCurrentAddress(rs.getString("CURRENT_ADDRESS"));
-            details.setDate(rs.getString("DATE"));
+            details.setName(rs.getString("NAME"));
+            details.setMobileNumber(rs.getString("MOBILE_NO"));
+            details.setLandlineNumber(rs.getString("LANDLINE_NO"));
+            details.setPosition(rs.getString("POSITION"));
             details.setDept(rs.getString("DEPT"));
+            details.setImmediateHead(rs.getString("IMMEDIATE_HEAD"));
+            details.setCompany(rs.getString("COMPANY"));
+            details.setType(rs.getString("TYPE"));
+            details.setLocationIndicator(rs.getString("LOCATION_INDICATOR"));
+            details.setActualLatitude(rs.getString("ACT_LATITUDE"));
+            details.setActualLongitude(rs.getString("ACT_LONGITUDE"));
+            details.setActualProvince(rs.getString("ACT_PROVINCE"));
+            details.setActualCity(rs.getString("ACT_CITY"));
+            details.setActualBarangay(rs.getString("ACT_BARANGAY"));
+            details.setActualAddress(rs.getString("ACT_ADDRESS"));
+            details.setRegisteredLatitude(rs.getString("REG_LATITUDE"));
+            details.setRegisteredLongitude(rs.getString("REG_LONGITUDE"));
+            details.setRegisteredProvince(rs.getString("REG_PROVINCE"));
+            details.setRegisteredCity(rs.getString("REG_CITY"));
+            details.setRegisteredBarangay(rs.getString("REG_BARANGAY"));
+            details.setRegisteredAddress(rs.getString("REG_ADDRESS"));
             details.setIceContactPerson(rs.getString("ICE_CONTACT_PERSON"));
             details.setIceLandlineNumber(rs.getString("ICE_LANDLINE_NO"));
             details.setIceMobileNumber(rs.getString("ICE_MOBILE_NO"));
-            details.setImmediateHead(rs.getString("IMMEDIATE_HEAD"));
-            details.setLandlineNumber(rs.getString("LANDLINE_NO"));
-            details.setLatitude(rs.getString("LATITUDE"));
-            details.setLongitude(rs.getString("LONGITUDE"));
-            details.setLocationIndicator(rs.getString("LOCATION_INDICATOR"));
-            details.setMobileNumber(rs.getString("MOBILE_NO"));
-            details.setName(rs.getString("NAME"));
-            details.setPosition(rs.getString("POSITION"));
-            details.setProvince(rs.getString("PROVINCE"));
-            details.setType(rs.getString("TYPE"));
+            details.setBloodType(rs.getString("BLOOD_TYPE"));
+            details.setDate(rs.getString("DATE"));
             return details;
         }
     }
@@ -174,7 +180,6 @@ extends StoredProcedure
     private class EventStatsByTypeRowMapper implements RowMapper<StatsByType>
     {
         @Override
-        
         public StatsByType mapRow(ResultSet rs, int rowNum) throws SQLException
         {
             StatsByType statsByType = new StatsByType();

@@ -108,14 +108,20 @@ public class EventReport
         private String dept;
         private String immediateHead;
         private String company;
-        private String currentAddress;
-        private String province;
-        private String city;
-        private String barangay;
-        private String latitude;
-        private String longitude;
-        private String locationIndicator;
         private String type;
+        private String locationIndicator;
+        private String actualLatitude;
+        private String actualLongitude;
+        private String actualProvince;
+        private String actualCity;
+        private String actualBarangay;
+        private String actualAddress;
+        private String registeredLatitude;
+        private String registeredLongitude;
+        private String registeredProvince;
+        private String registeredCity;
+        private String registeredBarangay;
+        private String registeredAddress;
         private String iceContactPerson;
         private String iceLandlineNumber;
         private String iceMobileNumber;
@@ -185,53 +191,13 @@ public class EventReport
         {
             this.company = company;
         }
-        public String getCurrentAddress()
+        public String getType()
         {
-            return currentAddress;
+            return type;
         }
-        public void setCurrentAddress(String currentAddress)
+        public void setType(String type)
         {
-            this.currentAddress = currentAddress;
-        }
-        public String getProvince()
-        {
-            return province;
-        }
-        public void setProvince(String province)
-        {
-            this.province = province;
-        }
-        public String getCity()
-        {
-            return city;
-        }
-        public void setCity(String city)
-        {
-            this.city = city;
-        }
-        public String getBarangay()
-        {
-            return barangay;
-        }
-        public void setBarangay(String barangay)
-        {
-            this.barangay = barangay;
-        }
-        public String getLatitude()
-        {
-            return latitude;
-        }
-        public void setLatitude(String latitude)
-        {
-            this.latitude = latitude;
-        }
-        public String getLongitude()
-        {
-            return longitude;
-        }
-        public void setLongitude(String longitude)
-        {
-            this.longitude = longitude;
+            this.type = type;
         }
         public String getLocationIndicator()
         {
@@ -241,13 +207,101 @@ public class EventReport
         {
             this.locationIndicator = locationIndicator;
         }
-        public String getType()
+        public String getActualLatitude()
         {
-            return type;
+            return actualLatitude;
         }
-        public void setType(String type)
+        public void setActualLatitude(String actualLatitude)
         {
-            this.type = type;
+            this.actualLatitude = actualLatitude;
+        }
+        public String getActualLongitude()
+        {
+            return actualLongitude;
+        }
+        public void setActualLongitude(String actualLongitude)
+        {
+            this.actualLongitude = actualLongitude;
+        }
+        public String getActualProvince()
+        {
+            return actualProvince;
+        }
+        public void setActualProvince(String actualProvince)
+        {
+            this.actualProvince = actualProvince;
+        }
+        public String getActualCity()
+        {
+            return actualCity;
+        }
+        public void setActualCity(String actualCity)
+        {
+            this.actualCity = actualCity;
+        }
+        public String getActualBarangay()
+        {
+            return actualBarangay;
+        }
+        public void setActualBarangay(String actualBarangay)
+        {
+            this.actualBarangay = actualBarangay;
+        }
+        public String getActualAddress()
+        {
+            return actualAddress;
+        }
+        public void setActualAddress(String actualAddress)
+        {
+            this.actualAddress = actualAddress;
+        }
+        public String getRegisteredLatitude()
+        {
+            return registeredLatitude;
+        }
+        public void setRegisteredLatitude(String registeredLatitude)
+        {
+            this.registeredLatitude = registeredLatitude;
+        }
+        public String getRegisteredLongitude()
+        {
+            return registeredLongitude;
+        }
+        public void setRegisteredLongitude(String registeredLongitude)
+        {
+            this.registeredLongitude = registeredLongitude;
+        }
+        public String getRegisteredProvince()
+        {
+            return registeredProvince;
+        }
+        public void setRegisteredProvince(String registeredProvince)
+        {
+            this.registeredProvince = registeredProvince;
+        }
+        public String getRegisteredCity()
+        {
+            return registeredCity;
+        }
+        public void setRegisteredCity(String registeredCity)
+        {
+            this.registeredCity = registeredCity;
+        }
+        public String getRegisteredBarangay()
+        {
+            return registeredBarangay;
+        }
+        public void setRegisteredBarangay(String registeredBarangay)
+        {
+            this.registeredBarangay = registeredBarangay;
+        }
+        public String getRegisteredAddress()
+        {
+            return registeredAddress;
+        }
+        public void setRegisteredAddress(String registeredAddress)
+        {
+            this.registeredAddress = registeredAddress;
         }
         public String getIceContactPerson()
         {
