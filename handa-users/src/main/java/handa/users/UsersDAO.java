@@ -10,9 +10,9 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
+import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
-import handa.beans.dto.UserReport;
+import handa.beans.dto.UserReportInput;
 import handa.beans.dto.UserSearch;
 import handa.beans.dto.UserVerificationResult;
 import handa.config.HandaUsersConstants.PromptType;
@@ -23,9 +23,9 @@ public interface UsersDAO
 {
     String authByMobileNumber(AuthInfo authInfo);
     String authByMobileNumberAndUsername(AuthInfo authInfo);
-    String prompt(UserPrompt userPrompt, PromptType promptType);
+    String prompt(UserPromptInput userPromptInput, PromptType promptType);
     Optional<UserInfo> getUserInfo(String mobileNumber);
-    String report(DeviceInfo deviceInfo, UserReport userReport);
+    String report(DeviceInfo deviceInfo, UserReportInput userReportInput);
     List<UserInfo> getUsers();
     String checkAppVersion(String versionString);
     List<UserInfo> searchByName(UserSearch userSearch);

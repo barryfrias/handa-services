@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @XmlRootElement(name = "eventReport")
 public class EventReport
 {
@@ -106,13 +108,20 @@ public class EventReport
         private String dept;
         private String immediateHead;
         private String company;
-        private String currentAddress;
-        private String province;
-        private String city;
-        private String barangay;
-        private String latitude;
-        private String longitude;
         private String type;
+        private String locationIndicator;
+        private String actualLatitude;
+        private String actualLongitude;
+        private String actualProvince;
+        private String actualCity;
+        private String actualBarangay;
+        private String actualAddress;
+        private String registeredLatitude;
+        private String registeredLongitude;
+        private String registeredProvince;
+        private String registeredCity;
+        private String registeredBarangay;
+        private String registeredAddress;
         private String iceContactPerson;
         private String iceLandlineNumber;
         private String iceMobileNumber;
@@ -182,54 +191,6 @@ public class EventReport
         {
             this.company = company;
         }
-        public String getCurrentAddress()
-        {
-            return currentAddress;
-        }
-        public void setCurrentAddress(String currentAddress)
-        {
-            this.currentAddress = currentAddress;
-        }
-        public String getProvince()
-        {
-            return province;
-        }
-        public void setProvince(String province)
-        {
-            this.province = province;
-        }
-        public String getCity()
-        {
-            return city;
-        }
-        public void setCity(String city)
-        {
-            this.city = city;
-        }
-        public String getBarangay()
-        {
-            return barangay;
-        }
-        public void setBarangay(String barangay)
-        {
-            this.barangay = barangay;
-        }
-        public String getLatitude()
-        {
-            return latitude;
-        }
-        public void setLatitude(String latitude)
-        {
-            this.latitude = latitude;
-        }
-        public String getLongitude()
-        {
-            return longitude;
-        }
-        public void setLongitude(String longitude)
-        {
-            this.longitude = longitude;
-        }
         public String getType()
         {
             return type;
@@ -237,6 +198,110 @@ public class EventReport
         public void setType(String type)
         {
             this.type = type;
+        }
+        public String getLocationIndicator()
+        {
+            return locationIndicator;
+        }
+        public void setLocationIndicator(String locationIndicator)
+        {
+            this.locationIndicator = locationIndicator;
+        }
+        public String getActualLatitude()
+        {
+            return actualLatitude;
+        }
+        public void setActualLatitude(String actualLatitude)
+        {
+            this.actualLatitude = actualLatitude;
+        }
+        public String getActualLongitude()
+        {
+            return actualLongitude;
+        }
+        public void setActualLongitude(String actualLongitude)
+        {
+            this.actualLongitude = actualLongitude;
+        }
+        public String getActualProvince()
+        {
+            return actualProvince;
+        }
+        public void setActualProvince(String actualProvince)
+        {
+            this.actualProvince = actualProvince;
+        }
+        public String getActualCity()
+        {
+            return actualCity;
+        }
+        public void setActualCity(String actualCity)
+        {
+            this.actualCity = actualCity;
+        }
+        public String getActualBarangay()
+        {
+            return actualBarangay;
+        }
+        public void setActualBarangay(String actualBarangay)
+        {
+            this.actualBarangay = actualBarangay;
+        }
+        public String getActualAddress()
+        {
+            return actualAddress;
+        }
+        public void setActualAddress(String actualAddress)
+        {
+            this.actualAddress = actualAddress;
+        }
+        public String getRegisteredLatitude()
+        {
+            return registeredLatitude;
+        }
+        public void setRegisteredLatitude(String registeredLatitude)
+        {
+            this.registeredLatitude = registeredLatitude;
+        }
+        public String getRegisteredLongitude()
+        {
+            return registeredLongitude;
+        }
+        public void setRegisteredLongitude(String registeredLongitude)
+        {
+            this.registeredLongitude = registeredLongitude;
+        }
+        public String getRegisteredProvince()
+        {
+            return registeredProvince;
+        }
+        public void setRegisteredProvince(String registeredProvince)
+        {
+            this.registeredProvince = registeredProvince;
+        }
+        public String getRegisteredCity()
+        {
+            return registeredCity;
+        }
+        public void setRegisteredCity(String registeredCity)
+        {
+            this.registeredCity = registeredCity;
+        }
+        public String getRegisteredBarangay()
+        {
+            return registeredBarangay;
+        }
+        public void setRegisteredBarangay(String registeredBarangay)
+        {
+            this.registeredBarangay = registeredBarangay;
+        }
+        public String getRegisteredAddress()
+        {
+            return registeredAddress;
+        }
+        public void setRegisteredAddress(String registeredAddress)
+        {
+            this.registeredAddress = registeredAddress;
         }
         public String getIceContactPerson()
         {
@@ -280,17 +345,17 @@ public class EventReport
         }
     }
 
-    public static class StatsByCompany
+    private static abstract class EventStats
     {
-        private String company;
+        private String name;
         private int count;
-        public String getCompany()
+        protected String getName()
         {
-            return company;
+            return name;
         }
-        public void setCompany(String company)
+        public void setName(String name)
         {
-            this.company = company;
+            this.name = name;
         }
         public int getCount()
         {
@@ -302,113 +367,39 @@ public class EventReport
         }
     }
 
-    public static class StatsByDept
+    public static class StatsByCompany extends EventStats
     {
-        private String dept;
-        private int count;
-        public String getDept()
-        {
-            return dept;
-        }
-        public void setDept(String dept)
-        {
-            this.dept = dept;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("company")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByProvince
+    public static class StatsByDept extends EventStats
     {
-        private String province;
-        private int count;
-        public String getProvince()
-        {
-            return province;
-        }
-        public void setProvince(String province)
-        {
-            this.province = province;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("dept")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByCity
+    public static class StatsByProvince extends EventStats
     {
-        private String city;
-        private int count;
-        public String getCity()
-        {
-            return city;
-        }
-        public void setCity(String city)
-        {
-            this.city = city;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("province")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByBgy
+    public static class StatsByCity extends EventStats
     {
-        private String barangay;
-        private int count;
-        public String getBarangay()
-        {
-            return barangay;
-        }
-        public void setBarangay(String barangay)
-        {
-            this.barangay = barangay;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("city")
+        public String getName() { return super.getName(); }
     }
 
-    public static class StatsByType
+    public static class StatsByBgy extends EventStats
     {
-        private String type;
-        private int count;
-        public String getType()
-        {
-            return type;
-        }
-        public void setType(String type)
-        {
-            this.type = type;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
-        }
+        @JsonProperty("barangay")
+        public String getName() { return super.getName(); }
+    }
+
+    public static class StatsByType extends EventStats
+    {
+        @JsonProperty("type")
+        public String getName() { return super.getName(); }
     }
 }
