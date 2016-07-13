@@ -29,6 +29,7 @@ import handa.procs.DeleteUserProcedure;
 import handa.procs.DomainUserRegistrationProcedure;
 import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResult;
 import handa.procs.EditUserProcedure;
+import handa.procs.FilterFeedsProcedure;
 import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.LoginByPasscodeProcedure;
@@ -61,6 +62,7 @@ implements UsersDAO
     private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
     private final LoginByPasscodeProcedure loginByPasscodeProcedure;
     private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
+    private final FilterFeedsProcedure filterFeedsProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -82,6 +84,7 @@ implements UsersDAO
         this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
+        this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
     }
 
     @Override
@@ -184,5 +187,11 @@ implements UsersDAO
     public List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo)
     {
         return getPrivateNewsFeedsProcedure.list(username, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateTips(String username, int pageNo)
+    {
+        return filterFeedsProcedure.list(username, "tips", pageNo);
     }
 }

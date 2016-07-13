@@ -38,4 +38,5 @@ public interface UsersDAO
     UserVerificationResult verify(AuthInfo authInfo);
     String loginByPasscode(AuthInfo authInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
+    List<NewsFeed> getPrivateTips(String username, int pageNo);
 }

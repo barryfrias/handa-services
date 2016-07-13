@@ -41,4 +41,5 @@ public interface UsersService
     UserVerificationResult verify(AuthInfo authInfo, DeviceInfo deviceInfo);
     String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
+    List<NewsFeed> getPrivateTips(String username, int pageNo);
 }
