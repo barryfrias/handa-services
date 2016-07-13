@@ -341,6 +341,12 @@ implements UsersService
         return usersDAO.getPrivateNewsFeeds(username, pageNo);
     }
 
+    @Override
+    public List<NewsFeed> getPrivateTips(String username, int pageNo)
+    {
+        return usersDAO.getPrivateTips(username, pageNo);
+    }
+
     private void sendPasscodeViaSms(String passcode, String mobileNumber)
     {
         if(passcode != null)
