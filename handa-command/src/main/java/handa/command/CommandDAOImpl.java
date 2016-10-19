@@ -22,6 +22,7 @@ import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -40,6 +41,7 @@ import handa.procs.DeleteSmsProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
+import handa.procs.GetAllSosProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
@@ -102,6 +104,7 @@ implements CommandDAO
     private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
     private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
     private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
+    private final GetAllSosProcedure getAllSosProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -142,6 +145,7 @@ implements CommandDAO
         this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
         this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
         this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
+        this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
     }
 
     @Override
@@ -172,6 +176,12 @@ implements CommandDAO
     public int deleteNewsFeed(int id, String deletedBy)
     {
         return deleteNewsFeedProcedure.delete(id, deletedBy);
+    }
+
+    @Override
+    public List<SosPrompt> getAllSos()
+    {
+        return getAllSosProcedure.get();
     }
 
     @Override

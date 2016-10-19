@@ -45,6 +45,7 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPrompt;
@@ -169,6 +170,18 @@ public class CommandResource
                            @QueryParam(END_DATE) String endDate)
     {
         List<UserPrompt> result = commandService.getSos(city, startDate, endDate);
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("sos/all")
+    public Response getAllSos()
+    {
+        List<SosPrompt> result = commandService.getAllSos();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

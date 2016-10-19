@@ -16,6 +16,7 @@ import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -25,6 +26,7 @@ public interface CommandDAO
     Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
+    List<SosPrompt> getAllSos();
     List<UserPrompt> getSos(String city, String startDate, String endDate);
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
     List<UserReport> getUserReports();

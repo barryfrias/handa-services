@@ -31,6 +31,7 @@ import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -90,6 +91,12 @@ implements CommandService
         int result = commandDAO.deleteNewsFeed(id, deletedBy);
         dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted news feed id %s and result was %s", id, result));
         return result;
+    }
+
+    @Override
+    public List<SosPrompt> getAllSos()
+    {
+        return commandDAO.getAllSos();
     }
 
     @Override
