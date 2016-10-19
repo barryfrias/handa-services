@@ -342,15 +342,6 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
-    //TODO: PLEASE REMOVE IF NOT USED
-    @GET
-    @Path("reports")
-    public Response getUserReports()
-    {
-        List<UserReport> result = commandService.getUserReports();
-        return Response.ok().entity(result).build();
-    }
-
     @GET
     @Path("reports/{pageNo}")
     public Response getUserReports(@PathParam("pageNo") int pageNo)

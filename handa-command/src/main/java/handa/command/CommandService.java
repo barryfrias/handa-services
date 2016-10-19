@@ -28,7 +28,6 @@ public interface CommandService
     List<SosPrompt> getAllSos();
     List<UserPrompt> getSos(String city, String startDate, String endDate);
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
-    List<UserReport> getUserReports();
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();

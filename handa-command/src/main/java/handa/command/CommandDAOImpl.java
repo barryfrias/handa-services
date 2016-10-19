@@ -197,12 +197,6 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserReport> getUserReports()
-    {
-        return getUserReportsProcedure.list(false, 0);
-    }
-
-    @Override
     public List<UserReport> getUserReports(int pageNo)
     {
         return getUserReportsProcedure.list(true, pageNo);
