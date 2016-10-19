@@ -24,6 +24,7 @@ public class SosPrompt
     private String promptType;
     private String status;
     private String referenceNumber;
+    private String remarks;
     private String createdDate;
 
     public int getRowNum()
@@ -154,6 +155,16 @@ public class SosPrompt
     public void setReferenceNumber(String referenceNumber)
     {
         this.referenceNumber = referenceNumber;
+    }
+
+    public String getRemarks()
+    {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks)
+    {
+        this.remarks = remarks;
     }
 
     public String getCreatedDate()

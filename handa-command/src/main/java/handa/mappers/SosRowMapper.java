@@ -28,6 +28,7 @@ implements RowMapper<SosPrompt>
         sos.setPromptType(rs.getString("PROMPT_TYPE"));
         sos.setStatus(rs.getString("STATUS"));
         sos.setReferenceNumber(rs.getString("REF_NO"));
+        sos.setRemarks(rs.getString("REASON"));
         return sos;
     }
 }
