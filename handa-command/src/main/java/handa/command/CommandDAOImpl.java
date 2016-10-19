@@ -62,6 +62,7 @@ import handa.procs.ResetEventsProcedure;
 import handa.procs.SendSmsProcedure;
 import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
+import handa.procs.UpdateSosProcedure;
 import handa.procs.UsersCountProcedure;
 
 @Component
@@ -105,6 +106,7 @@ implements CommandDAO
     private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
     private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
     private final GetAllSosProcedure getAllSosProcedure;
+    private final UpdateSosProcedure updateSosProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -146,6 +148,7 @@ implements CommandDAO
         this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
         this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
         this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
+        this.updateSosProcedure = new UpdateSosProcedure(dataSource());
     }
 
     @Override
@@ -242,6 +245,12 @@ implements CommandDAO
     public String closePrompt(int id, ClosePrompt closePrompt)
     {
         return closePromptProcedure.closePrompt(id, closePrompt);
+    }
+
+    @Override
+    public String updateSOS(int id, ClosePrompt closePrompt)
+    {
+        return updateSosProcedure.update(id, closePrompt);
     }
 
     @Override

@@ -209,6 +209,14 @@ implements CommandService
     }
 
     @Override
+    public String updateSOS(int id, ClosePrompt closePrompt)
+    {
+        String result = commandDAO.updateSOS(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Updated SOS id %s and result was %s", id, result));
+        return result;
+    }
+
+    @Override
     public List<DistributionList> getNewsFeedsDistributionList()
     {
         return commandDAO.getNewsFeedsDistributionList("default");

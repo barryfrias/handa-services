@@ -210,6 +210,14 @@ public class CommandResource
         return httpOk(rowsAffected);
     }
 
+    @PUT
+    @Path("sos/{id}")
+    public Response updateSOS(@PathParam("id") int id, ClosePrompt closePrompt)
+    {
+        String rowsAffected = commandService.updateSOS(id, closePrompt);
+        return httpOk(rowsAffected);
+    }
+
     @GET
     @Path("safe")
     public Response getSafe(@DefaultValue(ALL) @QueryParam(CITY) String city,
