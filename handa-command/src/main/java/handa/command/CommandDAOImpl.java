@@ -245,7 +245,7 @@ implements CommandDAO
     }
 
     @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
         return closePromptProcedure.closePrompt(id, closePrompt);
     }

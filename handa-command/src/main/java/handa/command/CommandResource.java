@@ -206,7 +206,7 @@ public class CommandResource
     @Path("sos/{id}")
     public Response closePrompt(@PathParam("id") int id, ClosePrompt closePrompt)
     {
-        int rowsAffected = commandService.closePrompt(id, closePrompt);
+        String rowsAffected = commandService.closePrompt(id, closePrompt);
         return httpOk(rowsAffected);
     }
 

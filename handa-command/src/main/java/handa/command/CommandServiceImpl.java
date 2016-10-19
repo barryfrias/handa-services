@@ -193,10 +193,10 @@ implements CommandService
     }
 
     @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
-        int result = commandDAO.closePrompt(id, closePrompt);
-        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was %s", id, result));
+        String result = commandDAO.closePrompt(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was ref no = %s", id, result));
         return result;
     }
 

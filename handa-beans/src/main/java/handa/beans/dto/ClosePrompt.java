@@ -5,18 +5,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "closePrompt")
 public class ClosePrompt
 {
-    private String referenceNumber;
     private String reason;
     private String username;
 
-    public String getReferenceNumber()
-    {
-        return referenceNumber;
-    }
-    public void setReferenceNumber(String referenceNumber)
-    {
-        this.referenceNumber = referenceNumber;
-    }
     public String getReason()
     {
         return reason;

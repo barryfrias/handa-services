@@ -37,7 +37,7 @@ public interface CommandService
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
     List<UserLocation> getUsersLocations(String city, String startDate, String endDate);
-    int closePrompt(int id, ClosePrompt closePrompt);
+    String closePrompt(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);
     NewsFeed updateNewsFeed(NewsFeed newsFeed);
