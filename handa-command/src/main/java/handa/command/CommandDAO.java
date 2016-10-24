@@ -26,7 +26,7 @@ public interface CommandDAO
     Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
-    List<SosPrompt> getAllSos();
+    List<SosPrompt> getAllSos(String city, String startDate, String endDate);
     List<UserPrompt> getSos(String city, String startDate, String endDate);
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
     List<UserReport> getUserReports(int pageNo);

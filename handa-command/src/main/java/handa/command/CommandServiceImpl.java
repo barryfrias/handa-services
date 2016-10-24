@@ -94,9 +94,9 @@ implements CommandService
     }
 
     @Override
-    public List<SosPrompt> getAllSos()
+    public List<SosPrompt> getAllSos(String city, String startDate, String endDate)
     {
-        return commandDAO.getAllSos();
+        return commandDAO.getAllSos(city, startDate, endDate);
     }
 
     @Override

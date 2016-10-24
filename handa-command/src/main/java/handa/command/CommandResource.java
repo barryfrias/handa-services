@@ -179,9 +179,11 @@ public class CommandResource
 
     @GET
     @Path("sos/all")
-    public Response getAllSos()
+    public Response getAllSos(@DefaultValue(ALL) @QueryParam(CITY) String city,
+                              @QueryParam(START_DATE) String startDate,
+                              @QueryParam(END_DATE) String endDate)
     {
-        List<SosPrompt> result = commandService.getAllSos();
+        List<SosPrompt> result = commandService.getAllSos(city, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
