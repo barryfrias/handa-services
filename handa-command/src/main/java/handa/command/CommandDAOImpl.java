@@ -22,6 +22,7 @@ import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -40,6 +41,7 @@ import handa.procs.DeleteSmsProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
+import handa.procs.GetAllSosProcedure;
 import handa.procs.GetNewsFeedsDistributionListProcedure;
 import handa.procs.GetNewsFeedsDistributionLovProcedure;
 import handa.procs.GetNewsFeedsProcedure;
@@ -60,6 +62,7 @@ import handa.procs.ResetEventsProcedure;
 import handa.procs.SendSmsProcedure;
 import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
+import handa.procs.UpdateSosProcedure;
 import handa.procs.UsersCountProcedure;
 
 @Component
@@ -102,6 +105,8 @@ implements CommandDAO
     private final AddSmsCustomGroupProcedure addSmsCustomGroupProcedure;
     private final EditSmsCustomGroupProcedure editSmsCustomGroupProcedure;
     private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
+    private final GetAllSosProcedure getAllSosProcedure;
+    private final UpdateSosProcedure updateSosProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -142,6 +147,8 @@ implements CommandDAO
         this.addSmsCustomGroupProcedure = new AddSmsCustomGroupProcedure(dataSource());
         this.editSmsCustomGroupProcedure = new EditSmsCustomGroupProcedure(dataSource());
         this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
+        this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
+        this.updateSosProcedure = new UpdateSosProcedure(dataSource());
     }
 
     @Override
@@ -175,6 +182,12 @@ implements CommandDAO
     }
 
     @Override
+    public List<SosPrompt> getAllSos(String city, String startDate, String endDate)
+    {
+        return getAllSosProcedure.get(city, startDate, endDate);
+    }
+
+    @Override
     public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
         return getUserPromptsProcedure.list(PromptType.SOS, city, startDate, endDate);
@@ -184,12 +197,6 @@ implements CommandDAO
     public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
         return getUserPromptsProcedure.list(PromptType.SAFE, city, startDate, endDate);
-    }
-
-    @Override
-    public List<UserReport> getUserReports()
-    {
-        return getUserReportsProcedure.list(false, 0);
     }
 
     @Override
@@ -235,9 +242,15 @@ implements CommandDAO
     }
 
     @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
         return closePromptProcedure.closePrompt(id, closePrompt);
+    }
+
+    @Override
+    public String updateSOS(int id, ClosePrompt closePrompt)
+    {
+        return updateSosProcedure.update(id, closePrompt);
     }
 
     @Override

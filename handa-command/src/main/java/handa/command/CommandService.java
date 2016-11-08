@@ -15,6 +15,7 @@ import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -24,9 +25,9 @@ public interface CommandService
     Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
+    List<SosPrompt> getAllSos(String city, String startDate, String endDate);
     List<UserPrompt> getSos(String city, String startDate, String endDate);
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
-    List<UserReport> getUserReports();
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<City> getCities();
@@ -35,7 +36,8 @@ public interface CommandService
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
     List<UserLocation> getUsersLocations(String city, String startDate, String endDate);
-    int closePrompt(int id, ClosePrompt closePrompt);
+    String closePrompt(int id, ClosePrompt closePrompt);
+    String updateSOS(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);
     int deleteNewsFeed(int id, String deletedBy);
     NewsFeed updateNewsFeed(NewsFeed newsFeed);

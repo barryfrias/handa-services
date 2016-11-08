@@ -31,6 +31,7 @@ import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -93,6 +94,12 @@ implements CommandService
     }
 
     @Override
+    public List<SosPrompt> getAllSos(String city, String startDate, String endDate)
+    {
+        return commandDAO.getAllSos(city, startDate, endDate);
+    }
+
+    @Override
     public List<UserPrompt> getSos(String city, String startDate, String endDate)
     {
         return commandDAO.getSos(city, startDate, endDate);
@@ -102,12 +109,6 @@ implements CommandService
     public List<UserPrompt> getSafe(String city, String startDate, String endDate)
     {
         return commandDAO.getSafe(city, startDate, endDate);
-    }
-
-    @Override
-    public List<UserReport> getUserReports()
-    {
-        return commandDAO.getUserReports();
     }
 
     @Override
@@ -186,10 +187,10 @@ implements CommandService
     }
 
     @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
-        int result = commandDAO.closePrompt(id, closePrompt);
-        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was %s", id, result));
+        String result = commandDAO.closePrompt(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was ref no = %s", id, result));
         return result;
     }
 
@@ -204,6 +205,14 @@ implements CommandService
     {
         int result = commandDAO.closeUserReport(id, closeUserReport);
         dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), "Closed user report id %s and result was %s", id, result));
+        return result;
+    }
+
+    @Override
+    public String updateSOS(int id, ClosePrompt closePrompt)
+    {
+        String result = commandDAO.updateSOS(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Updated SOS id %s and result was %s", id, result));
         return result;
     }
 

@@ -45,6 +45,7 @@ import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPrompt;
@@ -177,6 +178,20 @@ public class CommandResource
     }
 
     @GET
+    @Path("sos/all")
+    public Response getAllSos(@DefaultValue(ALL) @QueryParam(CITY) String city,
+                              @QueryParam(START_DATE) String startDate,
+                              @QueryParam(END_DATE) String endDate)
+    {
+        List<SosPrompt> result = commandService.getAllSos(city, startDate, endDate);
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("sos/countPerCity")
     public Response getSosCountPerCity(@QueryParam(START_DATE) String startDate,
                                        @QueryParam(END_DATE) String endDate)
@@ -193,7 +208,15 @@ public class CommandResource
     @Path("sos/{id}")
     public Response closePrompt(@PathParam("id") int id, ClosePrompt closePrompt)
     {
-        int rowsAffected = commandService.closePrompt(id, closePrompt);
+        String rowsAffected = commandService.closePrompt(id, closePrompt);
+        return httpOk(rowsAffected);
+    }
+
+    @PUT
+    @Path("sos/{id}")
+    public Response updateSOS(@PathParam("id") int id, ClosePrompt closePrompt)
+    {
+        String rowsAffected = commandService.updateSOS(id, closePrompt);
         return httpOk(rowsAffected);
     }
 
@@ -326,15 +349,6 @@ public class CommandResource
         {
             return Response.status(Status.NOT_FOUND).build();
         }
-        return Response.ok().entity(result).build();
-    }
-
-    //TODO: PLEASE REMOVE IF NOT USED
-    @GET
-    @Path("reports")
-    public Response getUserReports()
-    {
-        List<UserReport> result = commandService.getUserReports();
         return Response.ok().entity(result).build();
     }
 

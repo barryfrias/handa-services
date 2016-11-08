@@ -14,31 +14,31 @@ import org.springframework.jdbc.object.StoredProcedure;
 import handa.beans.dto.ClosePrompt;
 import oracle.jdbc.OracleTypes;
 
-public class ClosePromptProcedure
+public class UpdateSosProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
 
-    public ClosePromptProcedure(DataSource dataSource)
+    public UpdateSosProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("close_prompt");
+        setSql("update_sos");
         setFunction(false);
-        declareParameter(new SqlParameter("P_ID", OracleTypes.NUMBER));
-        declareParameter(new SqlParameter("REASON", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("CLOSED_BY", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_id", OracleTypes.NUMBER));
+        declareParameter(new SqlParameter("p_reason", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_updated_by", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         compile();
     }
 
-    public String closePrompt(int id, ClosePrompt closePrompt)
+    public String update(int id, ClosePrompt closePrompt)
     {
         checkNotNull(closePrompt, "closePrompt object can't be null");
         Object[] params =
         {
             id,
-            closePrompt.getReason(),
-            checkNotNull(emptyToNull(closePrompt.getUsername()), "closePrompt.username can't be null")
+            checkNotNull(emptyToNull(closePrompt.getReason()), "reason can't be null"),
+            checkNotNull(emptyToNull(closePrompt.getUsername()), "username can't be null")
         };
         Map<String, Object> map = execute(params);
         return (String) map.get(RESULT);
