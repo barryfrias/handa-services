@@ -1,6 +1,7 @@
 package handa.users;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReportInput;
@@ -32,6 +34,7 @@ import handa.procs.EditUserProcedure;
 import handa.procs.FilterFeedsProcedure;
 import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
+import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
@@ -40,7 +43,7 @@ import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 import handa.procs.UserReportProcedure;
 import handa.procs.VerifyUserAndAuthMethodProcedure;
-
+import static handa.config.HandaUsersConstants.*;
 @Component
 public class UsersDAOImpl
 extends AbstractJdbcDAO
@@ -63,6 +66,7 @@ implements UsersDAO
     private final LoginByPasscodeProcedure loginByPasscodeProcedure;
     private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
     private final FilterFeedsProcedure filterFeedsProcedure;
+    private final GetSubordinatesProcedure getSubordinatesProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -85,6 +89,7 @@ implements UsersDAO
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
+        this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
     }
 
     @Override
@@ -193,5 +198,11 @@ implements UsersDAO
     public List<NewsFeed> getPrivateTips(String username, int pageNo)
     {
         return filterFeedsProcedure.list(username, "tips", pageNo);
+    }
+    
+    @Override
+    public List<Map<String, Object>> getSubordinates(String mgrUsername, String startDate, String endDate)
+    {
+        return getSubordinatesProcedure.list(mgrUsername, startDate, endDate);
     }
 }

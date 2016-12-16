@@ -2,6 +2,7 @@ package handa.users;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -13,6 +14,7 @@ import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReportInput;
@@ -42,4 +44,5 @@ public interface UsersService
     String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<NewsFeed> getPrivateTips(String username, int pageNo);
+    List<Map<String, Object>> getSubordinates(String mgrUsername, String startDate, String endDate);
 }

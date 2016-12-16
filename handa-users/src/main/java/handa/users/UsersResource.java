@@ -1,9 +1,7 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
-import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
-import static handa.config.HandaUsersConstants.OK;
-import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
+import static handa.config.HandaUsersConstants.*;
 
 import java.io.InputStream;
 import java.util.List;
@@ -311,4 +309,20 @@ public class UsersResource
         List<NewsFeed> result = usersService.getPrivateTips(username, pageNo);
         return Response.ok().entity(result).build();
     }
+    
+    @GET
+    @Path("{mgrUsername}/subordinates/prompts")
+    public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
+						            @QueryParam(START_DATE) String startDate,
+						            @QueryParam(END_DATE) String endDate)
+    {
+        List<Map<String, Object>> result = usersService.getSubordinates(mgrUsername, startDate, endDate);
+
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
 }
