@@ -2,9 +2,7 @@ package handa.procs;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.core.HandaUtils.checkDate;
 
 import java.util.List;
 import java.util.Map;

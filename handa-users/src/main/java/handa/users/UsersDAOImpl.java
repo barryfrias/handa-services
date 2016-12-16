@@ -16,7 +16,6 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReportInput;
@@ -43,7 +42,6 @@ import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 import handa.procs.UserReportProcedure;
 import handa.procs.VerifyUserAndAuthMethodProcedure;
-import static handa.config.HandaUsersConstants.*;
 @Component
 public class UsersDAOImpl
 extends AbstractJdbcDAO
