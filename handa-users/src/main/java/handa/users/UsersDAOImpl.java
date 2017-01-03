@@ -1,7 +1,6 @@
 package handa.users;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +13,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -35,6 +35,7 @@ import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
+import handa.procs.PrivacyTagByMinProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
 import handa.procs.UserPromptProcedure;
@@ -65,6 +66,7 @@ implements UsersDAO
     private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
     private final FilterFeedsProcedure filterFeedsProcedure;
     private final GetSubordinatesProcedure getSubordinatesProcedure;
+    private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -88,6 +90,7 @@ implements UsersDAO
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
+        this.privacyTagByMinProcedure = new PrivacyTagByMinProcedure(dataSource());
     }
 
     @Override
@@ -199,8 +202,14 @@ implements UsersDAO
     }
     
     @Override
-    public List<Map<String, Object>> getSubordinates(String mgrUsername, String startDate, String endDate)
+    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
     {
-        return getSubordinatesProcedure.list(mgrUsername, startDate, endDate);
+    	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
+    }
+
+    @Override
+    public String privacyTagByMIN(String mobileNumber)
+    {
+        return privacyTagByMinProcedure.privacyTagByMin(mobileNumber);
     }
 }

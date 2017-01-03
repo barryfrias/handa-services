@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.client.Client;
 
@@ -33,6 +32,7 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -376,11 +376,17 @@ implements UsersService
         ur.setMiddleName(lu.getMiddleName());
         ur.setPosition(lu.getPosition());
     }
-    
+
     @Override
-    public List<Map<String, Object>> getSubordinates(String mgrUsername, String startDate, String endDate)
+    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
     {
-        return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
+    	return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
     }
 
+    @Override
+    public String privacyTagByMIN(String mobileNumber)
+    {
+        String result = usersDAO.privacyTagByMIN(mobileNumber);
+        return result;
+    }
 }

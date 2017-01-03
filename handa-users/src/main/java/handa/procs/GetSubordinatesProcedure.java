@@ -1,9 +1,7 @@
 package handa.procs;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.core.HandaUtils.checkDate;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +10,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
+
+import handa.beans.dto.Subordinates;
+import handa.beans.dto.Subordinates.SubDetails;
 import handa.core.ToMapRowMapper;
 import oracle.jdbc.OracleTypes;
 
@@ -19,6 +20,7 @@ public class GetSubordinatesProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "RESULT";
+    private static final String isManager = "P_OUT_IS_MANAGER";
 
     public GetSubordinatesProcedure(DataSource dataSource)
     {
@@ -28,19 +30,22 @@ extends StoredProcedure
         declareParameter(new SqlParameter("P_START_DATE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_END_DATE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new ToMapRowMapper()));
+        declareParameter(new SqlOutParameter("P_OUT_IS_MANAGER", OracleTypes.NUMBER));
         setFunction(false);
         compile();
     }
     
     @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> list(String mgrUsername, String startDate, String endDate)
+    public Subordinates subordinatesList(String mgrUsername, String startDate, String endDate)
     {
-    	checkArgument(checkDate(startDate), "Invalid startDate");
-        checkArgument(checkDate(endDate), "Invalid endDate");
         
-        Object[] params = new Object[] { mgrUsername, startDate, endDate };
+    	Object[] params = new Object[] { mgrUsername, startDate, endDate };
         Map<String, Object> map = execute(params);
-        return (List<Map<String, Object>>) map.get(RESULT);
+        Subordinates subordinates = new Subordinates();
+        BigDecimal ismanager = (BigDecimal) map.get(isManager);
+        subordinates.setSubordinates((List<SubDetails>) map.get(RESULT));
+        subordinates.setIsManager(ismanager.intValue());
+        return subordinates;
     }
     
 }

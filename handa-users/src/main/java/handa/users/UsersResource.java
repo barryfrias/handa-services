@@ -36,11 +36,14 @@ import com.pldt.itidm.core.exception.NotFoundException;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
+import handa.beans.dto.EventReport;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
+import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReportInput;
@@ -316,13 +319,17 @@ public class UsersResource
 						            @QueryParam(START_DATE) String startDate,
 						            @QueryParam(END_DATE) String endDate)
     {
-        List<Map<String, Object>> result = usersService.getSubordinates(mgrUsername, startDate, endDate);
-
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        
+        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
         return Response.ok().entity(result).build();
     }
+    
+    @POST
+    @Path("privacy/tag")
+    public Response privacyTag(String mobileNumber)
+    {
+    	 String result = usersService.privacyTagByMIN(mobileNumber);
+    	 return Response.ok(result).build();
+     }
 
 }
