@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
-import handa.beans.dto.AuthInfo;
 import oracle.jdbc.OracleTypes;
 
 public class PrivacyTagByMinProcedure

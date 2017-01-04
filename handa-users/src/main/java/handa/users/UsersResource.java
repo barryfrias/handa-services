@@ -1,7 +1,12 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
-import static handa.config.HandaUsersConstants.*;
+import static handa.config.HandaUsersConstants.END_DATE;
+import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
+import static handa.config.HandaUsersConstants.MGR_USERNAME;
+import static handa.config.HandaUsersConstants.OK;
+import static handa.config.HandaUsersConstants.START_DATE;
+import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 
 import java.io.InputStream;
 import java.util.List;
@@ -36,14 +41,12 @@ import com.pldt.itidm.core.exception.NotFoundException;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
-import handa.beans.dto.EventReport;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
-import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPromptInput;
 import handa.beans.dto.UserRegistration;
 import handa.beans.dto.UserReportInput;
@@ -329,7 +332,7 @@ public class UsersResource
     public Response privacyTag(String mobileNumber)
     {
     	 String result = usersService.privacyTagByMIN(mobileNumber);
-    	 return Response.ok(result).build();
+    	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
 
 }
