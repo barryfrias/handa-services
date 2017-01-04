@@ -41,6 +41,6 @@ public interface UsersDAO
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<NewsFeed> getPrivateTips(String username, int pageNo);
     Subordinates getSubordinates(String mgrUsername, String startDate, String endDate);
-    String privacyTagByMIN(String mobileNumber);
+    String privacyTagByMIN(AuthInfo authInfo);
     
 }

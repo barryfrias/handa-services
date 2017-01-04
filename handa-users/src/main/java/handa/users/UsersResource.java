@@ -329,9 +329,9 @@ public class UsersResource
     
     @POST
     @Path("privacy/tag")
-    public Response privacyTag(String mobileNumber)
+    public Response privacyTag(AuthInfo authInfo)
     {
-    	 String result = usersService.privacyTagByMIN(mobileNumber);
+    	 String result = usersService.privacyTagByMIN(authInfo);
     	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
 

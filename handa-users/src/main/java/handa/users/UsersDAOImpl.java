@@ -206,10 +206,10 @@ implements UsersDAO
     {
     	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
     }
-
+    
     @Override
-    public String privacyTagByMIN(String mobileNumber)
+    public String privacyTagByMIN(AuthInfo authInfo)
     {
-        return privacyTagByMinProcedure.privacyTagByMin(mobileNumber);
+        return privacyTagByMinProcedure.privacyTagByMin(authInfo);
     }
 }

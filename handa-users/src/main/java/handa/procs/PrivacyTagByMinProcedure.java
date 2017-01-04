@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
+import handa.beans.dto.AuthInfo;
 import oracle.jdbc.OracleTypes;
 
 public class PrivacyTagByMinProcedure
@@ -26,11 +27,11 @@ extends StoredProcedure
         setFunction(false);
         compile();
     }
-
-    public String privacyTagByMin(String mobileNumber)
+    
+    public String privacyTagByMin(AuthInfo authInfo)
     {
-        checkNotNull(mobileNumber, "mobileNumber can't be null");
-        Map<String, Object> map = execute(mobileNumber);
+        checkNotNull(authInfo.getMobileNumber(), "mobileNumber can't be null");
+        Map<String, Object> map = execute(authInfo.getMobileNumber());
         return (String) map.get(RESULT);
     }
 }

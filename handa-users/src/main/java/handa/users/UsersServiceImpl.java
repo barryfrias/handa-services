@@ -382,11 +382,11 @@ implements UsersService
     {
     	return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
     }
-
+    
     @Override
-    public String privacyTagByMIN(String mobileNumber)
+    public String privacyTagByMIN(AuthInfo authInfo)
     {
-        String result = usersDAO.privacyTagByMIN(mobileNumber);
+        String result = usersDAO.privacyTagByMIN(authInfo);
         return result;
     }
 }
