@@ -8,6 +8,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -39,4 +40,7 @@ public interface UsersDAO
     String loginByPasscode(AuthInfo authInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<NewsFeed> getPrivateTips(String username, int pageNo);
+    Subordinates getSubordinates(String mgrUsername, String startDate, String endDate);
+    String privacyTagByMIN(AuthInfo authInfo);
+    
 }

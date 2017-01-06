@@ -13,6 +13,7 @@ import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -32,7 +33,9 @@ import handa.procs.EditUserProcedure;
 import handa.procs.FilterFeedsProcedure;
 import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
+import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
+import handa.procs.PrivacyTagByMinProcedure;
 import handa.procs.SearchUserByNameProcedure;
 import handa.procs.UserInfoProcedure;
 import handa.procs.UserPromptProcedure;
@@ -40,7 +43,6 @@ import handa.procs.UserRegistrationProcedure;
 import handa.procs.UserRegistrationProcedure.RegistrationRequestResult;
 import handa.procs.UserReportProcedure;
 import handa.procs.VerifyUserAndAuthMethodProcedure;
-
 @Component
 public class UsersDAOImpl
 extends AbstractJdbcDAO
@@ -63,6 +65,8 @@ implements UsersDAO
     private final LoginByPasscodeProcedure loginByPasscodeProcedure;
     private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
     private final FilterFeedsProcedure filterFeedsProcedure;
+    private final GetSubordinatesProcedure getSubordinatesProcedure;
+    private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -85,6 +89,8 @@ implements UsersDAO
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
+        this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
+        this.privacyTagByMinProcedure = new PrivacyTagByMinProcedure(dataSource());
     }
 
     @Override
@@ -193,5 +199,17 @@ implements UsersDAO
     public List<NewsFeed> getPrivateTips(String username, int pageNo)
     {
         return filterFeedsProcedure.list(username, "tips", pageNo);
+    }
+    
+    @Override
+    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
+    {
+    	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
+    }
+    
+    @Override
+    public String privacyTagByMIN(AuthInfo authInfo)
+    {
+        return privacyTagByMinProcedure.privacyTagByMin(authInfo);
     }
 }

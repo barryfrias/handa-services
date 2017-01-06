@@ -55,4 +55,5 @@ extends StoredProcedure
         List<UserInfo> list = (List<UserInfo>) map.get(RESULT);
         return list;
     }
+
 }

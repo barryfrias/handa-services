@@ -32,6 +32,7 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -374,5 +375,18 @@ implements UsersService
         ur.setLastName(MoreObjects.firstNonNull(lu.getLastName(), ur.getLastName()));
         ur.setMiddleName(lu.getMiddleName());
         ur.setPosition(lu.getPosition());
+    }
+
+    @Override
+    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
+    {
+    	return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
+    }
+    
+    @Override
+    public String privacyTagByMIN(AuthInfo authInfo)
+    {
+        String result = usersDAO.privacyTagByMIN(authInfo);
+        return result;
     }
 }

@@ -1,8 +1,11 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.END_DATE;
 import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
+import static handa.config.HandaUsersConstants.MGR_USERNAME;
 import static handa.config.HandaUsersConstants.OK;
+import static handa.config.HandaUsersConstants.START_DATE;
 import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 
 import java.io.InputStream;
@@ -41,6 +44,7 @@ import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
 import handa.beans.dto.LdapUserSearch;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.Subordinates;
 import handa.beans.dto.User;
 import handa.beans.dto.UserInfo;
 import handa.beans.dto.UserPromptInput;
@@ -311,4 +315,24 @@ public class UsersResource
         List<NewsFeed> result = usersService.getPrivateTips(username, pageNo);
         return Response.ok().entity(result).build();
     }
+    
+    @GET
+    @Path("{mgrUsername}/subordinates/prompts")
+    public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
+						            @QueryParam(START_DATE) String startDate,
+						            @QueryParam(END_DATE) String endDate)
+    {
+        
+        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
+        return Response.ok().entity(result).build();
+    }
+    
+    @POST
+    @Path("privacy/tag")
+    public Response privacyTag(AuthInfo authInfo)
+    {
+    	 String result = usersService.privacyTagByMIN(authInfo);
+    	 return Response.ok(ImmutableMap.of("message", result)).build();
+     }
+
 }
