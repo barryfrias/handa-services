@@ -27,6 +27,7 @@ implements RowMapper<UserPrompt>
         userPrompt.setDeviceInfo(rs.getString("DEVICE_INFO"));
         userPrompt.setPromptType(rs.getString("PROMPT_TYPE"));
         userPrompt.setStatus(rs.getString("STATUS"));
+        userPrompt.setModifiedBy(rs.getString("MODIFIED_BY"));
         return userPrompt;
     }
 }
