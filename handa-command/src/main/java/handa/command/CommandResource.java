@@ -109,19 +109,19 @@ public class CommandResource
         return Response.ok().entity(result).build();
     }
 
-    @GET
-    @Path("users/locations")
-    public Response getUsersLocation(@DefaultValue(ALL) @QueryParam(CITY) String city,
-                                    @QueryParam(START_DATE) String startDate,
-                                    @QueryParam(END_DATE) String endDate)
-    {
-        List<UserLocation> result = commandService.getUsersLocations(city, startDate, endDate);
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
+//    @GET
+//    @Path("users/locations")
+//    public Response getUsersLocation(@DefaultValue(ALL) @QueryParam(CITY) String city,
+//                                    @QueryParam(START_DATE) String startDate,
+//                                    @QueryParam(END_DATE) String endDate)
+//    {
+//        List<UserLocation> result = commandService.getUsersLocations(city, startDate, endDate);
+//        if(result.isEmpty())
+//        {
+//            return Response.status(Status.NOT_FOUND).build();
+//        }
+//        return Response.ok().entity(result).build();
+//    }
 
     @GET
     @Path("users/count")
