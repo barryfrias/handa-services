@@ -24,7 +24,7 @@ public class UserPrompt
     private String status;
     private String createdDate;
     private String modifiedBy;
-    
+    private String remarks;
 
     public int getRowNum()
     {
@@ -166,7 +166,17 @@ public class UserPrompt
 		this.modifiedBy = modifiedBy;
 	}
 
-	@Override
+	public String getRemarks()
+    {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks)
+    {
+        this.remarks = remarks;
+    }
+
+    @Override
     public String toString()
     {
         return toStringHelper(this)
@@ -181,6 +191,7 @@ public class UserPrompt
                .add("status", status)
                .add("createdDate", createdDate)
                .add("modifiedBy", modifiedBy)
+               .add("remarks", remarks)
                .toString();
     }
 }
