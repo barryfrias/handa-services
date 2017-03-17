@@ -23,7 +23,6 @@ import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.SosPrompt;
-import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
@@ -49,7 +48,6 @@ import handa.procs.GetSmsDistributionListProcedure;
 import handa.procs.GetSmsDistributionLovProcedure;
 import handa.procs.GetSmsInboxProcedure;
 import handa.procs.GetSosCountPerCityProcedure;
-import handa.procs.GetUserLocAndPromptProcedure;
 import handa.procs.GetUserPromptsProcedure;
 import handa.procs.GetUserReportsProcedure;
 import handa.procs.InsertCallTreeProcedure;
@@ -81,7 +79,6 @@ implements CommandDAO
     private final GenericProcedure<City> citiesProcedure;
     private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
-    private final GetUserLocAndPromptProcedure getUsersLocationsProcedure;
     private final ClosePromptProcedure closePromptProcedure;
     private final UsersCountProcedure usersCountProcedure;
     private final CloseUserReportProcedure closeUserReportProcedure;
@@ -121,7 +118,6 @@ implements CommandDAO
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
         this.reportsCountProcedure = new ReportsCountProcedure(dataSource());
         this.resetEventsProcedure = new ResetEventsProcedure(dataSource());
-        this.getUsersLocationsProcedure = new GetUserLocAndPromptProcedure(dataSource());
         this.closePromptProcedure = new ClosePromptProcedure(dataSource());
         this.usersCountProcedure = new UsersCountProcedure(dataSource());
         this.closeUserReportProcedure = new CloseUserReportProcedure(dataSource());
@@ -233,12 +229,6 @@ implements CommandDAO
     public void resetEvents()
     {
         resetEventsProcedure.reset();
-    }
-
-    @Override
-    public List<UserLocation> getUsersLocations(String city, String starDate, String endDate)
-    {
-        return getUsersLocationsProcedure.list(city, starDate, endDate);
     }
 
     @Override

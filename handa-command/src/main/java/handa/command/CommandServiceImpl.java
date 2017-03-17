@@ -32,7 +32,6 @@ import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
-import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.core.DBLoggerDAO;
@@ -178,12 +177,6 @@ implements CommandService
         checkNotNull(emptyToNull(resetBy), "resetBy can't be null");
         commandDAO.resetEvents();
         dbLoggerDAO.log(AppLog.server(resetBy, "Events was reset by %s", resetBy));
-    }
-
-    @Override
-    public List<UserLocation> getUsersLocations(String city, String startDate, String endDate)
-    {
-        return commandDAO.getUsersLocations(city, startDate, endDate);
     }
 
     @Override
