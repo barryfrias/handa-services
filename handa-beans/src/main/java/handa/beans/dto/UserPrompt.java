@@ -23,6 +23,8 @@ public class UserPrompt
     private String promptType;
     private String status;
     private String createdDate;
+    private String modifiedBy;
+    private String remarks;
 
     public int getRowNum()
     {
@@ -154,6 +156,26 @@ public class UserPrompt
         this.createdDate = createdDate;
     }
 
+    public String getModifiedBy() 
+    {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) 
+	{
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getRemarks()
+    {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks)
+    {
+        this.remarks = remarks;
+    }
+
     @Override
     public String toString()
     {
@@ -168,6 +190,8 @@ public class UserPrompt
                .add("promptType", promptType)
                .add("status", status)
                .add("createdDate", createdDate)
+               .add("modifiedBy", modifiedBy)
+               .add("remarks", remarks)
                .toString();
     }
 }

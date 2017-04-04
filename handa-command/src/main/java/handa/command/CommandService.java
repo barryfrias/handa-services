@@ -16,7 +16,6 @@ import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
-import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 
@@ -35,7 +34,6 @@ public interface CommandService
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);
-    List<UserLocation> getUsersLocations(String city, String startDate, String endDate);
     String closePrompt(int id, ClosePrompt closePrompt);
     String updateSOS(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);

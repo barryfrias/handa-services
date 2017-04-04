@@ -17,7 +17,6 @@ import handa.beans.dto.SendSms;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.beans.dto.SosPrompt;
-import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 
@@ -35,7 +34,6 @@ public interface CommandDAO
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     void resetEvents();
-    List<UserLocation> getUsersLocations(String city, String starDate, String endDate);
     String closePrompt(int id, ClosePrompt closePrompt);
     String updateSOS(int id, ClosePrompt closePrompt);
     int getUsersCount(String city);

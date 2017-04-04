@@ -46,7 +46,6 @@ import handa.beans.dto.PromptCount;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
 import handa.beans.dto.SosPrompt;
-import handa.beans.dto.UserLocation;
 import handa.beans.dto.UserLogin;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
@@ -102,20 +101,6 @@ public class CommandResource
     public Response getCities()
     {
         List<City> result = commandService.getCities();
-        if(result.isEmpty())
-        {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(result).build();
-    }
-
-    @GET
-    @Path("users/locations")
-    public Response getUsersLocation(@DefaultValue(ALL) @QueryParam(CITY) String city,
-                                    @QueryParam(START_DATE) String startDate,
-                                    @QueryParam(END_DATE) String endDate)
-    {
-        List<UserLocation> result = commandService.getUsersLocations(city, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
