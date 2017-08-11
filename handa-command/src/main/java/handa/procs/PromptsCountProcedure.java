@@ -21,20 +21,22 @@ import oracle.jdbc.OracleTypes;
 public class PromptsCountProcedure
 extends StoredProcedure
 {
-    private static final String SOS_CNT = "SOS_CNT";
-    private static final String SAFE_CNT = "SAFE_CNT";
-    private static final String NR_CNT = "NR_CNT";
+    private static final String SOS_CNT = "sos_cnt";
+    private static final String SAFE_CNT = "safe_cnt";
+    private static final String NR_CNT = "nr_cnt";
+    private static final String SOS_ALARM_CNT = "sos_alarm_cnt";
 
     public PromptsCountProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_DASHBOARD.GET_PROMPT_COUNT");
-        declareParameter(new SqlParameter("CITY", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("P_STARTDATE", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("P_ENDDATE", OracleTypes.VARCHAR));
+        setSql("handa_dashboard.get_prompt_count");
+        declareParameter(new SqlParameter("city", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_startdate", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_enddate", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(SOS_CNT, OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(SAFE_CNT, OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(NR_CNT, OracleTypes.NUMBER));
+        declareParameter(new SqlOutParameter(SOS_ALARM_CNT, OracleTypes.NUMBER));
         setFunction(false);
         compile();
     }
@@ -50,7 +52,11 @@ extends StoredProcedure
         Map<String, Object> map = execute(city, startDate, endDate);
         int sosCount = ((BigDecimal) map.get(SOS_CNT)).intValue(),
             safeCount = ((BigDecimal) map.get(SAFE_CNT)).intValue(),
-            noResponseCount = ((BigDecimal) map.get(NR_CNT)).intValue();
-        return ImmutableMap.of("sosCount", sosCount, "safeCount", safeCount, "noResponseCount", noResponseCount);
+            noResponseCount = ((BigDecimal) map.get(NR_CNT)).intValue(),
+            sosAlarmCount = ((BigDecimal) map.get(SOS_ALARM_CNT)).intValue();
+        return ImmutableMap.of("sosCount", sosCount,
+                               "safeCount", safeCount,
+                               "noResponseCount", noResponseCount,
+                               "sosAlarmCount", sosAlarmCount);
     }
 }
