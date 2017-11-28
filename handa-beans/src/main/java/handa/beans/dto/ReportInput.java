@@ -9,7 +9,9 @@ public class ReportInput
 {
     private String startDate;
     private String endDate;
+    private boolean unique;
 
+    
     public String getStartDate()
     {
         return startDate;
@@ -30,12 +32,22 @@ public class ReportInput
         this.endDate = endDate;
     }
 
+	public boolean isUnique() {
+		return unique;
+	}
+
+	public void setUnique(boolean unique) {
+		this.unique = unique;
+	}
+	
     @Override
     public String toString()
     {
         return toStringHelper(this)
                .add("startDate", startDate)
                .add("endDate", endDate)
+               .add("unique", unique)
                .toString();
     }
+
 }
