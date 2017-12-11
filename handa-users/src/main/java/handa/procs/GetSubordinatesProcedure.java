@@ -1,6 +1,7 @@
 package handa.procs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.StoredProcedure;
 
 import handa.beans.dto.Subordinates;
-import handa.beans.dto.Subordinates.SubDetails;
 import handa.core.ToMapRowMapper;
 import oracle.jdbc.OracleTypes;
 
@@ -43,7 +43,7 @@ extends StoredProcedure
         Map<String, Object> map = execute(params);
         Subordinates subordinates = new Subordinates();
         BigDecimal ismanager = (BigDecimal) map.get(isManager);
-        subordinates.setSubordinates((List<SubDetails>) map.get(RESULT));
+        subordinates.setSubordinates((List<Map<String, Object>>) map.get(RESULT));
         subordinates.setIsManager(ismanager.intValue());
         return subordinates;
     }

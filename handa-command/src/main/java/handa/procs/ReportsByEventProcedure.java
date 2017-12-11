@@ -30,27 +30,22 @@ import oracle.jdbc.OracleTypes;
 public class ReportsByEventProcedure
 extends StoredProcedure
 {
-    private static final String P_OUT = "P_OUT";
-    private static final String P_OUT_COMP = "P_OUT_COMP";
-    private static final String P_OUT_DEPT = "P_OUT_DEPT";
-    private static final String P_OUT_PROV = "P_OUT_PROV";
-    private static final String P_OUT_CITY = "P_OUT_CITY";
-    private static final String P_OUT_BGY = "P_OUT_BGY";
-    private static final String P_OUT_TYPE = "P_OUT_TYPE";
+    private static final String p_out = "P_OUT";
+    private static final String p_out_comp = "P_OUT_COMP";
+    private static final String p_out_dept = "P_OUT_DEPT";
+    private static final String p_out_prov = "P_OUT_PROV";
+    private static final String p_out_city = "P_OUT_CITY";
+    private static final String p_out_bgy = "P_OUT_BGY";
+    private static final String p_out_type = "P_OUT_TYPE";
 
     public ReportsByEventProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
         setSql("HANDA_REPORTS.BY_EVENT");
-        declareParameter(new SqlParameter("P_STARTDATE", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("P_ENDDATE", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(P_OUT, OracleTypes.CURSOR, new EventDetailsRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_COMP, OracleTypes.CURSOR, new EventStatsByCompanyRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_DEPT, OracleTypes.CURSOR, new EventStatsByDeptRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_PROV, OracleTypes.CURSOR, new EventStatsByProvinceRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_CITY, OracleTypes.CURSOR, new EventStatsByCityRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_BGY, OracleTypes.CURSOR, new EventStatsByBgyRowMapper()));
-        declareParameter(new SqlOutParameter(P_OUT_TYPE, OracleTypes.CURSOR, new EventStatsByTypeRowMapper()));
+        declareParameter(new SqlParameter("p_startdate", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_enddate", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_unique", OracleTypes.NUMBER));
+        declareParameter(new SqlOutParameter(p_out, OracleTypes.CURSOR, new EventDetailsRowMapper()));
         setFunction(false);
         compile();
     }
@@ -64,19 +59,21 @@ extends StoredProcedure
         Object[] params = new Object[]
         {
             reportInput.getStartDate(),
-            reportInput.getEndDate()
+            reportInput.getEndDate(),
+            reportInput.isUnique()? 1 : 0
         };
+
         Map<String, Object> map = execute(params);
         EventReport report = new EventReport();
-        List<Details> details = (List<Details>) map.get(P_OUT);
-        report.setDetails((List<Details>) map.get(P_OUT));
+        List<Details> details = (List<Details>) map.get(p_out);
+        report.setDetails((List<Details>) map.get(p_out));
         report.setTotal(details.size());
-        report.setStatsByCompany((List<StatsByCompany>) map.get(P_OUT_COMP));
-        report.setStatsByDept((List<StatsByDept>) map.get(P_OUT_DEPT));
-        report.setStatsByProvince((List<StatsByProvince>) map.get(P_OUT_PROV));
-        report.setStatsByCity((List<StatsByCity>) map.get(P_OUT_CITY));
-        report.setStatsByBgy((List<StatsByBgy>) map.get(P_OUT_BGY));
-        report.setStatsByType((List<StatsByType>) map.get(P_OUT_TYPE));
+        report.setStatsByCompany((List<StatsByCompany>) map.get(p_out_comp));
+        report.setStatsByDept((List<StatsByDept>) map.get(p_out_dept));
+        report.setStatsByProvince((List<StatsByProvince>) map.get(p_out_prov));
+        report.setStatsByCity((List<StatsByCity>) map.get(p_out_city));
+        report.setStatsByBgy((List<StatsByBgy>) map.get(p_out_bgy));
+        report.setStatsByType((List<StatsByType>) map.get(p_out_type));
         return report;
     }
 
@@ -114,78 +111,6 @@ extends StoredProcedure
             details.setBloodType(rs.getString("BLOOD_TYPE"));
             details.setDate(rs.getString("DATE"));
             return details;
-        }
-    }
-
-    private class EventStatsByCompanyRowMapper implements RowMapper<StatsByCompany>
-    {
-        @Override
-        public StatsByCompany mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByCompany statsByCompany = new StatsByCompany();
-            statsByCompany.setName(rs.getString("COMPANY"));
-            statsByCompany.setCount(rs.getInt("COUNT"));
-            return statsByCompany;
-        }
-    }
-
-    private class EventStatsByDeptRowMapper implements RowMapper<StatsByDept>
-    {
-        @Override
-        public StatsByDept mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByDept statsByDept = new StatsByDept();
-            statsByDept.setName(rs.getString("DEPT"));
-            statsByDept.setCount(rs.getInt("COUNT"));
-            return statsByDept;
-        }
-    }
-
-    private class EventStatsByProvinceRowMapper implements RowMapper<StatsByProvince>
-    {
-        @Override
-        public StatsByProvince mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByProvince statsByProvince = new StatsByProvince();
-            statsByProvince.setName(rs.getString("PROVINCE"));
-            statsByProvince.setCount(rs.getInt("COUNT"));
-            return statsByProvince;
-        }
-    }
-
-    private class EventStatsByCityRowMapper implements RowMapper<StatsByCity>
-    {
-        @Override
-        public StatsByCity mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByCity statsByCity = new StatsByCity();
-            statsByCity.setName(rs.getString("CITY"));
-            statsByCity.setCount(rs.getInt("COUNT"));
-            return statsByCity;
-        }
-    }
-
-    private class EventStatsByBgyRowMapper implements RowMapper<StatsByBgy>
-    {
-        @Override
-        public StatsByBgy mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByBgy statsByBgy = new StatsByBgy();
-            statsByBgy.setName(rs.getString("BGY"));
-            statsByBgy.setCount(rs.getInt("COUNT"));
-            return statsByBgy;
-        }
-    }
-
-    private class EventStatsByTypeRowMapper implements RowMapper<StatsByType>
-    {
-        @Override
-        public StatsByType mapRow(ResultSet rs, int rowNum) throws SQLException
-        {
-            StatsByType statsByType = new StatsByType();
-            statsByType.setName(rs.getString("TYPE"));
-            statsByType.setCount(rs.getInt("COUNT"));
-            return statsByType;
         }
     }
 }
