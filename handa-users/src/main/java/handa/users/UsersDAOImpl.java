@@ -32,7 +32,9 @@ import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResu
 import handa.procs.EditUserProcedure;
 import handa.procs.FilterFeedsProcedure;
 import handa.procs.GetCompaniesLovProcedure;
+import handa.procs.GetPrivateMobileNewsFeedsProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
+import handa.procs.GetPublicMobileNewsFeedsProcedure;
 import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.PrivacyTagByMinProcedure;
@@ -64,6 +66,8 @@ implements UsersDAO
     private final VerifyUserAndAuthMethodProcedure verifyUserAndAuthMethodProcedure;
     private final LoginByPasscodeProcedure loginByPasscodeProcedure;
     private final GetPrivateNewsFeedsProcedure getPrivateNewsFeedsProcedure;
+    private final GetPublicMobileNewsFeedsProcedure getPublicMobileNewsFeedsProcedure;
+    private final GetPrivateMobileNewsFeedsProcedure getPrivateMobileNewsFeedsProcedure;
     private final FilterFeedsProcedure filterFeedsProcedure;
     private final GetSubordinatesProcedure getSubordinatesProcedure;
     private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
@@ -88,6 +92,8 @@ implements UsersDAO
         this.verifyUserAndAuthMethodProcedure = new VerifyUserAndAuthMethodProcedure(dataSource());
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
+        this.getPublicMobileNewsFeedsProcedure = new GetPublicMobileNewsFeedsProcedure(dataSource());
+        this.getPrivateMobileNewsFeedsProcedure = new GetPrivateMobileNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
         this.privacyTagByMinProcedure = new PrivacyTagByMinProcedure(dataSource());
@@ -193,6 +199,18 @@ implements UsersDAO
     public List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo)
     {
         return getPrivateNewsFeedsProcedure.list(username, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo)
+    {
+        return getPublicMobileNewsFeedsProcedure.list(username, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo)
+    {
+        return getPrivateMobileNewsFeedsProcedure.list(username, pageNo);
     }
 
     @Override

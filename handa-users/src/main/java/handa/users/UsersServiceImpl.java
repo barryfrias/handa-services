@@ -343,6 +343,18 @@ implements UsersService
     }
 
     @Override
+    public List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo)
+    {
+        return usersDAO.getPublicNewsFeedsMobile(username, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo)
+    {
+        return usersDAO.getPrivateNewsFeedsMobile(username, pageNo);
+    }
+
+    @Override
     public List<NewsFeed> getPrivateTips(String username, int pageNo)
     {
         return usersDAO.getPrivateTips(username, pageNo);

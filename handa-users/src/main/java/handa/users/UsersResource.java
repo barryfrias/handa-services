@@ -309,13 +309,21 @@ public class UsersResource
     }
 
     @GET
-    @Path("newsfeeds/tips/{username}/{pageNo}")
-    public Response getPrivateTips(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    @Path("newsfeeds-mobile/public/{username}/{pageNo}")
+    public Response getPublicNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
     {
-        List<NewsFeed> result = usersService.getPrivateTips(username, pageNo);
+        List<NewsFeed> result = usersService.getPublicNewsFeedsMobile(username, pageNo);
         return Response.ok().entity(result).build();
     }
-    
+
+    @GET
+    @Path("newsfeeds-mobile/private/{username}/{pageNo}")
+    public Response getPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = usersService.getPrivateNewsFeedsMobile(username, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
     @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
