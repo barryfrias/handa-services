@@ -325,6 +325,14 @@ public class UsersResource
     }
 
     @GET
+    @Path("newsfeeds/tips/{username}/{pageNo}")
+    public Response getPrivateTips(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = usersService.getPrivateTips(username, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
 						            @QueryParam(START_DATE) String startDate,
