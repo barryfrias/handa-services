@@ -23,7 +23,7 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionCustomGroup;
@@ -123,9 +123,27 @@ implements CommandService
     }
 
     @Override
-    public List<City> getCities()
+    public List<DashboardFilter> getCities()
     {
         return commandDAO.getCities();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardHeads()
+    {
+        return commandDAO.getDashboardHeads();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardDepartments()
+    {
+        return commandDAO.getDashboardDepartments();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardCompanies()
+    {
+        return commandDAO.getDashboardCompanies();
     }
 
     @Override

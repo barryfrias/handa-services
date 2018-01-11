@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionCustomGroup;
@@ -30,7 +30,10 @@ public interface CommandDAO
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
-    List<City> getCities();
+    List<DashboardFilter> getCities();
+    List<DashboardFilter> getDashboardHeads();
+    List<DashboardFilter> getDashboardDepartments();
+    List<DashboardFilter> getDashboardCompanies();
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     void resetEvents();

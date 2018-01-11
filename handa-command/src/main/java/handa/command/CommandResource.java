@@ -2,9 +2,9 @@ package handa.command;
 
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
+import static handa.config.HandaCommandConstants.END_DATE;
 import static handa.config.HandaCommandConstants.OK;
 import static handa.config.HandaCommandConstants.START_DATE;
-import static handa.config.HandaCommandConstants.END_DATE;
 
 import java.io.InputStream;
 import java.util.List;
@@ -35,9 +35,9 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -97,10 +97,46 @@ public class CommandResource
     }
 
     @GET
-    @Path("cities")
+    @Path("dashboard/cities")
     public Response getCities()
     {
-        List<City> result = commandService.getCities();
+        List<DashboardFilter> result = commandService.getCities();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/heads")
+    public Response getDashboardHeads()
+    {
+        List<DashboardFilter> result = commandService.getDashboardHeads();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/departments")
+    public Response getDashboardDepartments()
+    {
+        List<DashboardFilter> result = commandService.getDashboardDepartments();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/companies")
+    public Response getDashboardCompanies()
+    {
+        List<DashboardFilter> result = commandService.getDashboardCompanies();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

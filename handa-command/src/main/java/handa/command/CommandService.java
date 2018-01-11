@@ -7,9 +7,9 @@ import java.util.Map;
 import com.google.common.base.Optional;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -29,7 +29,10 @@ public interface CommandService
     List<UserPrompt> getSafe(String city, String startDate, String endDate);
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
-    List<City> getCities();
+    List<DashboardFilter> getCities();
+    List<DashboardFilter> getDashboardHeads();
+    List<DashboardFilter> getDashboardDepartments();
+    List<DashboardFilter> getDashboardCompanies();
     List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);

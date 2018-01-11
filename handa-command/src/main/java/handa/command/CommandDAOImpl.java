@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -26,7 +26,7 @@ import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
-import handa.mappers.CityRowMapper;
+import handa.mappers.DashboardFilterRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
@@ -76,7 +76,10 @@ implements CommandDAO
     private final GetUserPromptsProcedure getUserPromptsProcedure;
     private final GetUserReportsProcedure getUserReportsProcedure;
     private final ReportsCountProcedure reportsCountProcedure;
-    private final GenericProcedure<City> citiesProcedure;
+    private final GenericProcedure<DashboardFilter> citiesProcedure;
+    private final GenericProcedure<DashboardFilter> headsProcedure;
+    private final GenericProcedure<DashboardFilter> departmentsProcedure;
+    private final GenericProcedure<DashboardFilter> companiesProcedure;
     private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final ClosePromptProcedure closePromptProcedure;
@@ -126,7 +129,10 @@ implements CommandDAO
         this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource());
         this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_INBOX");
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
-        this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
+        this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new DashboardFilterRowMapper());
+        this.headsProcedure = new GenericProcedure<>(dataSource(), "dash_get_heads", new DashboardFilterRowMapper());
+        this.departmentsProcedure = new GenericProcedure<>(dataSource(), "dash_get_dept", new DashboardFilterRowMapper());
+        this.companiesProcedure = new GenericProcedure<>(dataSource(), "dash_get_comp", new DashboardFilterRowMapper());
         this.getSosCountPerCityProcedure = new GetSosCountPerCityProcedure(dataSource());
         this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
@@ -208,9 +214,27 @@ implements CommandDAO
     }
 
     @Override
-    public List<City> getCities()
+    public List<DashboardFilter> getCities()
     {
         return citiesProcedure.listValues();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardHeads()
+    {
+        return headsProcedure.listValues();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardDepartments()
+    {
+        return departmentsProcedure.listValues();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardCompanies()
+    {
+        return companiesProcedure.listValues();
     }
 
     @Override
