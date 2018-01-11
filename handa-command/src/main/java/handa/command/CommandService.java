@@ -25,15 +25,15 @@ public interface CommandService
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
     List<SosPrompt> getAllSos(String city, String startDate, String endDate);
-    List<UserPrompt> getSos(String city, String startDate, String endDate);
-    List<UserPrompt> getSafe(String city, String startDate, String endDate);
+    List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate);
+    List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate);
+    List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
     List<DashboardFilter> getCities();
     List<DashboardFilter> getDashboardHeads();
     List<DashboardFilter> getDashboardDepartments();
     List<DashboardFilter> getDashboardCompanies();
-    List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     String uploadFile(InputStream uploadedInputStream, String name);
     void resetEvents(String resetBy);

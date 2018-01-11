@@ -189,11 +189,14 @@ public class CommandResource
 
     @GET
     @Path("sos")
-    public Response getSos(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSos(@QueryParam(CITY) String cty,
+                           @QueryParam(HEAD) String head,
+                           @QueryParam(DEPT) String dept,
+                           @QueryParam(COMP) String comp,
                            @QueryParam(START_DATE) String startDate,
                            @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getSos(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getSos(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -246,11 +249,14 @@ public class CommandResource
 
     @GET
     @Path("safe")
-    public Response getSafe(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSafe(@QueryParam(CITY) String cty,
+                            @QueryParam(HEAD) String head,
+                            @QueryParam(DEPT) String dept,
+                            @QueryParam(COMP) String comp,
                             @QueryParam(START_DATE) String startDate,
                             @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getSafe(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getSafe(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -260,11 +266,14 @@ public class CommandResource
 
     @GET
     @Path("noResponse")
-    public Response getNoResponse(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getNoResponse(@QueryParam(CITY) String cty,
+                                  @QueryParam(HEAD) String head,
+                                  @QueryParam(DEPT) String dept,
+                                  @QueryParam(COMP) String comp,
                                   @QueryParam(START_DATE) String startDate,
                                   @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getNoResponse(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getNoResponse(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();

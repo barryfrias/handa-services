@@ -190,15 +190,15 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserPrompt> getSos(String city, String startDate, String endDate)
+    public List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SOS, city, startDate, endDate);
+        return getUserPromptsProcedure.list(PromptType.SOS, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
+    public List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SAFE, city, startDate, endDate);
+        return getUserPromptsProcedure.list(PromptType.SAFE, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -238,9 +238,9 @@ implements CommandDAO
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
+    public List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.NR, city, startDate, endDate);
+        return getUserPromptsProcedure.list(PromptType.NR, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
