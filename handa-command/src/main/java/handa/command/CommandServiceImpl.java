@@ -57,9 +57,9 @@ implements CommandService
     }
 
     @Override
-    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getPromptCount(city, startDate, endDate);
+        return commandDAO.getPromptCount(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override

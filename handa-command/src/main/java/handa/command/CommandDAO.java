@@ -22,7 +22,7 @@ import handa.beans.dto.UserReport;
 
 public interface CommandDAO
 {
-    Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
+    Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
     List<SosPrompt> getAllSos(String city, String startDate, String endDate);

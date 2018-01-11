@@ -154,9 +154,9 @@ implements CommandDAO
     }
 
     @Override
-    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return promptsCountProcedure.getPromptCount(city, startDate, endDate);
+        return promptsCountProcedure.getPromptCount(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override

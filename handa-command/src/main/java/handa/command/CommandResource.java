@@ -2,6 +2,9 @@ package handa.command;
 
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
+import static handa.config.HandaCommandConstants.HEAD;
+import static handa.config.HandaCommandConstants.DEPT;
+import static handa.config.HandaCommandConstants.COMP;
 import static handa.config.HandaCommandConstants.END_DATE;
 import static handa.config.HandaCommandConstants.OK;
 import static handa.config.HandaCommandConstants.START_DATE;
@@ -271,11 +274,14 @@ public class CommandResource
 
     @GET
     @Path("users/prompts/count")
-    public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSosCountPerCity(@QueryParam(CITY) String cty,
+                                       @QueryParam(HEAD) String head,
+                                       @QueryParam(DEPT) String dept,
+                                       @QueryParam(COMP) String comp,
                                        @QueryParam(START_DATE) String startDate,
                                        @QueryParam(END_DATE) String endDate)
     {
-        Map<String, Integer> result = commandService.getPromptCount(city, startDate, endDate);
+        Map<String, Integer> result = commandService.getPromptCount(cty, head, dept, comp, startDate, endDate);
         return Response.ok(result).build();
     }
 
