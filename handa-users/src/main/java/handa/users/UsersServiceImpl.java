@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Client;
 
@@ -346,6 +347,12 @@ implements UsersService
     public List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo)
     {
         return usersDAO.getPublicNewsFeedsMobile(username, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json)
+    {
+        return usersDAO.searchPublicNewsFeedsMobile(username, json);
     }
 
     @Override

@@ -316,6 +316,14 @@ public class UsersResource
         return Response.ok().entity(result).build();
     }
 
+    @POST
+    @Path("newsfeeds-mobile/search/public/{username}")
+    public Response searchPublicNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo, Map<String, Object> json)
+    {
+        List<NewsFeed> result = usersService.searchPublicNewsFeedsMobile(username, json);
+        return Response.ok().entity(result).build();
+    }
+
     @GET
     @Path("newsfeeds-mobile/private/{username}/{pageNo}")
     public Response getPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
@@ -338,11 +346,10 @@ public class UsersResource
 						            @QueryParam(START_DATE) String startDate,
 						            @QueryParam(END_DATE) String endDate)
     {
-        
         Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
         return Response.ok().entity(result).build();
     }
-    
+
     @POST
     @Path("privacy/tag")
     public Response privacyTag(AuthInfo authInfo)
@@ -350,5 +357,4 @@ public class UsersResource
     	 String result = usersService.privacyTagByMIN(authInfo);
     	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
-
 }

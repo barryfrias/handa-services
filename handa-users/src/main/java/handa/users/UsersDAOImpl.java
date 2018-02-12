@@ -1,6 +1,9 @@
 package handa.users;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,6 +38,7 @@ import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateMobileNewsFeedsProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetPublicMobileNewsFeedsProcedure;
+import handa.procs.SearchPublicMobileNewsFeedsProcedure;
 import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.PrivacyTagByMinProcedure;
@@ -71,6 +75,7 @@ implements UsersDAO
     private final FilterFeedsProcedure filterFeedsProcedure;
     private final GetSubordinatesProcedure getSubordinatesProcedure;
     private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
+    private final SearchPublicMobileNewsFeedsProcedure searchPublicNewsFeedsMobileProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -93,6 +98,7 @@ implements UsersDAO
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.getPublicMobileNewsFeedsProcedure = new GetPublicMobileNewsFeedsProcedure(dataSource());
+        this.searchPublicNewsFeedsMobileProcedure = new SearchPublicMobileNewsFeedsProcedure(dataSource());
         this.getPrivateMobileNewsFeedsProcedure = new GetPrivateMobileNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
@@ -208,6 +214,13 @@ implements UsersDAO
     }
 
     @Override
+    public List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json)
+    {
+        checkNotNull(json, "json should not be null");
+        return searchPublicNewsFeedsMobileProcedure.search(username, (int)json.get("pageNo"), (String)json.get("keyword"));
+    }
+
+    @Override
     public List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo)
     {
         return getPrivateMobileNewsFeedsProcedure.list(username, pageNo);
@@ -218,13 +231,13 @@ implements UsersDAO
     {
         return filterFeedsProcedure.list(username, "tips", pageNo);
     }
-    
+
     @Override
     public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
     {
     	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
     }
-    
+
     @Override
     public String privacyTagByMIN(AuthInfo authInfo)
     {

@@ -2,6 +2,7 @@ package handa.users;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -47,4 +48,5 @@ public interface UsersService
     String privacyTagByMIN(AuthInfo authInfo);
     List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
+    List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
 }
