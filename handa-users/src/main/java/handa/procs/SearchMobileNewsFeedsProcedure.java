@@ -28,17 +28,18 @@ extends StoredProcedure
     public SearchMobileNewsFeedsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("search_newsfeed_public");
+        setSql("search_newsfeed");
         declareParameter(new SqlParameter("page_no", OracleTypes.NUMBER));
         declareParameter(new SqlParameter("username", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("keyword", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("type", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new NewsFeedRowMapper()));
         setFunction(false);
         compile();
     }
 
     @SuppressWarnings("unchecked")
-    public List<NewsFeed> search(String username, int pageNo, String keyword)
+    public List<NewsFeed> search(String username, int pageNo, String keyword, String type)
     {
         checkNotNull(username, "username should not be null");
         checkNotNull(keyword, "keyword should not be null");
@@ -47,7 +48,8 @@ extends StoredProcedure
         {
             pageNo,
             username,
-            keyword
+            keyword,
+            type
         };
         Map<String, Object> map = execute(params);
         List<NewsFeed> list = (List<NewsFeed>) map.get(RESULT);

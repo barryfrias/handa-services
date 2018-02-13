@@ -217,7 +217,7 @@ implements UsersDAO
     public List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json)
     {
         checkNotNull(json, "json should not be null");
-        return searchPublicNewsFeedsMobileProcedure.search(username, (int)json.get("pageNo"), (String)json.get("keyword"));
+        return searchPublicNewsFeedsMobileProcedure.search(username, (int)json.get("pageNo"), (String)json.get("keyword"), "PUBLIC");
     }
 
     @Override
