@@ -221,6 +221,13 @@ implements UsersDAO
     }
 
     @Override
+    public List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json)
+    {
+        checkNotNull(json, "json should not be null");
+        return searchPublicNewsFeedsMobileProcedure.search(username, (int)json.get("pageNo"), (String)json.get("keyword"), "PRIVATE");
+    }
+
+    @Override
     public List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo)
     {
         return getPrivateMobileNewsFeedsProcedure.list(username, pageNo);

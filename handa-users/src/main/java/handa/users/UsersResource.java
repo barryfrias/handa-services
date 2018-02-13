@@ -324,6 +324,15 @@ public class UsersResource
         return Response.ok().entity(result).build();
     }
 
+    @POST
+    @Path("newsfeeds-mobile/search/private/{username}")
+    public Response searchPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo, Map<String, Object> json)
+    {
+        List<NewsFeed> result = usersService.searchPrivateNewsFeedsMobile(username, json);
+        return Response.ok().entity(result).build();
+    }
+
+
     @GET
     @Path("newsfeeds-mobile/private/{username}/{pageNo}")
     public Response getPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)

@@ -356,6 +356,12 @@ implements UsersService
     }
 
     @Override
+    public List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json)
+    {
+        return usersDAO.searchPrivateNewsFeedsMobile(username, json);
+    }
+
+    @Override
     public List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo)
     {
         return usersDAO.getPrivateNewsFeedsMobile(username, pageNo);
@@ -401,7 +407,7 @@ implements UsersService
     {
     	return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
     }
-    
+
     @Override
     public String privacyTagByMIN(AuthInfo authInfo)
     {

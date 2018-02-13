@@ -49,4 +49,5 @@ public interface UsersService
     List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
+    List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
 }
