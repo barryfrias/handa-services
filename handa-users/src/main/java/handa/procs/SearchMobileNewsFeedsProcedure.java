@@ -1,5 +1,6 @@
 package handa.procs;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.sql.ResultSet;
@@ -19,19 +20,19 @@ import com.google.common.collect.ImmutableList;
 import handa.beans.dto.NewsFeed;
 import oracle.jdbc.OracleTypes;
 
-public class SearchPublicMobileNewsFeedsProcedure
+public class SearchMobileNewsFeedsProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "result";
 
-    public SearchPublicMobileNewsFeedsProcedure(DataSource dataSource)
+    public SearchMobileNewsFeedsProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
         setSql("search_newsfeed_public");
         declareParameter(new SqlParameter("page_no", OracleTypes.NUMBER));
         declareParameter(new SqlParameter("username", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("keyword", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new PrivateNewsFeedRowMapper()));
+        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new NewsFeedRowMapper()));
         setFunction(false);
         compile();
     }
@@ -40,6 +41,8 @@ extends StoredProcedure
     public List<NewsFeed> search(String username, int pageNo, String keyword)
     {
         checkNotNull(username, "username should not be null");
+        checkNotNull(keyword, "keyword should not be null");
+        checkArgument(keyword.length() > 3, "keyword should not be less than 4 characters");
         Object[] params = new Object[]
         {
             pageNo,
@@ -52,7 +55,7 @@ extends StoredProcedure
         return list;
     }
 
-    private class PrivateNewsFeedRowMapper
+    private class NewsFeedRowMapper
     implements RowMapper<NewsFeed>
     {
         @Override

@@ -38,7 +38,7 @@ import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateMobileNewsFeedsProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetPublicMobileNewsFeedsProcedure;
-import handa.procs.SearchPublicMobileNewsFeedsProcedure;
+import handa.procs.SearchMobileNewsFeedsProcedure;
 import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.PrivacyTagByMinProcedure;
@@ -75,7 +75,7 @@ implements UsersDAO
     private final FilterFeedsProcedure filterFeedsProcedure;
     private final GetSubordinatesProcedure getSubordinatesProcedure;
     private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
-    private final SearchPublicMobileNewsFeedsProcedure searchPublicNewsFeedsMobileProcedure;
+    private final SearchMobileNewsFeedsProcedure searchPublicNewsFeedsMobileProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -98,7 +98,7 @@ implements UsersDAO
         this.loginByPasscodeProcedure = new LoginByPasscodeProcedure(dataSource());
         this.getPrivateNewsFeedsProcedure = new GetPrivateNewsFeedsProcedure(dataSource());
         this.getPublicMobileNewsFeedsProcedure = new GetPublicMobileNewsFeedsProcedure(dataSource());
-        this.searchPublicNewsFeedsMobileProcedure = new SearchPublicMobileNewsFeedsProcedure(dataSource());
+        this.searchPublicNewsFeedsMobileProcedure = new SearchMobileNewsFeedsProcedure(dataSource());
         this.getPrivateMobileNewsFeedsProcedure = new GetPrivateMobileNewsFeedsProcedure(dataSource());
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
