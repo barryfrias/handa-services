@@ -2,6 +2,7 @@ package handa.users;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Optional;
 
@@ -45,4 +46,8 @@ public interface UsersService
     List<NewsFeed> getPrivateTips(String username, int pageNo);
     Subordinates getSubordinates(String mgrUsername, String startDate, String endDate);
     String privacyTagByMIN(AuthInfo authInfo);
+    List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo);
+    List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
+    List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
+    List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
 }

@@ -2,9 +2,12 @@ package handa.command;
 
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
+import static handa.config.HandaCommandConstants.HEAD;
+import static handa.config.HandaCommandConstants.DEPT;
+import static handa.config.HandaCommandConstants.COMP;
+import static handa.config.HandaCommandConstants.END_DATE;
 import static handa.config.HandaCommandConstants.OK;
 import static handa.config.HandaCommandConstants.START_DATE;
-import static handa.config.HandaCommandConstants.END_DATE;
 
 import java.io.InputStream;
 import java.util.List;
@@ -35,9 +38,9 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -97,10 +100,46 @@ public class CommandResource
     }
 
     @GET
-    @Path("cities")
+    @Path("dashboard/cities")
     public Response getCities()
     {
-        List<City> result = commandService.getCities();
+        List<DashboardFilter> result = commandService.getCities();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/heads")
+    public Response getDashboardHeads()
+    {
+        List<DashboardFilter> result = commandService.getDashboardHeads();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/departments")
+    public Response getDashboardDepartments()
+    {
+        List<DashboardFilter> result = commandService.getDashboardDepartments();
+        if(result.isEmpty())
+        {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("dashboard/companies")
+    public Response getDashboardCompanies()
+    {
+        List<DashboardFilter> result = commandService.getDashboardCompanies();
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -150,11 +189,14 @@ public class CommandResource
 
     @GET
     @Path("sos")
-    public Response getSos(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSos(@QueryParam(CITY) String cty,
+                           @QueryParam(HEAD) String head,
+                           @QueryParam(DEPT) String dept,
+                           @QueryParam(COMP) String comp,
                            @QueryParam(START_DATE) String startDate,
                            @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getSos(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getSos(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -164,11 +206,14 @@ public class CommandResource
 
     @GET
     @Path("sos/all")
-    public Response getAllSos(@DefaultValue(ALL) @QueryParam(CITY) String city,
-                              @QueryParam(START_DATE) String startDate,
-                              @QueryParam(END_DATE) String endDate)
+    public Response getAllSos(@QueryParam(CITY) String cty,
+            @QueryParam(HEAD) String head,
+            @QueryParam(DEPT) String dept,
+            @QueryParam(COMP) String comp,
+            @QueryParam(START_DATE) String startDate,
+            @QueryParam(END_DATE) String endDate)
     {
-        List<SosPrompt> result = commandService.getAllSos(city, startDate, endDate);
+        List<SosPrompt> result = commandService.getAllSos(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -207,11 +252,14 @@ public class CommandResource
 
     @GET
     @Path("safe")
-    public Response getSafe(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSafe(@QueryParam(CITY) String cty,
+                            @QueryParam(HEAD) String head,
+                            @QueryParam(DEPT) String dept,
+                            @QueryParam(COMP) String comp,
                             @QueryParam(START_DATE) String startDate,
                             @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getSafe(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getSafe(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -221,11 +269,14 @@ public class CommandResource
 
     @GET
     @Path("noResponse")
-    public Response getNoResponse(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getNoResponse(@QueryParam(CITY) String cty,
+                                  @QueryParam(HEAD) String head,
+                                  @QueryParam(DEPT) String dept,
+                                  @QueryParam(COMP) String comp,
                                   @QueryParam(START_DATE) String startDate,
                                   @QueryParam(END_DATE) String endDate)
     {
-        List<UserPrompt> result = commandService.getNoResponse(city, startDate, endDate);
+        List<UserPrompt> result = commandService.getNoResponse(cty, head, dept, comp, startDate, endDate);
         if(result.isEmpty())
         {
             return Response.status(Status.NOT_FOUND).build();
@@ -235,11 +286,14 @@ public class CommandResource
 
     @GET
     @Path("users/prompts/count")
-    public Response getSosCountPerCity(@DefaultValue(ALL) @QueryParam(CITY) String city,
+    public Response getSosCountPerCity(@QueryParam(CITY) String cty,
+                                       @QueryParam(HEAD) String head,
+                                       @QueryParam(DEPT) String dept,
+                                       @QueryParam(COMP) String comp,
                                        @QueryParam(START_DATE) String startDate,
                                        @QueryParam(END_DATE) String endDate)
     {
-        Map<String, Integer> result = commandService.getPromptCount(city, startDate, endDate);
+        Map<String, Integer> result = commandService.getPromptCount(cty, head, dept, comp, startDate, endDate);
         return Response.ok(result).build();
     }
 

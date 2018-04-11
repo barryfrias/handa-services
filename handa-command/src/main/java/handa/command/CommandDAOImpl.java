@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -26,7 +26,7 @@ import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
-import handa.mappers.CityRowMapper;
+import handa.mappers.DashboardFilterRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
@@ -76,7 +76,10 @@ implements CommandDAO
     private final GetUserPromptsProcedure getUserPromptsProcedure;
     private final GetUserReportsProcedure getUserReportsProcedure;
     private final ReportsCountProcedure reportsCountProcedure;
-    private final GenericProcedure<City> citiesProcedure;
+    private final GenericProcedure<DashboardFilter> citiesProcedure;
+    private final GenericProcedure<DashboardFilter> headsProcedure;
+    private final GenericProcedure<DashboardFilter> departmentsProcedure;
+    private final GenericProcedure<DashboardFilter> companiesProcedure;
     private final GetSosCountPerCityProcedure getSosCountPerCityProcedure;
     private final ResetEventsProcedure resetEventsProcedure;
     private final ClosePromptProcedure closePromptProcedure;
@@ -126,7 +129,10 @@ implements CommandDAO
         this.getSmsDistributionLovProcedure = new GetSmsDistributionLovProcedure(dataSource());
         this.deleteSmsInboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_INBOX");
         this.deleteSmsOutboxProcedure = new DeleteSmsProcedure(dataSource(), "DELETE_SMS_OUTBOX");
-        this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new CityRowMapper());
+        this.citiesProcedure = new GenericProcedure<>(dataSource(), "GET_CITIES", new DashboardFilterRowMapper());
+        this.headsProcedure = new GenericProcedure<>(dataSource(), "dash_get_heads", new DashboardFilterRowMapper());
+        this.departmentsProcedure = new GenericProcedure<>(dataSource(), "dash_get_dept", new DashboardFilterRowMapper());
+        this.companiesProcedure = new GenericProcedure<>(dataSource(), "dash_get_comp", new DashboardFilterRowMapper());
         this.getSosCountPerCityProcedure = new GetSosCountPerCityProcedure(dataSource());
         this.getSmsInboxProcedure = new GetSmsInboxProcedure(dataSource());
         this.getSmsOutboxProcedure = new GenericProcedure<>(dataSource(), "GET_SMS_OUTBOX", new SmsOutboxRowMapper());
@@ -148,9 +154,9 @@ implements CommandDAO
     }
 
     @Override
-    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return promptsCountProcedure.getPromptCount(city, startDate, endDate);
+        return promptsCountProcedure.getPromptCount(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -178,21 +184,21 @@ implements CommandDAO
     }
 
     @Override
-    public List<SosPrompt> getAllSos(String city, String startDate, String endDate)
+    public List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getAllSosProcedure.get(city, startDate, endDate);
+        return getAllSosProcedure.get(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSos(String city, String startDate, String endDate)
+    public List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SOS, city, startDate, endDate);
+        return getUserPromptsProcedure.list(PromptType.SOS, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
+    public List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return getUserPromptsProcedure.list(PromptType.SAFE, city, startDate, endDate);
+        return getUserPromptsProcedure.list(PromptType.SAFE, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -208,15 +214,33 @@ implements CommandDAO
     }
 
     @Override
-    public List<City> getCities()
+    public List<DashboardFilter> getCities()
     {
         return citiesProcedure.listValues();
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
+    public List<DashboardFilter> getDashboardHeads()
     {
-        return getUserPromptsProcedure.list(PromptType.NR, city, startDate, endDate);
+        return headsProcedure.listValues();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardDepartments()
+    {
+        return departmentsProcedure.listValues();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardCompanies()
+    {
+        return companiesProcedure.listValues();
+    }
+
+    @Override
+    public List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate)
+    {
+        return getUserPromptsProcedure.list(PromptType.NR, cty, head, dept, comp, startDate, endDate);
     }
 
     @Override

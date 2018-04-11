@@ -309,24 +309,56 @@ public class UsersResource
     }
 
     @GET
+    @Path("newsfeeds-mobile/public/{username}/{pageNo}")
+    public Response getPublicNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = usersService.getPublicNewsFeedsMobile(username, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("newsfeeds-mobile/search/public/{username}")
+    public Response searchPublicNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo, Map<String, Object> json)
+    {
+        List<NewsFeed> result = usersService.searchPublicNewsFeedsMobile(username, json);
+        return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("newsfeeds-mobile/search/private/{username}")
+    public Response searchPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo, Map<String, Object> json)
+    {
+        List<NewsFeed> result = usersService.searchPrivateNewsFeedsMobile(username, json);
+        return Response.ok().entity(result).build();
+    }
+
+
+    @GET
+    @Path("newsfeeds-mobile/private/{username}/{pageNo}")
+    public Response getPrivateNewsFeedsMobile(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
+    {
+        List<NewsFeed> result = usersService.getPrivateNewsFeedsMobile(username, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
     @Path("newsfeeds/tips/{username}/{pageNo}")
     public Response getPrivateTips(@PathParam("username") String username, @PathParam("pageNo") int pageNo)
     {
         List<NewsFeed> result = usersService.getPrivateTips(username, pageNo);
         return Response.ok().entity(result).build();
     }
-    
+
     @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
 						            @QueryParam(START_DATE) String startDate,
 						            @QueryParam(END_DATE) String endDate)
     {
-        
         Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
         return Response.ok().entity(result).build();
     }
-    
+
     @POST
     @Path("privacy/tag")
     public Response privacyTag(AuthInfo authInfo)
@@ -334,5 +366,4 @@ public class UsersResource
     	 String result = usersService.privacyTagByMIN(authInfo);
     	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
-
 }

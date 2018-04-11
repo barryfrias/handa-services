@@ -23,7 +23,7 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionCustomGroup;
@@ -57,9 +57,9 @@ implements CommandService
     }
 
     @Override
-    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getPromptCount(city, startDate, endDate);
+        return commandDAO.getPromptCount(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -93,21 +93,21 @@ implements CommandService
     }
 
     @Override
-    public List<SosPrompt> getAllSos(String city, String startDate, String endDate)
+    public List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getAllSos(city, startDate, endDate);
+        return commandDAO.getAllSos(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSos(String city, String startDate, String endDate)
+    public List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getSos(city, startDate, endDate);
+        return commandDAO.getSos(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city, String startDate, String endDate)
+    public List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getSafe(city, startDate, endDate);
+        return commandDAO.getSafe(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -123,15 +123,33 @@ implements CommandService
     }
 
     @Override
-    public List<City> getCities()
+    public List<DashboardFilter> getCities()
     {
         return commandDAO.getCities();
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city, String startDate, String endDate)
+    public List<DashboardFilter> getDashboardHeads()
     {
-        return commandDAO.getNoResponse(city, startDate, endDate);
+        return commandDAO.getDashboardHeads();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardDepartments()
+    {
+        return commandDAO.getDashboardDepartments();
+    }
+
+    @Override
+    public List<DashboardFilter> getDashboardCompanies()
+    {
+        return commandDAO.getDashboardCompanies();
+    }
+
+    @Override
+    public List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate)
+    {
+        return commandDAO.getNoResponse(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import handa.beans.dto.CallTree;
-import handa.beans.dto.City;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.DistributionCustomGroup;
@@ -22,16 +22,19 @@ import handa.beans.dto.UserReport;
 
 public interface CommandDAO
 {
-    Map<String, Integer> getPromptCount(String city, String startDate, String endDate);
+    Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
-    List<SosPrompt> getAllSos(String city, String startDate, String endDate);
-    List<UserPrompt> getSos(String city, String startDate, String endDate);
-    List<UserPrompt> getSafe(String city, String startDate, String endDate);
+    List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate);
+    List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate);
+    List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate);
+    List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserReport> getUserReports(int pageNo);
     int getReportsCount();
-    List<City> getCities();
-    List<UserPrompt> getNoResponse(String city, String startDate, String endDate);
+    List<DashboardFilter> getCities();
+    List<DashboardFilter> getDashboardHeads();
+    List<DashboardFilter> getDashboardDepartments();
+    List<DashboardFilter> getDashboardCompanies();
     List<PromptCount> getSosCountPerCity(String startDate, String endDate);
     void resetEvents();
     String closePrompt(int id, ClosePrompt closePrompt);

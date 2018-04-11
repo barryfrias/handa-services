@@ -2,7 +2,6 @@ package handa.procs;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.config.HandaCommandConstants.ALL;
 import static handa.core.HandaUtils.checkDate;
 
 import java.util.List;
@@ -26,8 +25,11 @@ extends StoredProcedure
     public GetAllSosProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("get_all_sos");
-        declareParameter(new SqlParameter("p_city", OracleTypes.VARCHAR));
+        setSql("GET_ALL_SOS");
+        declareParameter(new SqlParameter("p_cty", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_head", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_dept", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_comp", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_startdate", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_enddate", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new SosRowMapper()));
@@ -36,15 +38,12 @@ extends StoredProcedure
     }
 
     @SuppressWarnings("unchecked")
-    public List<SosPrompt> get(String city, String startDate, String endDate)
+    public List<SosPrompt> get(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
         checkArgument(checkDate(startDate), "Invalid startDate");
         checkArgument(checkDate(endDate), "Invalid endDate");
-        if(ALL.equalsIgnoreCase(city))
-        {
-            city = null;
-        }
-        Object[] params = new Object[] { city, startDate, endDate };
+
+        Object[] params = new Object[] { cty, head, dept, comp, startDate, endDate };
         Map<String, Object> map = execute(params);
         List<SosPrompt> list = (List<SosPrompt>) map.get(RESULT);
         return list;

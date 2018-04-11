@@ -2,7 +2,6 @@ package handa.procs;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static handa.config.HandaCommandConstants.ALL;
 import static handa.core.HandaUtils.checkDate;
 
 import java.math.BigDecimal;
@@ -30,7 +29,10 @@ extends StoredProcedure
     {
         setDataSource(checkNotNull(dataSource));
         setSql("handa_dashboard.get_prompt_count");
-        declareParameter(new SqlParameter("city", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_cty", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_head", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_dept", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_comp", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_startdate", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_enddate", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(SOS_CNT, OracleTypes.NUMBER));
@@ -41,15 +43,12 @@ extends StoredProcedure
         compile();
     }
 
-    public Map<String, Integer> getPromptCount(String city, String startDate, String endDate)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
         checkArgument(checkDate(startDate), "Invalid startDate");
         checkArgument(checkDate(endDate), "Invalid endDate");
-        if(ALL.equalsIgnoreCase(city))
-        {
-            city = null;
-        }
-        Map<String, Object> map = execute(city, startDate, endDate);
+        
+        Map<String, Object> map = execute(cty, head, dept, comp, startDate, endDate);
         int sosCount = ((BigDecimal) map.get(SOS_CNT)).intValue(),
             safeCount = ((BigDecimal) map.get(SAFE_CNT)).intValue(),
             noResponseCount = ((BigDecimal) map.get(NR_CNT)).intValue(),
