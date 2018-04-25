@@ -21,6 +21,7 @@ implements RowMapper<UserInfo>
         userInfo.setBloodType(getString(rs, "BLOOD_TYPE"));
         userInfo.setCity(getString(rs, "CITY"));
         userInfo.setCompany(getString(rs, "COMPANY"));
+        userInfo.setCreatedBy(getString(rs, "CREATED_BY"));
         userInfo.setCreatedDate(getString(rs, "CREATED_DATE"));
         userInfo.setCurrentAddress(getString(rs, "CURRENT_ADDRESS"));
         userInfo.setDepartment(getString(rs, "DEPT"));
@@ -41,6 +42,7 @@ implements RowMapper<UserInfo>
         userInfo.setProvince(getString(rs, "PROVINCE"));
         userInfo.setRemarks(getString(rs, "REMARKS"));
         userInfo.setModifiedBy(getString(rs, "MODIFIED_BY"));
+        userInfo.setModifiedDate(getString(rs, "MODIFIED_DATE"));
         userInfo.setBarangay(getString(rs, "BARANGAY"));
         userInfo.setPermAddProvince(getString(rs, "PA_PROVINCE"));
         userInfo.setPermAddCity(getString(rs, "PA_CITY"));
