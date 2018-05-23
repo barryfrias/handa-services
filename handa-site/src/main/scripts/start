@@ -14,7 +14,7 @@ fi
 
 CLASSPATH="$HOME_DIR/lib/*:$HOME_DIR/config";
 
-$JAVA_HOME/bin/java \
+java \
 -server \
 -DgrizzlyPort=@grizzlyPort@ \
 -DgrizzlyHost=0.0.0.0 \
