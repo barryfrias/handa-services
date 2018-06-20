@@ -1,6 +1,8 @@
 package handa.sms;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +26,8 @@ public class HandaSmsSenderImpl
 extends AbstractJdbcDAO
 implements HandaSmsSender
 {
+//    static Logger log = LoggerFactory.getLogger(HandaSmsSenderImpl.class);
+
     private GetSmsOutboundQueueProcedure getSmsOutboundQueueProcedure;
     private UpdateSmsOutboundQueueProcedure updateSmsOutboundQueueProcedure;
     private SmsService smsService;
@@ -31,6 +35,8 @@ implements HandaSmsSender
     private String keyword;
     private String chargeId;
     private String queuePath;
+    private volatile int sent = 0, failed = 0, ctr = 0;
+    private boolean isProcessorRunning = false;
 
     @Autowired
     public HandaSmsSenderImpl(JdbcTemplate jdbcTemplate,
@@ -48,46 +54,94 @@ implements HandaSmsSender
         this.updateSmsOutboundQueueProcedure = new UpdateSmsOutboundQueueProcedure(dataSource());
     }
 
-    //SLOW MODE
     @Override
-    public void processQueue()
+    public synchronized void processQueue()
     {
-        List<SmsOutboundQueue> list = getSmsOutboundQueueProcedure.list();
-        if(list == null || list.isEmpty()) return;
-        SendSmsInput wsInput = new SendSmsInput();
-        wsInput.setKeyword(keyword);
-        wsInput.setChargeId(chargeId);
-        wsInput.setQueuePath(queuePath);
-        UpdateSmsOutboundQueue update = new UpdateSmsOutboundQueue();
-        int sent = 0, failed = 0;
-        for(SmsOutboundQueue item : list)
+        if(isProcessorRunning)
         {
-            wsInput.setMobile(item.getMobileNo());
-            wsInput.setMessage(item.getMessage());
-            update.setQueueId(item.getId());
-            Optional<SendSmsOutput> result = smsService.send(wsInput);
-            if(result.isPresent())
-            {
-                if("1".equals(result.get().getResult()))
-                {
-                    update.setUpdateStatus("processed");
-                    sent++;
-                }
-                else
-                {
-                    update.setUpdateStatus("failed");
-                    failed++;
-                }
-                update.setResponseMessage(result.get().toString());
-            }
-            else
-            {
-                update.setUpdateStatus("failed");
-                update.setResponseMessage("empty response");
-                failed++;
-            }
-            updateSmsOutboundQueueProcedure.update(update);
+//            log.info("SMS Outbox processor is currently running, aborting this turn...");
+            return;
         }
+        isProcessorRunning = true;
+//        log.info("SMS Outbox queue processor is now running...");
+        List<SmsOutboundQueue> list = getSmsOutboundQueueProcedure.list();
+        if(list == null || list.isEmpty())
+        {
+//            log.info("Nothing to process...");
+            isProcessorRunning = false;
+            return;
+        }
+        Executor executor = Executors.newFixedThreadPool(100);
+        final Object lock = new Object();
+        for(final SmsOutboundQueue item : list)
+        {
+            executor.execute(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    SendSmsInput wsInput = new SendSmsInput();
+                    wsInput.setKeyword(keyword);
+                    wsInput.setChargeId(chargeId);
+                    wsInput.setQueuePath(queuePath);
+                    wsInput.setMobile(item.getMobileNo());
+                    wsInput.setMessage(item.getMessage());
+                    UpdateSmsOutboundQueue update = new UpdateSmsOutboundQueue();
+                    update.setQueueId(item.getId());
+                    Optional<SendSmsOutput> result = smsService.send(wsInput);
+//                    SendSmsOutput output = new SendSmsOutput();
+//                    output.setResult("1");
+//                    Optional<SendSmsOutput> result = Optional.of(output);
+//                    try
+//                    {
+//                        Thread.sleep(1000L);
+//                    }
+//                    catch(InterruptedException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+                    if(result.isPresent())
+                    {
+                        if("1".equals(result.get().getResult()))
+                        {
+                            update.setUpdateStatus("processed");
+                            synchronized(lock)
+                            {
+                                sent++;
+                            }
+                        }
+                        else
+                        {
+                            update.setUpdateStatus("failed");
+                            synchronized(lock)
+                            {
+                                failed++;
+                            }
+                        }
+                        update.setResponseMessage(result.get().toString());
+                    }
+                    else
+                    {
+                        update.setUpdateStatus("failed");
+                        update.setResponseMessage("empty response");
+                        failed++;
+                    }
+                    updateSmsOutboundQueueProcedure.update(update);
+                    synchronized(lock)
+                    {
+                        ctr++;
+                    }
+                }
+            });
+        }
+
+        while(ctr < list.size())
+        {
+            //wait until all list items have been processed
+        }
+
         dbLogger.log(AppLog.server("HandaSmsSender", "Processed %s messages for sending. Sent=%s, Failed=%s", list.size(), sent, failed));
+        sent = 0; failed = 0; ctr = 0;
+        isProcessorRunning = false;
     }
 }
