@@ -71,7 +71,7 @@ implements HandaSmsSender
             isProcessorRunning = false;
             return;
         }
-        Executor executor = Executors.newFixedThreadPool(100);
+        Executor executor = Executors.newFixedThreadPool(10);
         final Object lock = new Object();
         for(final SmsOutboundQueue item : list)
         {
