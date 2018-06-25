@@ -133,6 +133,15 @@ implements HandaSmsSender
                     }
                 }
             });
+
+            try
+            {
+                Thread.sleep(10L);
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         while(ctr < list.size())
