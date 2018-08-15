@@ -15,6 +15,7 @@ public class UserInfo
     private String middleName;
     private String position;
     private String department;
+    private String officeLocation;
     private String immediateHead;
     private String company;
     private String landlineNo;
@@ -118,6 +119,16 @@ public class UserInfo
     public void setDepartment(String department)
     {
         this.department = department;
+    }
+
+    public String getOfficeLocation()
+    {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation)
+    {
+        this.officeLocation = officeLocation;
     }
 
     public String getImmediateHead()
