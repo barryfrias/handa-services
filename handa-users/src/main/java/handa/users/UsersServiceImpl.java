@@ -26,6 +26,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 
 import frias.barry.LDAPController;
+import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
@@ -413,5 +414,11 @@ implements UsersService
     {
         String result = usersDAO.privacyTagByMIN(authInfo);
         return result;
+    }
+
+    @Override
+    public List<ActivityLog> getActivityLogs(String mobileNumber, int pageNo)
+    {
+        return usersDAO.getActivityLogs(mobileNumber, pageNo);
     }
 }

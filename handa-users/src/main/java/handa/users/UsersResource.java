@@ -38,6 +38,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.pldt.itidm.core.exception.NotFoundException;
 
+import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
@@ -366,4 +367,12 @@ public class UsersResource
     	 String result = usersService.privacyTagByMIN(authInfo);
     	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
+
+    @GET
+    @Path("activity/logs/{mobileNumber}/{pageNo}")
+    public Response getActivityLogs(@PathParam("mobileNumber") String mobileNumber, @PathParam("pageNo") int pageNo)
+    {
+        List<ActivityLog> result = usersService.getActivityLogs(mobileNumber, pageNo);
+        return Response.ok().entity(result).build();
+    }
 }

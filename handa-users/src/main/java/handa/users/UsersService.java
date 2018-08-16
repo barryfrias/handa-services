@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.base.Optional;
 
+import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
@@ -50,4 +51,5 @@ public interface UsersService
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
     List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
+    List<ActivityLog> getActivityLogs(String mobileNumber, int pageNo);
 }
