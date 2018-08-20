@@ -12,6 +12,7 @@ public class ActivityLog
 {
     private int rowNum;
     private String mobileNumber;
+    private String type;
     private String message;
     private String activityDate;
 
@@ -33,6 +34,16 @@ public class ActivityLog
     public void setMobileNumber(String mobileNumber)
     {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
     }
 
     public String getMessage()

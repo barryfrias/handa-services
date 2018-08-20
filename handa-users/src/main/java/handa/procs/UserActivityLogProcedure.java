@@ -59,6 +59,7 @@ extends StoredProcedure
             ActivityLog activityLog = new ActivityLog();
             activityLog.setRowNum(rs.getInt("ROW_NUM"));
             activityLog.setMobileNumber(rs.getString("MOBILE_NO"));
+            activityLog.setType(rs.getString("TYPE"));
             activityLog.setMessage(rs.getString("MESSAGE"));
             activityLog.setActivityDate(rs.getString("ACTIVITY_DTTM"));
             return activityLog;
