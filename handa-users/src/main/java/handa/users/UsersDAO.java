@@ -48,5 +48,5 @@ public interface UsersDAO
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
     List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
-    List<ActivityLog> getActivityLogs(String mobileNumber, int pageNo);
+    List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo);
 }

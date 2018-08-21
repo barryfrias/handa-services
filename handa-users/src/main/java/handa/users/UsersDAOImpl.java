@@ -256,8 +256,8 @@ implements UsersDAO
     }
 
     @Override
-    public List<ActivityLog> getActivityLogs(String mobileNumber, int pageNo)
+    public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
-        return userActivityLogProcedure.list(mobileNumber, pageNo);
+        return userActivityLogProcedure.list(mobileNumber, type, startDate, endDate, pageNo);
     }
 }

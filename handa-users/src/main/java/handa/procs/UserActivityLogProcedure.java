@@ -1,6 +1,8 @@
 package handa.procs;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static handa.core.HandaUtils.checkDate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,20 +30,45 @@ extends StoredProcedure
     {
         setDataSource(checkNotNull(dataSource));
         setSql("get_user_activity_log");
-        declareParameter(new SqlParameter("V_MOBILE_NUMBER", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("PAGE_NO", OracleTypes.NUMBER));
+        declareParameter(new SqlParameter("P_MOBILE_NUMBER", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_TYPE", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_START_DATE", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_END_DATE", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_PAGE_NO", OracleTypes.NUMBER));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new ActivityLogRowMapper()));
         setFunction(false);
         compile();
     }
 
     @SuppressWarnings("unchecked")
-    public List<ActivityLog> list(String mobileNumber, int pageNo)
+    public List<ActivityLog> list(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
         checkNotNull(mobileNumber, "mobileNumber should not be null");
+
+        if(startDate != null && ("null".equalsIgnoreCase(startDate) || startDate.trim().isEmpty()))
+        {
+            startDate = null;
+        }
+        else if(startDate != null)
+        {
+            checkArgument(checkDate(startDate), "startDate format should be YYYYMMDD");
+        }
+
+        if(endDate != null && ("null".equalsIgnoreCase(endDate) || endDate.trim().isEmpty()))
+        {
+            endDate = null;
+        }
+        else if(endDate != null)
+        {
+            checkArgument(checkDate(endDate), "endDate format should be YYYYMMDD");
+        }
+
         Object[] params = new Object[]
         {
             mobileNumber,
+            type,
+            startDate,
+            endDate,
             pageNo
         };
         Map<String, Object> map = execute(params);

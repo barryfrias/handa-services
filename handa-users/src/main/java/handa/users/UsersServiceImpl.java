@@ -417,8 +417,8 @@ implements UsersService
     }
 
     @Override
-    public List<ActivityLog> getActivityLogs(String mobileNumber, int pageNo)
+    public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
-        return usersDAO.getActivityLogs(mobileNumber, pageNo);
+        return usersDAO.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
     }
 }
