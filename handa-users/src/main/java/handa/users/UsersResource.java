@@ -6,6 +6,7 @@ import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
 import static handa.config.HandaUsersConstants.MGR_USERNAME;
 import static handa.config.HandaUsersConstants.OK;
 import static handa.config.HandaUsersConstants.START_DATE;
+import static handa.config.HandaUsersConstants.TYPE;
 import static handa.config.HandaUsersConstants.USER_NOT_FOUND;
 
 import java.io.InputStream;
@@ -38,6 +39,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.pldt.itidm.core.exception.NotFoundException;
 
+import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
@@ -352,8 +354,8 @@ public class UsersResource
     @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
-						            @QueryParam(START_DATE) String startDate,
-						            @QueryParam(END_DATE) String endDate)
+                                    @QueryParam(START_DATE) String startDate,
+                                    @QueryParam(END_DATE) String endDate)
     {
         Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
         return Response.ok().entity(result).build();
@@ -366,4 +368,16 @@ public class UsersResource
     	 String result = usersService.privacyTagByMIN(authInfo);
     	 return Response.ok(ImmutableMap.of("message", result)).build();
      }
+
+    @GET
+    @Path("activity/logs/{mobileNumber}/{pageNo}")
+    public Response getActivityLogs(@PathParam("mobileNumber") String mobileNumber,
+                                    @PathParam("pageNo") int pageNo,
+                                    @QueryParam(TYPE) String type,
+                                    @QueryParam(START_DATE) String startDate,
+                                    @QueryParam(END_DATE) String endDate)
+    {
+        List<ActivityLog> result = usersService.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
+        return Response.ok().entity(result).build();
+    }
 }

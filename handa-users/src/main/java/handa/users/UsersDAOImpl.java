@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Optional;
 import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
+import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
@@ -38,11 +39,12 @@ import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateMobileNewsFeedsProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
 import handa.procs.GetPublicMobileNewsFeedsProcedure;
-import handa.procs.SearchMobileNewsFeedsProcedure;
 import handa.procs.GetSubordinatesProcedure;
 import handa.procs.LoginByPasscodeProcedure;
 import handa.procs.PrivacyTagByMinProcedure;
+import handa.procs.SearchMobileNewsFeedsProcedure;
 import handa.procs.SearchUserByNameProcedure;
+import handa.procs.UserActivityLogProcedure;
 import handa.procs.UserInfoProcedure;
 import handa.procs.UserPromptProcedure;
 import handa.procs.UserRegistrationProcedure;
@@ -76,6 +78,7 @@ implements UsersDAO
     private final GetSubordinatesProcedure getSubordinatesProcedure;
     private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
     private final SearchMobileNewsFeedsProcedure searchPublicNewsFeedsMobileProcedure;
+    private final UserActivityLogProcedure userActivityLogProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -103,6 +106,7 @@ implements UsersDAO
         this.filterFeedsProcedure = new FilterFeedsProcedure(dataSource());
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
         this.privacyTagByMinProcedure = new PrivacyTagByMinProcedure(dataSource());
+        this.userActivityLogProcedure = new UserActivityLogProcedure(dataSource());
     }
 
     @Override
@@ -249,5 +253,11 @@ implements UsersDAO
     public String privacyTagByMIN(AuthInfo authInfo)
     {
         return privacyTagByMinProcedure.privacyTagByMin(authInfo);
+    }
+
+    @Override
+    public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
+    {
+        return userActivityLogProcedure.list(mobileNumber, type, startDate, endDate, pageNo);
     }
 }

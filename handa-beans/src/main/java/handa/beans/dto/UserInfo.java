@@ -15,10 +15,12 @@ public class UserInfo
     private String middleName;
     private String position;
     private String department;
+    private String officeLocation;
     private String immediateHead;
     private String company;
     private String landlineNo;
     private String mobileNumber;
+    private String actualAddress;
     private String permanentAddress;
     private String currentAddress;
     private String iceContactPerson;
@@ -120,6 +122,16 @@ public class UserInfo
         this.department = department;
     }
 
+    public String getOfficeLocation()
+    {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation)
+    {
+        this.officeLocation = officeLocation;
+    }
+
     public String getImmediateHead()
     {
         return immediateHead;
@@ -158,6 +170,16 @@ public class UserInfo
     public void setMobileNumber(String mobileNumber)
     {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getActualAddress()
+    {
+        return actualAddress;
+    }
+
+    public void setActualAddress(String actualAddress)
+    {
+        this.actualAddress = actualAddress;
     }
 
     public String getPermanentAddress()

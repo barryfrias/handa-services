@@ -47,7 +47,7 @@ extends StoredProcedure
     {
         checkArgument(checkDate(startDate), "Invalid startDate");
         checkArgument(checkDate(endDate), "Invalid endDate");
-        
+
         Map<String, Object> map = execute(cty, head, dept, comp, startDate, endDate);
         int sosCount = ((BigDecimal) map.get(SOS_CNT)).intValue(),
             safeCount = ((BigDecimal) map.get(SAFE_CNT)).intValue(),
