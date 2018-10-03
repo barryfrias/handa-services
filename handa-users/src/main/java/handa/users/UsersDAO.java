@@ -42,7 +42,7 @@ public interface UsersDAO
     String loginByPasscode(AuthInfo authInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<NewsFeed> getPrivateTips(String username, int pageNo);
-    Subordinates getSubordinates(String mgrUsername, String startDate, String endDate);
+    Subordinates getSubordinates(String mgrUsername, String company, String startDate, String endDate);
     String privacyTagByMIN(AuthInfo authInfo);
     List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);

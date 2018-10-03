@@ -1,6 +1,7 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.COMPANY;
 import static handa.config.HandaUsersConstants.END_DATE;
 import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
 import static handa.config.HandaUsersConstants.MGR_USERNAME;
@@ -354,10 +355,11 @@ public class UsersResource
     @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
+                                    @QueryParam(COMPANY) String company,
                                     @QueryParam(START_DATE) String startDate,
                                     @QueryParam(END_DATE) String endDate)
     {
-        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
+        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, company, startDate, endDate);
         return Response.ok().entity(result).build();
     }
 
