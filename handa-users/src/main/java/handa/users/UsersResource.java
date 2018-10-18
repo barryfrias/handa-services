@@ -359,7 +359,7 @@ public class UsersResource
                                     @QueryParam(START_DATE) String startDate,
                                     @QueryParam(END_DATE) String endDate)
     {
-        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, company, startDate, endDate);
+        Subordinates result = usersService.getSubordinates(mgrUsername, company, startDate, endDate);
         return Response.ok().entity(result).build();
     }
 
