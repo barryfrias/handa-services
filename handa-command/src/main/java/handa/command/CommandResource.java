@@ -2,10 +2,10 @@ package handa.command;
 
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
-import static handa.config.HandaCommandConstants.HEAD;
-import static handa.config.HandaCommandConstants.DEPT;
 import static handa.config.HandaCommandConstants.COMP;
+import static handa.config.HandaCommandConstants.DEPT;
 import static handa.config.HandaCommandConstants.END_DATE;
+import static handa.config.HandaCommandConstants.HEAD;
 import static handa.config.HandaCommandConstants.OK;
 import static handa.config.HandaCommandConstants.START_DATE;
 
@@ -45,6 +45,7 @@ import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
@@ -303,6 +304,15 @@ public class CommandResource
     {
         List<NewsFeed> result = commandService.getNewsFeeds(pageNo);
         return Response.ok().entity(result).build();
+    }
+
+    @POST
+    @Path("newsfeeds/search")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        List<NewsFeed> result = commandService.searchNewsFeed(newsFeedSearch);
+        return Response.ok(result).build();
     }
 
     @POST

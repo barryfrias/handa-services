@@ -17,6 +17,7 @@ import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
@@ -57,6 +58,7 @@ import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
 import handa.procs.ResetEventsProcedure;
+import handa.procs.SearchNewsFeedProcedure;
 import handa.procs.SendSmsProcedure;
 import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
@@ -72,6 +74,7 @@ implements CommandDAO
     private final InsertNewsFeedProcedure insertNewsFeedProcedure;
     private final UpdateNewsFeedProcedure updateNewsFeedProcedure;
     private final GetNewsFeedsProcedure getNewsFeedsProcedure;
+    private final SearchNewsFeedProcedure searchNewsFeedProcedure;
     private final DeleteNewsFeedProcedure deleteNewsFeedProcedure;
     private final GetUserPromptsProcedure getUserPromptsProcedure;
     private final GetUserReportsProcedure getUserReportsProcedure;
@@ -116,6 +119,7 @@ implements CommandDAO
         this.insertNewsFeedProcedure = new InsertNewsFeedProcedure(dataSource());
         this.updateNewsFeedProcedure = new UpdateNewsFeedProcedure(dataSource());
         this.getNewsFeedsProcedure = new GetNewsFeedsProcedure(dataSource());
+        this.searchNewsFeedProcedure = new SearchNewsFeedProcedure(dataSource());
         this.deleteNewsFeedProcedure = new DeleteNewsFeedProcedure(dataSource());
         this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
@@ -175,6 +179,12 @@ implements CommandDAO
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return getNewsFeedsProcedure.list(true, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        return searchNewsFeedProcedure.search(newsFeedSearch);
     }
 
     @Override

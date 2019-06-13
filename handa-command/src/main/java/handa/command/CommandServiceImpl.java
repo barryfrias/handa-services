@@ -30,6 +30,7 @@ import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
@@ -82,6 +83,12 @@ implements CommandService
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return commandDAO.getNewsFeeds(pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        return commandDAO.searchNewsFeed(newsFeedSearch);
     }
 
     @Override

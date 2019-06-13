@@ -14,6 +14,7 @@ import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
@@ -24,6 +25,7 @@ public interface CommandService
     Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
+    List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch);
     List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate);
