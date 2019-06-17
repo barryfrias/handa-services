@@ -244,9 +244,9 @@ implements UsersDAO
     }
 
     @Override
-    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
+    public Subordinates getSubordinates(String mgrUsername, String company, String startDate, String endDate)
     {
-    	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
+    	return getSubordinatesProcedure.subordinatesList(mgrUsername, company, startDate, endDate);
     }
 
     @Override
