@@ -69,4 +69,5 @@ public interface CommandDAO
     String deleteSmsCustomGroup(long id);
     String addCmp(Cmp cmp);
     String editCmp(Cmp cmp);
+    String deleteCmp(long fileId, String deletedBy);
 }

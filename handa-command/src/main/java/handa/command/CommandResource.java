@@ -514,6 +514,15 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
+    @DELETE
+    @Path("cmp/{fileId}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response deleteCmp(@PathParam("fileId") long fileId, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteCmp(fileId, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     Response buildResponse(String result)
     {
         switch(result)
