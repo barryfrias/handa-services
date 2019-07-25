@@ -58,6 +58,7 @@ import handa.procs.GetUserReportsProcedure;
 import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
 import handa.procs.ListCallTreesProcedure;
+import handa.procs.ListCmpProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
@@ -117,6 +118,7 @@ implements CommandDAO
     private final AddCmpProcedure addCmpProcedure;
     private final EditCmpProcedure editCmpProcedure;
     private final DeleteCmpProcedure deleteCmpProcedure;
+    private final ListCmpProcedure listCmpProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -165,6 +167,7 @@ implements CommandDAO
         this.addCmpProcedure = new AddCmpProcedure(dataSource());
         this.editCmpProcedure = new EditCmpProcedure(dataSource());
         this.deleteCmpProcedure = new DeleteCmpProcedure(dataSource());
+        this.listCmpProcedure = new ListCmpProcedure(dataSource());
     }
 
     @Override
@@ -441,5 +444,11 @@ implements CommandDAO
     public String deleteCmp(long fileId, String deletedBy)
     {
         return deleteCmpProcedure.delete(fileId, deletedBy);
+    }
+
+    @Override
+    public List<Cmp> listCmp()
+    {
+        return listCmpProcedure.list();
     }
 }

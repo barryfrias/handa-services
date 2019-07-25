@@ -337,4 +337,10 @@ implements CommandService
     {
         return commandDAO.deleteCmp(fileId, deletedBy);
     }
+
+    @Override
+    public List<Cmp> listCmp()
+    {
+        return commandDAO.listCmp();
+    }
 }

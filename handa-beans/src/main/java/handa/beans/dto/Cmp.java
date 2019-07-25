@@ -5,13 +5,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "cmps")
 public class Cmp
 {
+    private int rowNum;
     private Long fileId;
     private String filename;
     private String viewer;
     private String description;
     private String uploadedBy;
     private String uploadedDate;
-    private String deletedBy;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public Long getFileId()
     {
@@ -71,15 +81,5 @@ public class Cmp
     public void setUploadedDate(String uploadedDate)
     {
     	this.uploadedDate = uploadedDate;
-    }
-
-    public String getDeletedBy()
-    {
-    	return deletedBy;
-    }
-
-    public void setDeletedBy(String deletedBy)
-    {
-    	this.deletedBy = deletedBy;
     }
 }

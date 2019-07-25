@@ -491,9 +491,13 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
-    Response httpOk(Object result)
+    @GET
+    @Path("cmp")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response listCmp()
     {
-        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+        List<Cmp> result = commandService.listCmp();
+        return Response.ok(result).build();
     }
 
     @POST
@@ -521,6 +525,11 @@ public class CommandResource
     {
         String result = commandService.deleteCmp(fileId, deletedBy);
         return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    Response httpOk(Object result)
+    {
+        return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
     }
 
     Response buildResponse(String result)

@@ -70,4 +70,5 @@ public interface CommandDAO
     String addCmp(Cmp cmp);
     String editCmp(Cmp cmp);
     String deleteCmp(long fileId, String deletedBy);
+    List<Cmp> listCmp();
 }
