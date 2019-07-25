@@ -7,6 +7,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -66,4 +67,5 @@ public interface CommandDAO
     String addSmsCustomGroup(DistributionCustomGroup customGroup);
     String editSmsCustomGroup(DistributionCustomGroup customGroup);
     String deleteSmsCustomGroup(long id);
+    String addCmp(Cmp cmp);
 }

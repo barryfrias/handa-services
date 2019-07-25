@@ -9,6 +9,7 @@ import com.google.common.base.Optional;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -56,4 +57,5 @@ public interface CommandService
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id, String deletedBy);
+	String addCmp(Cmp cmp);
 }

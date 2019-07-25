@@ -40,6 +40,7 @@ import com.google.common.collect.ImmutableMap;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -493,6 +494,15 @@ public class CommandResource
     Response httpOk(Object result)
     {
         return Response.status(Status.OK).entity(result).type(MediaType.TEXT_PLAIN).build();
+    }
+
+    @POST
+    @Path("cmp")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response addCmp(Cmp cmp)
+    {
+        String result = commandService.addCmp(cmp);
+        return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
     Response buildResponse(String result)

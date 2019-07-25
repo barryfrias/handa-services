@@ -26,6 +26,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -317,5 +318,11 @@ implements CommandService
         String result = commandDAO.deleteCallTree(id);
         dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
         return result;
+    }
+
+    @Override
+    public String addCmp(Cmp cmp)
+    {
+        return commandDAO.addCmp(cmp);
     }
 }

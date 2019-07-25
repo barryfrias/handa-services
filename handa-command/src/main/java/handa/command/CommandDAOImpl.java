@@ -12,6 +12,7 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -29,6 +30,7 @@ import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.DashboardFilterRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
+import handa.procs.AddCmpProcedure;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
@@ -110,6 +112,7 @@ implements CommandDAO
     private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
     private final GetAllSosProcedure getAllSosProcedure;
     private final UpdateSosProcedure updateSosProcedure;
+    private final AddCmpProcedure addCmpProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -155,6 +158,7 @@ implements CommandDAO
         this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
         this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
         this.updateSosProcedure = new UpdateSosProcedure(dataSource());
+        this.addCmpProcedure = new AddCmpProcedure(dataSource());
     }
 
     @Override
@@ -413,5 +417,11 @@ implements CommandDAO
     public String deleteSmsCustomGroup(long id)
     {
         return deleteSmsCustomGroupProcedure.delete(id);
+    }
+
+    @Override
+    public String addCmp(Cmp cmp)
+    {
+        return addCmpProcedure.add(cmp);
     }
 }
