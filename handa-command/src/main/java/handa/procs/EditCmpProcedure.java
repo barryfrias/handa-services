@@ -14,15 +14,16 @@ import org.springframework.jdbc.object.StoredProcedure;
 import handa.beans.dto.Cmp;
 import oracle.jdbc.OracleTypes;
 
-public class AddCmpProcedure
+public class EditCmpProcedure
 extends StoredProcedure
 {
     private static final String RESULT = "result";
 
-    public AddCmpProcedure(DataSource dataSource)
+    public EditCmpProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("handa_cmp.add_cmp");
+        setSql("handa_cmp.edit_cmp");
+        declareParameter(new SqlParameter("p_file_id", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_filename", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_viewer", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_description", OracleTypes.VARCHAR));
@@ -32,14 +33,16 @@ extends StoredProcedure
         compile();
     }
 
-    public String add(Cmp cmp)
+    public String edit(Cmp cmp)
     {
         checkNotNull(cmp, "cmp should not be null");
+        checkNotNull(cmp.getFileId(), "fileId should not be null");
         checkNotNull(emptyToNull(cmp.getFilename()),"filename not be null");
         checkNotNull(emptyToNull(cmp.getViewer()),"viewer not be null");
         checkNotNull(emptyToNull(cmp.getUploadedBy()),"uploadedBy should not be null");
         Object[] params = new Object[]
         {
+            cmp.getFileId(),
             cmp.getFilename(),
             cmp.getViewer(),
             cmp.getDescription(),

@@ -40,6 +40,7 @@ import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
 import handa.procs.DeleteSmsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
+import handa.procs.EditCmpProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
@@ -113,6 +114,7 @@ implements CommandDAO
     private final GetAllSosProcedure getAllSosProcedure;
     private final UpdateSosProcedure updateSosProcedure;
     private final AddCmpProcedure addCmpProcedure;
+    private final EditCmpProcedure editCmpProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -159,6 +161,7 @@ implements CommandDAO
         this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
         this.updateSosProcedure = new UpdateSosProcedure(dataSource());
         this.addCmpProcedure = new AddCmpProcedure(dataSource());
+        this.editCmpProcedure = new EditCmpProcedure(dataSource());
     }
 
     @Override
@@ -423,5 +426,11 @@ implements CommandDAO
     public String addCmp(Cmp cmp)
     {
         return addCmpProcedure.add(cmp);
+    }
+
+    @Override
+    public String editCmp(Cmp cmp)
+    {
+        return editCmpProcedure.edit(cmp);
     }
 }

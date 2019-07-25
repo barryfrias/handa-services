@@ -58,4 +58,5 @@ public interface CommandService
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id, String deletedBy);
 	String addCmp(Cmp cmp);
+    String editCmp(Cmp cmp);
 }

@@ -505,6 +505,15 @@ public class CommandResource
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
+    @PUT
+    @Path("cmp")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response editCmp(Cmp cmp)
+    {
+        String result = commandService.editCmp(cmp);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
     Response buildResponse(String result)
     {
         switch(result)

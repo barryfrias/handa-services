@@ -23,10 +23,10 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.CallTree;
-import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.Cmp;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
@@ -324,5 +324,11 @@ implements CommandService
     public String addCmp(Cmp cmp)
     {
         return commandDAO.addCmp(cmp);
+    }
+
+    @Override
+    public String editCmp(Cmp cmp)
+    {
+        return commandDAO.editCmp(cmp);
     }
 }
