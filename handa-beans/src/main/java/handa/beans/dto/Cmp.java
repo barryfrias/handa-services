@@ -10,6 +10,7 @@ public class Cmp
     private String filename;
     private String name;
     private String username;
+    private String company;
     private String description;
     private String uploadedBy;
     private String uploadedDate;
@@ -62,6 +63,16 @@ public class Cmp
     public void setUsername(String username)
     {
         this.username = username;
+    }
+
+    public String getCompany()
+    {
+        return company;
+    }
+
+    public void setCompany(String company)
+    {
+        this.company = company;
     }
 
     public String getDescription()
