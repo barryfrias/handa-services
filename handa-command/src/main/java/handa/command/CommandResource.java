@@ -514,6 +514,10 @@ public class CommandResource
     public Response addCmp(Cmp cmp)
     {
         String result = commandService.addCmp(cmp);
+        if("not added - duplicate filename".equals(result))
+        {
+            return Response.status(Status.CONFLICT).entity(ImmutableMap.of("message", result)).build();
+        }
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 
