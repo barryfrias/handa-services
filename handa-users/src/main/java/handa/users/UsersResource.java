@@ -42,6 +42,7 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -380,6 +381,14 @@ public class UsersResource
                                     @QueryParam(END_DATE) String endDate)
     {
         List<ActivityLog> result = usersService.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("cmp/{username}")
+    public Response getCmp(@PathParam("username") String username)
+    {
+        List<Cmp> result = usersService.getCmp(username);
         return Response.ok().entity(result).build();
     }
 }

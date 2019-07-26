@@ -8,6 +8,7 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -52,4 +53,5 @@ public interface UsersService
     List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
     List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
     List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo);
+    List<Cmp> getCmp(String username);
 }

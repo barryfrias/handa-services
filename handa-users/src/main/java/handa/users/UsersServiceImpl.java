@@ -29,6 +29,7 @@ import frias.barry.LDAPController;
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -420,5 +421,11 @@ implements UsersService
     public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
         return usersDAO.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
+    }
+
+    @Override
+    public List<Cmp> getCmp(String username)
+    {
+        return usersDAO.getCmp(username);
     }
 }
