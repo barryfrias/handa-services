@@ -31,7 +31,7 @@ extends StoredProcedure
 
     public String delete(long fileId, String deletedBy)
     {
-        checkNotNull(emptyToNull(deletedBy), "deletedBy can't be null");
+        checkNotNull(emptyToNull(deletedBy), "deletedBy should not be null");
         Object[] params =
         {
             fileId,

@@ -17,7 +17,8 @@ implements RowMapper<Cmp>
         cmp.setRowNum(++rowNum);
         cmp.setFileId(rs.getLong("FILE_ID"));
         cmp.setFilename(rs.getString("FILENAME"));
-        cmp.setViewer(rs.getString("VIEWER"));
+        cmp.setName(rs.getString("NAME"));
+        cmp.setUsername(rs.getString("USERNAME"));
         cmp.setDescription(rs.getString("DESCRIPTION"));
         cmp.setUploadedBy(rs.getString("UPLOADED_BY"));
         cmp.setUploadedDate(rs.getString("UPLOADED_DATE"));

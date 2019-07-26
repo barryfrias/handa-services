@@ -24,7 +24,8 @@ extends StoredProcedure
         setDataSource(checkNotNull(dataSource));
         setSql("handa_cmp.add_cmp");
         declareParameter(new SqlParameter("p_filename", OracleTypes.VARCHAR));
-        declareParameter(new SqlParameter("p_viewer", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_name", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("p_username", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_description", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_uploaded_by", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
@@ -35,13 +36,15 @@ extends StoredProcedure
     public String add(Cmp cmp)
     {
         checkNotNull(cmp, "cmp should not be null");
-        checkNotNull(emptyToNull(cmp.getFilename()),"filename not be null");
-        checkNotNull(emptyToNull(cmp.getViewer()),"viewer not be null");
+        checkNotNull(emptyToNull(cmp.getFilename()),"filename should not be null");
+        checkNotNull(emptyToNull(cmp.getName()),"name should not be null");
+        checkNotNull(emptyToNull(cmp.getUsername()),"username should not be null");
         checkNotNull(emptyToNull(cmp.getUploadedBy()),"uploadedBy should not be null");
         Object[] params = new Object[]
         {
             cmp.getFilename(),
-            cmp.getViewer(),
+            cmp.getName(),
+            cmp.getUsername(),
             cmp.getDescription(),
             cmp.getUploadedBy(),
         };

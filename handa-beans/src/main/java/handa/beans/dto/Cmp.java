@@ -8,7 +8,8 @@ public class Cmp
     private int rowNum;
     private Long fileId;
     private String filename;
-    private String viewer;
+    private String name;
+    private String username;
     private String description;
     private String uploadedBy;
     private String uploadedDate;
@@ -43,14 +44,24 @@ public class Cmp
     	this.filename = filename;
     }
 
-    public String getViewer()
+    public String getName()
     {
-    	return viewer;
+    	return name;
     }
 
-    public void setViewer(String viewer)
+    public void setName(String name)
     {
-    	this.viewer = viewer;
+    	this.name = name;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
     }
 
     public String getDescription()
