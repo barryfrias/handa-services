@@ -26,6 +26,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -342,5 +343,11 @@ implements CommandService
     public List<Cmp> listCmp()
     {
         return commandDAO.listCmp();
+    }
+
+    @Override
+    public List<CmpViewer> listCmpViewers()
+    {
+        return commandDAO.listCmpViewers();
     }
 }

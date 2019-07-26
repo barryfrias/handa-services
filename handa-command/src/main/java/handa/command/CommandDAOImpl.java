@@ -13,6 +13,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -59,6 +60,7 @@ import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
 import handa.procs.ListCallTreesProcedure;
 import handa.procs.ListCmpProcedure;
+import handa.procs.ListCmpViewersProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
@@ -119,6 +121,7 @@ implements CommandDAO
     private final EditCmpProcedure editCmpProcedure;
     private final DeleteCmpProcedure deleteCmpProcedure;
     private final ListCmpProcedure listCmpProcedure;
+    private final ListCmpViewersProcedure listCmpViewersProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -168,6 +171,7 @@ implements CommandDAO
         this.editCmpProcedure = new EditCmpProcedure(dataSource());
         this.deleteCmpProcedure = new DeleteCmpProcedure(dataSource());
         this.listCmpProcedure = new ListCmpProcedure(dataSource());
+        this.listCmpViewersProcedure = new ListCmpViewersProcedure(dataSource());
     }
 
     @Override
@@ -450,5 +454,11 @@ implements CommandDAO
     public List<Cmp> listCmp()
     {
         return listCmpProcedure.list();
+    }
+
+    @Override
+    public List<CmpViewer> listCmpViewers()
+    {
+        return listCmpViewersProcedure.list();
     }
 }

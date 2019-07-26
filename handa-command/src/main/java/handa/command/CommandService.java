@@ -10,6 +10,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -61,4 +62,5 @@ public interface CommandService
     String editCmp(Cmp cmp);
     String deleteCmp(long fileId, String deletedBy);
     List<Cmp> listCmp();
+    List<CmpViewer> listCmpViewers();
 }

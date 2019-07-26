@@ -41,6 +41,7 @@ import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
 import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
@@ -493,10 +494,17 @@ public class CommandResource
 
     @GET
     @Path("cmp")
-    @Consumes({ MediaType.APPLICATION_JSON })
     public Response listCmp()
     {
         List<Cmp> result = commandService.listCmp();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("cmp/viewers")
+    public Response listCmpViewers()
+    {
+        List<CmpViewer> result = commandService.listCmpViewers();
         return Response.ok(result).build();
     }
 
