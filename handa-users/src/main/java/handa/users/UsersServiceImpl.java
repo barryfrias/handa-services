@@ -103,7 +103,7 @@ implements UsersService
     }
 
     @Override
-    public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
+    public String authByMobileNumberAndUsernamePassword(AuthInfo authInfo, DeviceInfo deviceInfo)
     {
         checkNotNull(authInfo, "authInfo object should not be null");
         checkNotNull(authInfo.getUsername(), "authInfo.username object should not be null");
@@ -126,6 +126,18 @@ implements UsersService
                                               "Tried to authenticate but not found in list of allowed users  [%s]", deviceInfo));
                 return result;
         }
+    }
+
+    @Override
+    public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
+    {
+        checkNotNull(authInfo, "authInfo object should not be null");
+        checkNotNull(authInfo.getUsername(), "username should not be null");
+        checkNotNull(authInfo.getMobileNumber(), "mobileNumber should not be null");
+        String result = usersDAO.authByMobileNumberAndUsername(authInfo);
+        dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
+                        "Tried to authenticate by mobileNumber and username and result was %s [%s]", result, deviceInfo));
+        return result;
     }
 
     @Override

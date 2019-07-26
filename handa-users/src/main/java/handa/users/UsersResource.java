@@ -134,7 +134,7 @@ public class UsersResource
     public Response authenticate2(@Context HttpHeaders headers, AuthInfo authInfo)
     {
         DeviceInfo deviceInfo = DeviceInfo.from(headers);
-        String result = usersService.authByMobileNumberAndUsername(authInfo, deviceInfo);
+        String result = usersService.authByMobileNumberAndUsernamePassword(authInfo, deviceInfo);
         switch(result)
         {
             case OK : return Response.ok().build();
@@ -152,6 +152,28 @@ public class UsersResource
         switch(result)
         {
             case OK : return Response.ok().build();
+            default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("authenticate4")
+    public Response authenticate4(@Context HttpHeaders headers, AuthInfo authInfo)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.authByMobileNumberAndUsername(authInfo, deviceInfo);
+        switch(result)
+        {
+            case OK :
+            { 
+                Optional<UserInfo> userInfo = usersService.getUserInfo(authInfo.getMobileNumber());
+                if(userInfo.isPresent())
+                {
+                    return Response.ok(userInfo.get()).build();
+                }
+                throw new NotFoundException(String.format("No user info found for mobile number %s", authInfo.getMobileNumber()));
+            }
             default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
         }
     }

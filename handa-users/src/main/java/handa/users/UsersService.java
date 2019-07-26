@@ -27,6 +27,7 @@ import handa.config.HandaUsersConstants.PromptType;
 public interface UsersService
 {
     String authByMobileNumber(AuthInfo authInfo, DeviceInfo deviceInfo);
+    String authByMobileNumberAndUsernamePassword(AuthInfo authInfo, DeviceInfo deviceInfo);
     String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo);
     String prompt(UserPromptInput userPromptInput, PromptType promptType, DeviceInfo deviceInfo);
     Optional<UserInfo> getUserInfo(String mobileNumber);
