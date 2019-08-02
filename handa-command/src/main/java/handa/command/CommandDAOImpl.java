@@ -12,11 +12,14 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
@@ -28,15 +31,18 @@ import handa.beans.dto.UserReport;
 import handa.config.HandaCommandConstants.PromptType;
 import handa.mappers.DashboardFilterRowMapper;
 import handa.mappers.SmsOutboxRowMapper;
+import handa.procs.AddCmpProcedure;
 import handa.procs.AddNewsFeedsCustomGroupProcedure;
 import handa.procs.AddSmsCustomGroupProcedure;
 import handa.procs.ClosePromptProcedure;
 import handa.procs.CloseUserReportProcedure;
 import handa.procs.DeleteCallTreeProcedure;
+import handa.procs.DeleteCmpProcedure;
 import handa.procs.DeleteNewsFeedProcedure;
 import handa.procs.DeleteNewsFeedsCustomGroupProcedure;
 import handa.procs.DeleteSmsCustomGroupProcedure;
 import handa.procs.DeleteSmsProcedure;
+import handa.procs.EditCmpProcedure;
 import handa.procs.EditNewsFeedsCustomGroupProcedure;
 import handa.procs.EditSmsCustomGroupProcedure;
 import handa.procs.GenericProcedure;
@@ -53,10 +59,13 @@ import handa.procs.GetUserReportsProcedure;
 import handa.procs.InsertCallTreeProcedure;
 import handa.procs.InsertNewsFeedProcedure;
 import handa.procs.ListCallTreesProcedure;
+import handa.procs.ListCmpProcedure;
+import handa.procs.ListCmpViewersProcedure;
 import handa.procs.PromptsCountProcedure;
 import handa.procs.ReadSmsInboxProcedure;
 import handa.procs.ReportsCountProcedure;
 import handa.procs.ResetEventsProcedure;
+import handa.procs.SearchNewsFeedProcedure;
 import handa.procs.SendSmsProcedure;
 import handa.procs.UpdateCallTreeProcedure;
 import handa.procs.UpdateNewsFeedProcedure;
@@ -72,6 +81,7 @@ implements CommandDAO
     private final InsertNewsFeedProcedure insertNewsFeedProcedure;
     private final UpdateNewsFeedProcedure updateNewsFeedProcedure;
     private final GetNewsFeedsProcedure getNewsFeedsProcedure;
+    private final SearchNewsFeedProcedure searchNewsFeedProcedure;
     private final DeleteNewsFeedProcedure deleteNewsFeedProcedure;
     private final GetUserPromptsProcedure getUserPromptsProcedure;
     private final GetUserReportsProcedure getUserReportsProcedure;
@@ -107,6 +117,11 @@ implements CommandDAO
     private final DeleteSmsCustomGroupProcedure deleteSmsCustomGroupProcedure;
     private final GetAllSosProcedure getAllSosProcedure;
     private final UpdateSosProcedure updateSosProcedure;
+    private final AddCmpProcedure addCmpProcedure;
+    private final EditCmpProcedure editCmpProcedure;
+    private final DeleteCmpProcedure deleteCmpProcedure;
+    private final ListCmpProcedure listCmpProcedure;
+    private final ListCmpViewersProcedure listCmpViewersProcedure;
 
     @Autowired
     public CommandDAOImpl(JdbcTemplate jdbcTemplate)
@@ -116,6 +131,7 @@ implements CommandDAO
         this.insertNewsFeedProcedure = new InsertNewsFeedProcedure(dataSource());
         this.updateNewsFeedProcedure = new UpdateNewsFeedProcedure(dataSource());
         this.getNewsFeedsProcedure = new GetNewsFeedsProcedure(dataSource());
+        this.searchNewsFeedProcedure = new SearchNewsFeedProcedure(dataSource());
         this.deleteNewsFeedProcedure = new DeleteNewsFeedProcedure(dataSource());
         this.getUserPromptsProcedure = new GetUserPromptsProcedure(dataSource());
         this.getUserReportsProcedure = new GetUserReportsProcedure(dataSource());
@@ -151,6 +167,11 @@ implements CommandDAO
         this.deleteSmsCustomGroupProcedure = new DeleteSmsCustomGroupProcedure(dataSource());
         this.getAllSosProcedure = new GetAllSosProcedure(dataSource());
         this.updateSosProcedure = new UpdateSosProcedure(dataSource());
+        this.addCmpProcedure = new AddCmpProcedure(dataSource());
+        this.editCmpProcedure = new EditCmpProcedure(dataSource());
+        this.deleteCmpProcedure = new DeleteCmpProcedure(dataSource());
+        this.listCmpProcedure = new ListCmpProcedure(dataSource());
+        this.listCmpViewersProcedure = new ListCmpViewersProcedure(dataSource());
     }
 
     @Override
@@ -175,6 +196,12 @@ implements CommandDAO
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return getNewsFeedsProcedure.list(true, pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        return searchNewsFeedProcedure.search(newsFeedSearch);
     }
 
     @Override
@@ -403,5 +430,35 @@ implements CommandDAO
     public String deleteSmsCustomGroup(long id)
     {
         return deleteSmsCustomGroupProcedure.delete(id);
+    }
+
+    @Override
+    public String addCmp(Cmp cmp)
+    {
+        return addCmpProcedure.add(cmp);
+    }
+
+    @Override
+    public String editCmp(Cmp cmp)
+    {
+        return editCmpProcedure.edit(cmp);
+    }
+
+    @Override
+    public String deleteCmp(long fileId, String deletedBy)
+    {
+        return deleteCmpProcedure.delete(fileId, deletedBy);
+    }
+
+    @Override
+    public List<Cmp> listCmp()
+    {
+        return listCmpProcedure.list();
+    }
+
+    @Override
+    public List<CmpViewer> listCmpViewers()
+    {
+        return listCmpViewersProcedure.list();
     }
 }

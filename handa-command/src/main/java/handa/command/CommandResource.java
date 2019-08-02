@@ -2,10 +2,10 @@ package handa.command;
 
 import static handa.config.HandaCommandConstants.ALL;
 import static handa.config.HandaCommandConstants.CITY;
-import static handa.config.HandaCommandConstants.HEAD;
-import static handa.config.HandaCommandConstants.DEPT;
 import static handa.config.HandaCommandConstants.COMP;
+import static handa.config.HandaCommandConstants.DEPT;
 import static handa.config.HandaCommandConstants.END_DATE;
+import static handa.config.HandaCommandConstants.HEAD;
 import static handa.config.HandaCommandConstants.OK;
 import static handa.config.HandaCommandConstants.START_DATE;
 
@@ -40,11 +40,14 @@ import com.google.common.collect.ImmutableMap;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.RegistrationAction;
 import handa.beans.dto.RegistrationActionResult;
@@ -306,6 +309,15 @@ public class CommandResource
     }
 
     @POST
+    @Path("newsfeeds/search")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        List<NewsFeed> result = commandService.searchNewsFeed(newsFeedSearch);
+        return Response.ok(result).build();
+    }
+
+    @POST
     @Path("newsfeeds")
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response postNewsFeed(NewsFeed newsFeed)
@@ -477,6 +489,53 @@ public class CommandResource
     public Response deleteCallTree(@PathParam("id") long id, @QueryParam("deletedBy") String deletedBy)
     {
         String result = commandService.deleteCallTree(id, deletedBy);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @GET
+    @Path("cmp")
+    public Response listCmp()
+    {
+        List<Cmp> result = commandService.listCmp();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("cmp/viewers")
+    public Response listCmpViewers()
+    {
+        List<CmpViewer> result = commandService.listCmpViewers();
+        return Response.ok(result).build();
+    }
+
+    @POST
+    @Path("cmp")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response addCmp(Cmp cmp)
+    {
+        String result = commandService.addCmp(cmp);
+        if("not added - duplicate filename".equals(result))
+        {
+            return Response.status(Status.CONFLICT).entity(ImmutableMap.of("message", result)).build();
+        }
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @PUT
+    @Path("cmp")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response editCmp(Cmp cmp)
+    {
+        String result = commandService.editCmp(cmp);
+        return Response.ok(ImmutableMap.of("message", result)).build();
+    }
+
+    @DELETE
+    @Path("cmp/{fileId}")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response deleteCmp(@PathParam("fileId") long fileId, @QueryParam("deletedBy") String deletedBy)
+    {
+        String result = commandService.deleteCmp(fileId, deletedBy);
         return Response.ok(ImmutableMap.of("message", result)).build();
     }
 

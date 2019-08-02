@@ -1,6 +1,7 @@
 package handa.users;
 
 import static com.pldt.itidm.core.utils.ResponseUtils.buildResponse;
+import static handa.config.HandaUsersConstants.COMPANY;
 import static handa.config.HandaUsersConstants.END_DATE;
 import static handa.config.HandaUsersConstants.INVALID_CREDENTIALS;
 import static handa.config.HandaUsersConstants.MGR_USERNAME;
@@ -41,6 +42,7 @@ import com.pldt.itidm.core.exception.NotFoundException;
 
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -132,7 +134,7 @@ public class UsersResource
     public Response authenticate2(@Context HttpHeaders headers, AuthInfo authInfo)
     {
         DeviceInfo deviceInfo = DeviceInfo.from(headers);
-        String result = usersService.authByMobileNumberAndUsername(authInfo, deviceInfo);
+        String result = usersService.authByMobileNumberAndUsernamePassword(authInfo, deviceInfo);
         switch(result)
         {
             case OK : return Response.ok().build();
@@ -150,6 +152,28 @@ public class UsersResource
         switch(result)
         {
             case OK : return Response.ok().build();
+            default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("authenticate4")
+    public Response authenticate4(@Context HttpHeaders headers, AuthInfo authInfo)
+    {
+        DeviceInfo deviceInfo = DeviceInfo.from(headers);
+        String result = usersService.authByMobileNumberAndUsername(authInfo, deviceInfo);
+        switch(result)
+        {
+            case OK :
+            { 
+                Optional<UserInfo> userInfo = usersService.getUserInfo(authInfo.getMobileNumber());
+                if(userInfo.isPresent())
+                {
+                    return Response.ok(userInfo.get()).build();
+                }
+                throw new NotFoundException(String.format("No user info found for mobile number %s", authInfo.getMobileNumber()));
+            }
             default : return Response.status(Status.UNAUTHORIZED).entity(result).type(MediaType.TEXT_PLAIN).build();
         }
     }
@@ -354,10 +378,11 @@ public class UsersResource
     @GET
     @Path("{mgrUsername}/subordinates/prompts")
     public Response getSubordinates(@PathParam(MGR_USERNAME) String mgrUsername,
+                                    @QueryParam(COMPANY) String company,
                                     @QueryParam(START_DATE) String startDate,
                                     @QueryParam(END_DATE) String endDate)
     {
-        Subordinates result = (Subordinates) usersService.getSubordinates(mgrUsername, startDate, endDate);
+        Subordinates result = usersService.getSubordinates(mgrUsername, company, startDate, endDate);
         return Response.ok().entity(result).build();
     }
 
@@ -378,6 +403,14 @@ public class UsersResource
                                     @QueryParam(END_DATE) String endDate)
     {
         List<ActivityLog> result = usersService.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
+        return Response.ok().entity(result).build();
+    }
+
+    @GET
+    @Path("cmp/{username}")
+    public Response getCmp(@PathParam("username") String username)
+    {
+        List<Cmp> result = usersService.getCmp(username);
         return Response.ok().entity(result).build();
     }
 }

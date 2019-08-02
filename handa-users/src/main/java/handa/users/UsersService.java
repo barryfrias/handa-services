@@ -8,6 +8,7 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -26,6 +27,7 @@ import handa.config.HandaUsersConstants.PromptType;
 public interface UsersService
 {
     String authByMobileNumber(AuthInfo authInfo, DeviceInfo deviceInfo);
+    String authByMobileNumberAndUsernamePassword(AuthInfo authInfo, DeviceInfo deviceInfo);
     String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo);
     String prompt(UserPromptInput userPromptInput, PromptType promptType, DeviceInfo deviceInfo);
     Optional<UserInfo> getUserInfo(String mobileNumber);
@@ -45,11 +47,12 @@ public interface UsersService
     String loginByPasscode(AuthInfo authInfo, DeviceInfo deviceInfo);
     List<NewsFeed> getPrivateNewsFeeds(String username, int pageNo);
     List<NewsFeed> getPrivateTips(String username, int pageNo);
-    Subordinates getSubordinates(String mgrUsername, String startDate, String endDate);
+    Subordinates getSubordinates(String mgrUsername, String company, String startDate, String endDate);
     String privacyTagByMIN(AuthInfo authInfo);
     List<NewsFeed> getPublicNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> getPrivateNewsFeedsMobile(String username, int pageNo);
     List<NewsFeed> searchPublicNewsFeedsMobile(String username, Map<String, Object> json);
     List<NewsFeed> searchPrivateNewsFeedsMobile(String username, Map<String, Object> json);
     List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo);
+    List<Cmp> getCmp(String username);
 }

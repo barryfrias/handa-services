@@ -27,6 +27,7 @@ extends StoredProcedure
         setDataSource(checkNotNull(dataSource));
         setSql("HANDA_SUBORDINATES.GET_SUBORDINATES");
         declareParameter(new SqlParameter("P_USERNAME", OracleTypes.VARCHAR));
+        declareParameter(new SqlParameter("P_COMPANY", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_START_DATE", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("P_END_DATE", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new ToMapRowMapper()));
@@ -36,10 +37,10 @@ extends StoredProcedure
     }
     
     @SuppressWarnings("unchecked")
-    public Subordinates subordinatesList(String mgrUsername, String startDate, String endDate)
+    public Subordinates subordinatesList(String mgrUsername, String company, String startDate, String endDate)
     {
         
-    	Object[] params = new Object[] { mgrUsername, startDate, endDate };
+    	Object[] params = new Object[] { mgrUsername, company, startDate, endDate };
         Map<String, Object> map = execute(params);
         Subordinates subordinates = new Subordinates();
         BigDecimal ismanager = (BigDecimal) map.get(isManager);

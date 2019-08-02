@@ -14,6 +14,7 @@ import com.pldt.itidm.core.utils.AbstractJdbcDAO;
 
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.NewsFeed;
@@ -35,6 +36,7 @@ import handa.procs.DomainUserRegistrationProcedure;
 import handa.procs.DomainUserRegistrationProcedure.DomainRegistrationRequestResult;
 import handa.procs.EditUserProcedure;
 import handa.procs.FilterFeedsProcedure;
+import handa.procs.GetCmpProcedure;
 import handa.procs.GetCompaniesLovProcedure;
 import handa.procs.GetPrivateMobileNewsFeedsProcedure;
 import handa.procs.GetPrivateNewsFeedsProcedure;
@@ -79,6 +81,7 @@ implements UsersDAO
     private final PrivacyTagByMinProcedure privacyTagByMinProcedure;
     private final SearchMobileNewsFeedsProcedure searchPublicNewsFeedsMobileProcedure;
     private final UserActivityLogProcedure userActivityLogProcedure;
+    private final GetCmpProcedure getCmpProcedure;
 
     @Autowired
     public UsersDAOImpl(JdbcTemplate jdbcTemplate)
@@ -107,6 +110,7 @@ implements UsersDAO
         this.getSubordinatesProcedure = new GetSubordinatesProcedure(dataSource());
         this.privacyTagByMinProcedure = new PrivacyTagByMinProcedure(dataSource());
         this.userActivityLogProcedure = new UserActivityLogProcedure(dataSource());
+        this.getCmpProcedure = new GetCmpProcedure(dataSource());
     }
 
     @Override
@@ -244,9 +248,9 @@ implements UsersDAO
     }
 
     @Override
-    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
+    public Subordinates getSubordinates(String mgrUsername, String company, String startDate, String endDate)
     {
-    	return getSubordinatesProcedure.subordinatesList(mgrUsername, startDate, endDate);
+    	return getSubordinatesProcedure.subordinatesList(mgrUsername, company, startDate, endDate);
     }
 
     @Override
@@ -259,5 +263,11 @@ implements UsersDAO
     public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
         return userActivityLogProcedure.list(mobileNumber, type, startDate, endDate, pageNo);
+    }
+
+    @Override
+    public List<Cmp> getCmp(String username)
+    {
+        return getCmpProcedure.list(username);
     }
 }

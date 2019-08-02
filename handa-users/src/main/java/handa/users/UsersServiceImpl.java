@@ -29,6 +29,7 @@ import frias.barry.LDAPController;
 import handa.beans.dto.ActivityLog;
 import handa.beans.dto.AppLog;
 import handa.beans.dto.AuthInfo;
+import handa.beans.dto.Cmp;
 import handa.beans.dto.Company;
 import handa.beans.dto.DeviceInfo;
 import handa.beans.dto.LdapUser;
@@ -102,7 +103,7 @@ implements UsersService
     }
 
     @Override
-    public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
+    public String authByMobileNumberAndUsernamePassword(AuthInfo authInfo, DeviceInfo deviceInfo)
     {
         checkNotNull(authInfo, "authInfo object should not be null");
         checkNotNull(authInfo.getUsername(), "authInfo.username object should not be null");
@@ -125,6 +126,18 @@ implements UsersService
                                               "Tried to authenticate but not found in list of allowed users  [%s]", deviceInfo));
                 return result;
         }
+    }
+
+    @Override
+    public String authByMobileNumberAndUsername(AuthInfo authInfo, DeviceInfo deviceInfo)
+    {
+        checkNotNull(authInfo, "authInfo object should not be null");
+        checkNotNull(authInfo.getUsername(), "username should not be null");
+        checkNotNull(authInfo.getMobileNumber(), "mobileNumber should not be null");
+        String result = usersDAO.authByMobileNumberAndUsername(authInfo);
+        dbLoggerDAO.log(AppLog.client(authInfo.getUsername(), authInfo.getMobileNumber(),
+                        "Tried to authenticate by mobileNumber and username and result was %s [%s]", result, deviceInfo));
+        return result;
     }
 
     @Override
@@ -404,9 +417,9 @@ implements UsersService
     }
 
     @Override
-    public Subordinates getSubordinates(String mgrUsername, String startDate, String endDate)
+    public Subordinates getSubordinates(String mgrUsername, String company, String startDate, String endDate)
     {
-    	return usersDAO.getSubordinates(mgrUsername, startDate, endDate);
+    	return usersDAO.getSubordinates(mgrUsername, company, startDate, endDate);
     }
 
     @Override
@@ -420,5 +433,11 @@ implements UsersService
     public List<ActivityLog> getActivityLogs(String mobileNumber, String type, String startDate, String endDate, int pageNo)
     {
         return usersDAO.getActivityLogs(mobileNumber, type, startDate, endDate, pageNo);
+    }
+
+    @Override
+    public List<Cmp> getCmp(String username)
+    {
+        return usersDAO.getCmp(username);
     }
 }

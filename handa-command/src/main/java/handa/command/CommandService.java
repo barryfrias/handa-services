@@ -9,11 +9,14 @@ import com.google.common.base.Optional;
 import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
 import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
@@ -24,6 +27,7 @@ public interface CommandService
     Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate);
     NewsFeed postNewsFeed(NewsFeed newsFeed);
     List<NewsFeed> getNewsFeeds(int pageNo);
+    List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch);
     List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate);
     List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate);
@@ -54,4 +58,9 @@ public interface CommandService
     long insertCallTree(CallTree callTree);
     String updateCallTree(CallTree callTree);
     String deleteCallTree(long id, String deletedBy);
+	String addCmp(Cmp cmp);
+    String editCmp(Cmp cmp);
+    String deleteCmp(long fileId, String deletedBy);
+    List<Cmp> listCmp();
+    List<CmpViewer> listCmpViewers();
 }

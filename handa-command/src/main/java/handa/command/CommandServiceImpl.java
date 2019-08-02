@@ -23,13 +23,16 @@ import com.google.common.base.Optional;
 
 import handa.beans.dto.AppLog;
 import handa.beans.dto.CallTree;
-import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
+import handa.beans.dto.DashboardFilter;
 import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.DistributionList;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
 import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
@@ -82,6 +85,12 @@ implements CommandService
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return commandDAO.getNewsFeeds(pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        return commandDAO.searchNewsFeed(newsFeedSearch);
     }
 
     @Override
@@ -310,5 +319,35 @@ implements CommandService
         String result = commandDAO.deleteCallTree(id);
         dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
         return result;
+    }
+
+    @Override
+    public String addCmp(Cmp cmp)
+    {
+        return commandDAO.addCmp(cmp);
+    }
+
+    @Override
+    public String editCmp(Cmp cmp)
+    {
+        return commandDAO.editCmp(cmp);
+    }
+
+    @Override
+    public String deleteCmp(long fileId, String deletedBy)
+    {
+        return commandDAO.deleteCmp(fileId, deletedBy);
+    }
+
+    @Override
+    public List<Cmp> listCmp()
+    {
+        return commandDAO.listCmp();
+    }
+
+    @Override
+    public List<CmpViewer> listCmpViewers()
+    {
+        return commandDAO.listCmpViewers();
     }
 }
