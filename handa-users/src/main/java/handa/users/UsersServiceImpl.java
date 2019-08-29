@@ -276,7 +276,7 @@ implements UsersService
     {
         checkNotNull(userRegistration, "userRegistration object should not be null");
         checkNotNull(userRegistration.getUsername(), "username should not be null");
-        checkNotNull(userRegistration.getPassword(), "password should not be null");
+        //checkNotNull(userRegistration.getPassword(), "password should not be null");
         checkNotNull(userRegistration.getCompanyCode(), "companyCode should not be null");
         checkNotNull(userRegistration.getMobileNumber(), "mobileNumber should not be null");
         checkNotNull(userRegistration.getFirstName(), "firstName should not be null");
@@ -305,23 +305,15 @@ implements UsersService
                                      ldapSearchResultMessage, deviceInfo));
         if(ldapUser.isPresent())
         {
-            boolean authenticated = ldapController.login(username.toLowerCase(), userRegistration.getPassword());
-            dbLoggerDAO.log(AppLog.client(username, userRegistration.getMobileNumber(),
-                                          "Registration activity. Tried to authenticate thru %s ldap and result was %s [%s]",
-                                          userRegistration.getCompanyCode(), authenticated, deviceInfo));
-            if(authenticated)
+            aggregate(userRegistration, ldapUser.get());
+            DomainRegistrationRequestResult result = usersDAO.registerDomainUser(userRegistration);
+            dbLoggerDAO.log(AppLog.client(null, userRegistration.getMobileNumber(),
+                    "Registration activity. Input: %s, Result was %s [%s]", userRegistration, result , deviceInfo));
+            if(result.getRegistrationId() != null)
             {
-                aggregate(userRegistration, ldapUser.get());
-                DomainRegistrationRequestResult result = usersDAO.registerDomainUser(userRegistration);
-                dbLoggerDAO.log(AppLog.client(null, userRegistration.getMobileNumber(),
-                                "Registration activity. Input: %s, Result was %s [%s]", userRegistration, result , deviceInfo));
-                if(result.getRegistrationId() != null)
-                {
-                    sendMailToHandaCC(result.getRegistrationId());
-                }
-                return result.getMessage();
+                sendMailToHandaCC(result.getRegistrationId());
             }
-            return INVALID_CREDENTIALS;
+            return result.getMessage();
         }
         return USER_NOT_FOUND;
     }
