@@ -106,6 +106,7 @@ public class EventReport
         private String landlineNumber;
         private String position;
         private String dept;
+        private String group;
         private String immediateHead;
         private String company;
         private String type;
@@ -174,6 +175,14 @@ public class EventReport
         public void setDept(String dept)
         {
             this.dept = dept;
+        }
+        public String getGroup()
+        {
+            return group;
+        }
+        public void setGroup(String group)
+        {
+            this.group = group;
         }
         public String getImmediateHead()
         {
