@@ -15,6 +15,7 @@ public class UserInfo
     private String middleName;
     private String position;
     private String department;
+    private String group;
     private String officeLocation;
     private String immediateHead;
     private String company;
@@ -120,6 +121,16 @@ public class UserInfo
     public void setDepartment(String department)
     {
         this.department = department;
+    }
+
+    public String getGroup()
+    {
+        return group;
+    }
+
+    public void setGroup(String group)
+    {
+        this.group = group;
     }
 
     public String getOfficeLocation()
@@ -394,6 +405,7 @@ public class UserInfo
                .add("middleName", middleName)
                .add("position", position)
                .add("department", department)
+               .add("group", group)
                .add("immediateHead", immediateHead)
                .add("landlineNo", landlineNo)
                .add("mobileNumber", mobileNumber)

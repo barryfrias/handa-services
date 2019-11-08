@@ -28,7 +28,7 @@ extends StoredProcedure
     public UserInfoProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_USER_MGMT.GET_USER");
+        setSql("handa_user_mgmt.get_user");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new UserInfoRowMapper()));
         setFunction(false);

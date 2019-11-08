@@ -26,6 +26,7 @@ implements RowMapper<UserInfo>
         userInfo.setCreatedDate(getString(rs, "CREATED_DATE"));
         userInfo.setCurrentAddress(getString(rs, "CURRENT_ADDRESS"));
         userInfo.setDepartment(getString(rs, "DEPT"));
+        userInfo.setGroup(getString(rs, "GROUP_NAME"));
         userInfo.setOfficeLocation(getString(rs, "OFFICE_LOCATION"));
         userInfo.setEmployeeNumber(getString(rs, "EMP_NO"));
         userInfo.setFirstName(getString(rs, "FIRST_NAME"));
