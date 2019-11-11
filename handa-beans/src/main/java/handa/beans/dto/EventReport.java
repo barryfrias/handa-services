@@ -108,6 +108,7 @@ public class EventReport
         private String dept;
         private String group;
         private String immediateHead;
+        private String officeLocation;
         private String company;
         private String type;
         private String locationIndicator;
@@ -191,6 +192,14 @@ public class EventReport
         public void setImmediateHead(String immediateHead)
         {
             this.immediateHead = immediateHead;
+        }
+        public String getOfficeLocation()
+        {
+            return officeLocation;
+        }
+        public void setOfficeLocation(String officeLocation)
+        {
+            this.officeLocation = officeLocation;
         }
         public String getCompany()
         {

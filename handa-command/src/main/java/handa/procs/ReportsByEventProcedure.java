@@ -91,6 +91,7 @@ extends StoredProcedure
             details.setDept(rs.getString("DEPT"));
             details.setGroup(rs.getString("GROUP_NAME"));
             details.setImmediateHead(rs.getString("IMMEDIATE_HEAD"));
+            details.setOfficeLocation(rs.getString("OFFICE_LOCATION"));
             details.setCompany(rs.getString("COMPANY"));
             details.setType(rs.getString("TYPE"));
             details.setLocationIndicator(rs.getString("LOCATION_INDICATOR"));
