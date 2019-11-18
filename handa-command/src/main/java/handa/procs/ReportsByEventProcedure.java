@@ -41,7 +41,7 @@ extends StoredProcedure
     public ReportsByEventProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("HANDA_REPORTS.BY_EVENT");
+        setSql("handa_reports.by_event");
         declareParameter(new SqlParameter("p_startdate", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_enddate", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("p_unique", OracleTypes.NUMBER));
@@ -89,7 +89,9 @@ extends StoredProcedure
             details.setLandlineNumber(rs.getString("LANDLINE_NO"));
             details.setPosition(rs.getString("POSITION"));
             details.setDept(rs.getString("DEPT"));
+            details.setGroup(rs.getString("GROUP_NAME"));
             details.setImmediateHead(rs.getString("IMMEDIATE_HEAD"));
+            details.setOfficeLocation(rs.getString("OFFICE_LOCATION"));
             details.setCompany(rs.getString("COMPANY"));
             details.setType(rs.getString("TYPE"));
             details.setLocationIndicator(rs.getString("LOCATION_INDICATOR"));
