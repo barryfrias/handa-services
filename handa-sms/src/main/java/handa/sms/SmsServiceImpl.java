@@ -1,13 +1,5 @@
 package handa.sms;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.xml.soap.SOAPBody;
@@ -41,27 +33,9 @@ implements SmsService
     private SoapWsCaller<SendSmsInput, SendSmsOutput, SOAPBody> sendSmsWsCaller;
     private OnehubSMSRestClient onehubSMSRestClient;
     private boolean isSMSForwardinEnabled;
-    private static final SSLContext SSL_CTX;
-    private static final HostnameVerifier HOSTNAME_VERIFIER = new HostnameVerifier() { public boolean verify(String S1, SSLSession S2) { return true; } };
-
-    static
-    {
-        try
-        {
-            SSL_CTX = SSLContext.getInstance("TLS");
-            SSL_CTX.init(null, new TrustManager[]{new X509TrustManager()
-            {
-                public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
-                public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
-                public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
-            }}
-            , new java.security.SecureRandom());
-        }
-        catch(Exception e) { throw new RuntimeException(e); }
-    }
  
     @Autowired
-    public SmsServiceImpl(SmsDAO commandDAO, HandaProperties handaProperties, DBLoggerDAO dbLog)
+    public SmsServiceImpl(SmsDAO commandDAO, HandaProperties handaProperties, DBLoggerDAO dbLog, Client proxiedJerseyClient)
     {
         this.smsDAO = commandDAO;
         this.dbLog = dbLog;
@@ -78,9 +52,8 @@ implements SmsService
             log.info("SMS Forwarding to OneHub is disabled");
         }
         ClientConfig clientConfig = new ClientConfig();
-        clientConfig.property(ClientProperties.PROXY_URI, "http://" + handaProperties.get("http.proxy"));
-        Client client = ClientBuilder.newBuilder().withConfig(clientConfig).sslContext(SSL_CTX).hostnameVerifier(HOSTNAME_VERIFIER).build();
-        this.onehubSMSRestClient = new OnehubSMSRestClient(client, handaProperties.get("onehub.sms.ws.url"));
+        clientConfig.property(ClientProperties.PROXY_URI, handaProperties.get("http.proxy"));
+        this.onehubSMSRestClient = new OnehubSMSRestClient(ClientBuilder.newClient(clientConfig), handaProperties.get("onehub.sms.ws.url"));
     }
 
     @Override
