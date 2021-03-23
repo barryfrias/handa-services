@@ -48,7 +48,7 @@ implements SmsService
     {
         try
         {
-            SSL_CTX = SSLContext.getInstance("TLS");
+            SSL_CTX = SSLContext.getInstance("TLSv1.2");
             SSL_CTX.init(null, new TrustManager[]{new X509TrustManager()
             {
                 public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {}
