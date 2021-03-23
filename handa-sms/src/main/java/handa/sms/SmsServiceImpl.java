@@ -12,6 +12,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.xml.soap.SOAPBody;
 
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
@@ -79,6 +80,9 @@ implements SmsService
         }
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.property(ClientProperties.PROXY_URI, "http://" + handaProperties.get("http.proxy"));
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 30000);
+        clientConfig.property(ClientProperties.READ_TIMEOUT, 30000);
+        clientConfig.connectorProvider(new ApacheConnectorProvider());
         Client client = ClientBuilder.newBuilder().withConfig(clientConfig).sslContext(SSL_CTX).hostnameVerifier(HOSTNAME_VERIFIER).build();
         this.onehubSMSRestClient = new OnehubSMSRestClient(client, handaProperties.get("onehub.sms.ws.url"));
     }

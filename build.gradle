@@ -159,6 +159,7 @@ project('handa-sms') {
             compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
             compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: jerseyVersion
             compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: jerseyVersion
+            compile group: 'org.glassfish.jersey.connectors', name: 'jersey-apache-connector', version: jerseyVersion
             compile group: 'org.springframework', name: 'spring-context', version: springVersion
             compile group: 'org.springframework', name: 'spring-core', version: springVersion
             compile group: 'com.oracle', name: 'oracle.driver', version: oracleDriverVersion
