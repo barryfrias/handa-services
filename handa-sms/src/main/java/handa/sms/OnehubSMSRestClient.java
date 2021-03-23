@@ -32,8 +32,8 @@ public class OnehubSMSRestClient
             form.param("from", smsInbound.getMobileNumber());
             form.param("text", smsInbound.getMessage());
             // async call
-            //wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").async().post(Entity.form(form)).get().close();
-            wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").post(Entity.form(form)).close();
+            wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").async().post(Entity.form(form)).get().close();
+            //wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").post(Entity.form(form)).close();
         }
         catch(Exception e)
         {
