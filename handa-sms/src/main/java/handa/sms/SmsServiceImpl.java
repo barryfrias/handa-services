@@ -41,7 +41,7 @@ implements SmsService
     private DBLoggerDAO dbLog;
     private SoapWsCaller<SendSmsInput, SendSmsOutput, SOAPBody> sendSmsWsCaller;
     private OnehubSMSRestClient onehubSMSRestClient;
-    private boolean isSMSForwardinEnabled;
+    private boolean isSMSForwardingEnabled;
     private static final SSLContext SSL_CTX;
     private static final HostnameVerifier HOSTNAME_VERIFIER = new HostnameVerifier() { public boolean verify(String S1, SSLSession S2) { return true; } };
 
@@ -69,15 +69,8 @@ implements SmsService
         String smartWsUrl = handaProperties.get("sms.smart.ws.url");
         String smartWsSoapAction = handaProperties.get("sms.smart.ws.soap.action");
         this.sendSmsWsCaller = new SendSmsWsCaller(new WSParams(smartWsUrl, smartWsSoapAction));
-        this.isSMSForwardinEnabled = Boolean.valueOf(handaProperties.get("onehub.sms.forwarding.enabled"));
-        if(isSMSForwardinEnabled)
-        {
-            log.info("SMS Forwarding to OneHub is enabled");
-        }
-        else
-        {
-            log.info("SMS Forwarding to OneHub is disabled");
-        }
+        this.isSMSForwardingEnabled = Boolean.valueOf(handaProperties.get("onehub.sms.forwarding.enabled"));
+        log.info("SMS Forwarding to OneHub is " + (isSMSForwardingEnabled? "enabled" : "disabled"));
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.property(ClientProperties.PROXY_URI, "http://" + handaProperties.get("http.proxy"));
         clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 30000);
@@ -91,7 +84,7 @@ implements SmsService
     public String receive(SmsInbound smsInbound)
     {
         String result = smsDAO.receive(smsInbound);
-        if(isSMSForwardinEnabled)
+        if(isSMSForwardingEnabled)
         {
             onehubSMSRestClient.forwardSMS(smsInbound);
         }
