@@ -37,7 +37,7 @@
     <Loggers>
         <Logger
             name="org.glassfish.jersey.filter.LoggingFilter"
-            level="INFO"
+            level="ERROR"
             additivity="false">
             <AppenderRef ref="requestlog"/>
         </Logger>

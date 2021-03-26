@@ -1,7 +1,9 @@
 package handa.command;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
 import static handa.config.HandaCommandConstants.OK;
 
 import java.io.File;
@@ -10,19 +12,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Optional;
+
 import handa.beans.dto.AppLog;
-import handa.beans.dto.City;
+import handa.beans.dto.CallTree;
 import handa.beans.dto.ClosePrompt;
 import handa.beans.dto.CloseUserReport;
+import handa.beans.dto.Cmp;
+import handa.beans.dto.CmpViewer;
+import handa.beans.dto.DashboardFilter;
+import handa.beans.dto.DistributionCustomGroup;
+import handa.beans.dto.DistributionList;
+import handa.beans.dto.LovItem;
 import handa.beans.dto.NewsFeed;
+import handa.beans.dto.NewsFeedSearch;
 import handa.beans.dto.PromptCount;
-import handa.beans.dto.UserLocation;
+import handa.beans.dto.SosPrompt;
 import handa.beans.dto.UserPrompt;
 import handa.beans.dto.UserReport;
 import handa.core.DBLoggerDAO;
@@ -48,15 +60,9 @@ implements CommandService
     }
 
     @Override
-    public int getSosCount(String city)
+    public Map<String, Integer> getPromptCount(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getSosCount(city);
-    }
-
-    @Override
-    public int getSafeCount(String city)
-    {
-        return commandDAO.getSafeCount(city);
+        return commandDAO.getPromptCount(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -76,15 +82,15 @@ implements CommandService
     }
 
     @Override
-    public List<NewsFeed> getNewsFeeds()
-    {
-        return commandDAO.getNewsFeeds();
-    }
-
-    @Override
     public List<NewsFeed> getNewsFeeds(int pageNo)
     {
         return commandDAO.getNewsFeeds(pageNo);
+    }
+
+    @Override
+    public List<NewsFeed> searchNewsFeed(NewsFeedSearch newsFeedSearch)
+    {
+        return commandDAO.searchNewsFeed(newsFeedSearch);
     }
 
     @Override
@@ -96,21 +102,21 @@ implements CommandService
     }
 
     @Override
-    public List<UserPrompt> getSos(String city)
+    public List<SosPrompt> getAllSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getSos(city);
+        return commandDAO.getAllSos(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserPrompt> getSafe(String city)
+    public List<UserPrompt> getSos(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getSafe(city);
+        return commandDAO.getSos(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
-    public List<UserReport> getUserReports()
+    public List<UserPrompt> getSafe(String cty, String head, String dept, String comp, String startDate, String endDate)
     {
-        return commandDAO.getUserReports();
+        return commandDAO.getSafe(cty, head, dept, comp, startDate, endDate);
     }
 
     @Override
@@ -126,27 +132,39 @@ implements CommandService
     }
 
     @Override
-    public List<City> getCities()
+    public List<DashboardFilter> getCities()
     {
         return commandDAO.getCities();
     }
 
     @Override
-    public int getNoResponseCount(String city)
+    public List<DashboardFilter> getDashboardHeads()
     {
-        return commandDAO.getNoResponseCount(city);
+        return commandDAO.getDashboardHeads();
     }
 
     @Override
-    public List<UserPrompt> getNoResponse(String city)
+    public List<DashboardFilter> getDashboardDepartments()
     {
-        return commandDAO.getNoResponse(city);
+        return commandDAO.getDashboardDepartments();
     }
 
     @Override
-    public List<PromptCount> getSosCountPerCity()
+    public List<DashboardFilter> getDashboardCompanies()
     {
-        return commandDAO.getSosCountPerCity();
+        return commandDAO.getDashboardCompanies();
+    }
+
+    @Override
+    public List<UserPrompt> getNoResponse(String cty, String head, String dept, String comp, String startDate, String endDate)
+    {
+        return commandDAO.getNoResponse(cty, head, dept, comp, startDate, endDate);
+    }
+
+    @Override
+    public List<PromptCount> getSosCountPerCity(String startDate, String endDate)
+    {
+        return commandDAO.getSosCountPerCity(startDate, endDate);
     }
 
     @Override
@@ -189,16 +207,10 @@ implements CommandService
     }
 
     @Override
-    public List<UserLocation> getUsersLocations(String city)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
-        return commandDAO.getUsersLocations(city);
-    }
-
-    @Override
-    public int closePrompt(int id, ClosePrompt closePrompt)
-    {
-        int result = commandDAO.closePrompt(id, closePrompt);
-        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was %s", id, result));
+        String result = commandDAO.closePrompt(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Closed prompt id %s and result was ref no = %s", id, result));
         return result;
     }
 
@@ -214,5 +226,128 @@ implements CommandService
         int result = commandDAO.closeUserReport(id, closeUserReport);
         dbLoggerDAO.log(AppLog.server(closeUserReport.getUsername(), "Closed user report id %s and result was %s", id, result));
         return result;
+    }
+
+    @Override
+    public String updateSOS(int id, ClosePrompt closePrompt)
+    {
+        String result = commandDAO.updateSOS(id, closePrompt);
+        dbLoggerDAO.log(AppLog.server(closePrompt.getUsername(), "Updated SOS id %s and result was %s", id, result));
+        return result;
+    }
+
+    @Override
+    public List<DistributionList> getNewsFeedsDistributionList()
+    {
+        return commandDAO.getNewsFeedsDistributionList("default");
+    }
+
+    @Override
+    public List<DistributionList> getCustomNewsFeedsDistributionList()
+    {
+        return commandDAO.getNewsFeedsDistributionList("custom");
+    }
+
+    @Override
+    public List<LovItem> getNewsFeedsDistributionLov(String distributionListCode)
+    {
+        return commandDAO.getNewsFeedsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public String addNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.addNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String editNewsFeedsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.editNewsFeedsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom newsfeeds group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String deleteNewsFeedsCustomGroup(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteNewsFeedsCustomGroup(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted custom newsfeeds group id %s, result was: %s", id, result));
+        return result;
+    }
+
+    @Override
+    public List<CallTree> listCallTree()
+    {
+        return commandDAO.listCallTree(null);
+    }
+
+    @Override
+    public Optional<CallTree> getCallTreeById(long id)
+    {
+        List<CallTree> list = commandDAO.listCallTree(id);
+        if(list.isEmpty())
+        {
+            return absent();
+        }
+        return Optional.of(list.get(0));
+    }
+
+    @Override
+    public long insertCallTree(CallTree callTree)
+    {
+        long result = commandDAO.insertCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Created call tree with id: %s", result));
+        return result;
+    }
+
+    @Override
+    public String updateCallTree(CallTree callTree)
+    {
+        String result = commandDAO.updateCallTree(callTree);
+        dbLoggerDAO.log(AppLog.server(callTree.getModifiedBy(), "Updated call tree id: %s", callTree.getId()));
+        return result;
+    }
+
+    @Override
+    public String deleteCallTree(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteCallTree(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted call tree id: %s", id));
+        return result;
+    }
+
+    @Override
+    public String addCmp(Cmp cmp)
+    {
+        return commandDAO.addCmp(cmp);
+    }
+
+    @Override
+    public String editCmp(Cmp cmp)
+    {
+        return commandDAO.editCmp(cmp);
+    }
+
+    @Override
+    public String deleteCmp(long fileId, String deletedBy)
+    {
+        return commandDAO.deleteCmp(fileId, deletedBy);
+    }
+
+    @Override
+    public List<Cmp> listCmp()
+    {
+        return commandDAO.listCmp();
+    }
+
+    @Override
+    public List<CmpViewer> listCmpViewers()
+    {
+        return commandDAO.listCmpViewers();
     }
 }

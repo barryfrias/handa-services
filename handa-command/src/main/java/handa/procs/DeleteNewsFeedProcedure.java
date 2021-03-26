@@ -22,7 +22,7 @@ extends StoredProcedure
     public DeleteNewsFeedProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("DELETE_NEWS_FEED");
+        setSql("HANDA_NEWSFEED.DELETE_NEWS_FEED");
         setFunction(false);
         declareParameter(new SqlParameter("P_ID", OracleTypes.NUMBER));
         declareParameter(new SqlParameter("DELETED_BY", OracleTypes.VARCHAR));

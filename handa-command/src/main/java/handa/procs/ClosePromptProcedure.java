@@ -3,7 +3,6 @@ package handa.procs;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -23,28 +22,25 @@ extends StoredProcedure
     public ClosePromptProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("CLOSE_PROMPT");
+        setSql("close_prompt");
         setFunction(false);
         declareParameter(new SqlParameter("P_ID", OracleTypes.NUMBER));
-        declareParameter(new SqlParameter("REF_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("REASON", OracleTypes.VARCHAR));
         declareParameter(new SqlParameter("CLOSED_BY", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(RESULT, OracleTypes.NUMBER));
+        declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         compile();
     }
 
-    public int closePrompt(int id, ClosePrompt closePrompt)
+    public String closePrompt(int id, ClosePrompt closePrompt)
     {
         checkNotNull(closePrompt, "closePrompt object can't be null");
         Object[] params =
         {
             id,
-            closePrompt.getReferenceNumber(),
             closePrompt.getReason(),
             checkNotNull(emptyToNull(closePrompt.getUsername()), "closePrompt.username can't be null")
         };
         Map<String, Object> map = execute(params);
-        BigDecimal count = (BigDecimal) map.get(RESULT);
-        return count.intValue();
+        return (String) map.get(RESULT);
     }
 }

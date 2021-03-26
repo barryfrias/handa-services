@@ -1,6 +1,7 @@
 include ':handa-beans'
 include ':handa-core'
 include ':handa-command'
+include ':handa-hrlink'
 include ':handa-users'
 include ':handa-sms'
 include ':handa-site'

@@ -1,5 +1,9 @@
 package handa.command;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.base.Strings.nullToEmpty;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import handa.beans.dto.AppLog;
+import handa.beans.dto.DistributionCustomGroup;
 import handa.beans.dto.LovItem;
 import handa.beans.dto.ReadSms;
 import handa.beans.dto.SendSms;
-import handa.beans.dto.SmsDistributionList;
+import handa.beans.dto.DistributionList;
 import handa.beans.dto.SmsInboxMessage;
 import handa.beans.dto.SmsOutboxMessage;
 import handa.core.DBLoggerDAO;
@@ -42,6 +47,12 @@ implements CommandSmsService
     public List<SmsInboxMessage> getSmsInbox()
     {
         return commandDAO.getSmsInbox();
+    }
+
+    @Override
+    public List<SmsInboxMessage> getClutterSmsInbox()
+    {
+        return commandDAO.getClutterSmsInbox();
     }
 
     @Override
@@ -93,14 +104,45 @@ implements CommandSmsService
     }
 
     @Override
-    public List<SmsDistributionList> getSmsDistributionList()
+    public List<DistributionList> getSmsDistributionList()
     {
-        return commandDAO.getSmsDistributionList();
+        return commandDAO.getSmsDistributionList("default");
+    }
+
+    @Override
+    public List<DistributionList> getCustomSmsDistributionList()
+    {
+        return commandDAO.getSmsDistributionList("custom");
     }
 
     @Override
     public List<LovItem> getSmsDistributionLov(String distributionListCode)
     {
         return commandDAO.getSmsDistributionLov(distributionListCode);
+    }
+
+    @Override
+    public String addSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.addSmsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Created custom sms group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String editSmsCustomGroup(DistributionCustomGroup customGroup)
+    {
+        String result = commandDAO.editSmsCustomGroup(customGroup);
+        dbLoggerDAO.log(AppLog.server(customGroup.getModifiedBy(), "Edited custom sms group, result was: %s", result));
+        return result;
+    }
+
+    @Override
+    public String deleteSmsCustomGroup(long id, String deletedBy)
+    {
+        checkNotNull(emptyToNull(nullToEmpty(deletedBy).trim()), "deletedBy should not be null");
+        String result = commandDAO.deleteSmsCustomGroup(id);
+        dbLoggerDAO.log(AppLog.server(deletedBy, "Deleted custom sms group id %s, result was: %s", id, result));
+        return result;
     }
 }

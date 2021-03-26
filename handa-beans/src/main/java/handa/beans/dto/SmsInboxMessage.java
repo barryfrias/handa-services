@@ -1,13 +1,12 @@
 package handa.beans.dto;
 
-import static com.google.common.base.MoreObjects.toStringHelper;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "smsInboxMessage")
 public class SmsInboxMessage
 {
     private int id;
+    private String sender;
     private String mobileNumber;
     private String message;
     private String folder;
@@ -19,6 +18,7 @@ public class SmsInboxMessage
     private String deletedDate;
     private String msgDate;
     private String insertedDate;
+    private int rowNum;
 
     public int getId()
     {
@@ -28,6 +28,16 @@ public class SmsInboxMessage
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    public String getSender()
+    {
+        return sender;
+    }
+
+    public void setSender(String sender)
+    {
+        this.sender = sender;
     }
 
     public String getMobileNumber()
@@ -140,22 +150,13 @@ public class SmsInboxMessage
         this.insertedDate = insertedDate;
     }
 
-    @Override
-    public String toString()
+    public int getRowNum()
     {
-        return toStringHelper(this)
-               .add("id", id)
-               .add("mobileNumber", mobileNumber)
-               .add("message", message)
-               .add("folder", folder)
-               .add("readFlag", readFlag)
-               .add("readBy", readBy)
-               .add("readDate", readDate)
-               .add("deletedFlag", deletedFlag)
-               .add("deletedBy", deletedBy)
-               .add("deletedDate", deletedDate)
-               .add("msgDate", msgDate)
-               .add("insertedDate", insertedDate)
-               .toString();
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
     }
 }

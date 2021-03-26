@@ -18,6 +18,9 @@ public class NewsFeed
     private String messageType;
     private String createdDate;
     private String username;
+    private String distributionListKey;
+    private String[] distributionListValues;
+    private String type;
 
     public int getRowNum()
     {
@@ -99,6 +102,36 @@ public class NewsFeed
         this.username = username;
     }
 
+    public String getDistributionListKey()
+    {
+        return distributionListKey;
+    }
+
+    public void setDistributionListKey(String distributionListKey)
+    {
+        this.distributionListKey = distributionListKey;
+    }
+
+    public String[] getDistributionListValues()
+    {
+        return distributionListValues;
+    }
+
+    public void setDistributionListValues(String[] distributionListValues)
+    {
+        this.distributionListValues = distributionListValues;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
     @Override
     public String toString()
     {
@@ -111,6 +144,9 @@ public class NewsFeed
                 .add("messageType", messageType)
                 .add("createdDate", createdDate)
                 .add("username", username)
+                .add("distributionListKey", distributionListKey)
+                .add("distributionListValues", distributionListValues)
+                .add("type", type)
                 .toString();
     }
 }

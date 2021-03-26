@@ -7,16 +7,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "userInfo")
 public class UserInfo
 {
+    private int rowNum;
+    private String key;
     private String employeeNumber;
     private String firstName;
     private String lastName;
     private String middleName;
     private String position;
     private String department;
+    private String group;
+    private String officeLocation;
     private String immediateHead;
     private String company;
     private String landlineNo;
     private String mobileNumber;
+    private String actualAddress;
     private String permanentAddress;
     private String currentAddress;
     private String iceContactPerson;
@@ -26,6 +31,37 @@ public class UserInfo
     private String remarks;
     private String longitude;
     private String latitude;
+    private String city;
+    private String adUsername;
+    private String province;
+    private String barangay;
+    private String permAddProvince;
+    private String permAddCity;
+    private String permAddBarangay;
+    private String createdBy;
+    private String createdDate;
+    private String modifiedBy;
+    private String modifiedDate;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
+
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(String key)
+    {
+        this.key = key;
+    }
 
     public String getEmployeeNumber()
     {
@@ -87,6 +123,26 @@ public class UserInfo
         this.department = department;
     }
 
+    public String getGroup()
+    {
+        return group;
+    }
+
+    public void setGroup(String group)
+    {
+        this.group = group;
+    }
+
+    public String getOfficeLocation()
+    {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation)
+    {
+        this.officeLocation = officeLocation;
+    }
+
     public String getImmediateHead()
     {
         return immediateHead;
@@ -125,6 +181,16 @@ public class UserInfo
     public void setMobileNumber(String mobileNumber)
     {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getActualAddress()
+    {
+        return actualAddress;
+    }
+
+    public void setActualAddress(String actualAddress)
+    {
+        this.actualAddress = actualAddress;
     }
 
     public String getPermanentAddress()
@@ -217,16 +283,129 @@ public class UserInfo
         this.latitude = latitude;
     }
 
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getAdUsername()
+    {
+        return adUsername;
+    }
+
+    public void setAdUsername(String adUsername)
+    {
+        this.adUsername = adUsername;
+    }
+
+    public String getProvince()
+    {
+        return province;
+    }
+
+    public void setProvince(String province)
+    {
+        this.province = province;
+    }
+
+    public String getBarangay()
+    {
+        return barangay;
+    }
+
+    public void setBarangay(String barangay)
+    {
+        this.barangay = barangay;
+    }
+
+    public String getPermAddProvince()
+    {
+        return permAddProvince;
+    }
+
+    public void setPermAddProvince(String permAddProvince)
+    {
+        this.permAddProvince = permAddProvince;
+    }
+
+    public String getPermAddCity()
+    {
+        return permAddCity;
+    }
+
+    public void setPermAddCity(String permAddCity)
+    {
+        this.permAddCity = permAddCity;
+    }
+
+    public String getPermAddBarangay()
+    {
+        return permAddBarangay;
+    }
+
+    public void setPermAddBarangay(String permAddBarangay)
+    {
+        this.permAddBarangay = permAddBarangay;
+    }
+
+    public String getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate)
+    {
+        this.createdDate = createdDate;
+    }
+
+    public String getModifiedBy()
+    {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy)
+    {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public String getModifiedDate()
+    {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(String modifiedDate)
+    {
+        this.modifiedDate = modifiedDate;
+    }
+
     @Override
     public String toString()
     {
         return toStringHelper(this)
+               .add("rowNum", rowNum)
+               .add("key", key)
                .add("employeeNumber", employeeNumber)
                .add("firstName", firstName)
                .add("lastName", lastName)
                .add("middleName", middleName)
                .add("position", position)
                .add("department", department)
+               .add("group", group)
                .add("immediateHead", immediateHead)
                .add("landlineNo", landlineNo)
                .add("mobileNumber", mobileNumber)
@@ -239,6 +418,17 @@ public class UserInfo
                .add("remarks", remarks)
                .add("longitude", longitude)
                .add("latitude", latitude)
+               .add("city", city)
+               .add("createdDate", createdDate)
+               .add("adUsername", adUsername)
+               .add("province", province)
+               .add("modifiedBy", modifiedBy)
+               .add("barangay", barangay)
+               .add("permAddProvince", permAddProvince)
+               .add("permAddCity", permAddCity)
+               .add("permAddBarangay", permAddBarangay)
+               .add("createdBy", createdBy)
+               .add("modifiedDate", modifiedDate)
                .toString();
     }
 }

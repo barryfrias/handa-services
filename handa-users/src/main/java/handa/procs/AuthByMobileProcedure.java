@@ -21,7 +21,7 @@ extends StoredProcedure
     public AuthByMobileProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("AUTH_BY_MOBILE");
+        setSql("HANDA_USERS_AUTH.LOGIN_BY_MOBILE");
         declareParameter(new SqlParameter("MOB_NO", OracleTypes.VARCHAR));
         declareParameter(new SqlOutParameter(RESULT, OracleTypes.VARCHAR));
         setFunction(false);
@@ -31,7 +31,7 @@ extends StoredProcedure
     public String authenticate(AuthInfo authInfo)
     {
         checkNotNull(authInfo, "authInfo object can't be null");
-        Map<String, Object> map = execute(checkNotNull(authInfo.getMobileNumber(), "authInfo.mobileNumber can't be null"));
+        Map<String, Object> map = execute(checkNotNull(authInfo.getMobileNumber(), "mobileNumber should not be null"));
         return (String) map.get(RESULT);
     }
 }

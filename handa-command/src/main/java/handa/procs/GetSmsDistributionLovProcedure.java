@@ -14,7 +14,7 @@ import org.springframework.jdbc.object.StoredProcedure;
 import com.google.common.collect.ImmutableList;
 
 import handa.beans.dto.LovItem;
-import handa.mappers.SmsDistributionLovRowMapper;
+import handa.mappers.DistributionLovRowMapper;
 import oracle.jdbc.OracleTypes;
 
 public class GetSmsDistributionLovProcedure
@@ -25,9 +25,9 @@ extends StoredProcedure
     public GetSmsDistributionLovProcedure(DataSource dataSource)
     {
         setDataSource(checkNotNull(dataSource));
-        setSql("GET_SMS_DISTRIBUTION_LOV");
+        setSql("HANDA_SMS_DIST.DISTRIBUTION_LOV");
         declareParameter(new SqlParameter("DIST_LIST_CODE", OracleTypes.VARCHAR));
-        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new SmsDistributionLovRowMapper()));
+        declareParameter(new SqlOutParameter(RESULT, OracleTypes.CURSOR, new DistributionLovRowMapper()));
         setFunction(false);
         compile();
     }

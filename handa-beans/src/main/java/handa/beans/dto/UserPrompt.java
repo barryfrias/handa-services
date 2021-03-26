@@ -10,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class UserPrompt
 {
+    private int rowNum;
     private int id;
     private String name;
+    private String company;
     private String mobileNumber;
     private String deviceInfo;
     private String longitude;
@@ -21,6 +23,18 @@ public class UserPrompt
     private String promptType;
     private String status;
     private String createdDate;
+    private String modifiedBy;
+    private String remarks;
+
+    public int getRowNum()
+    {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum)
+    {
+        this.rowNum = rowNum;
+    }
 
     public String getName()
     {
@@ -30,6 +44,16 @@ public class UserPrompt
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getCompany()
+    {
+        return company;
+    }
+
+    public void setCompany(String company)
+    {
+        this.company = company;
     }
 
     public int getId()
@@ -132,12 +156,33 @@ public class UserPrompt
         this.createdDate = createdDate;
     }
 
+    public String getModifiedBy() 
+    {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) 
+	{
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getRemarks()
+    {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks)
+    {
+        this.remarks = remarks;
+    }
+
     @Override
     public String toString()
     {
         return toStringHelper(this)
                .add("id", id)
                .add("name", name)
+               .add("company", company)
                .add("mobileNumber", mobileNumber)
                .add("longitude", longitude)
                .add("latitude", latitude)
@@ -145,6 +190,8 @@ public class UserPrompt
                .add("promptType", promptType)
                .add("status", status)
                .add("createdDate", createdDate)
+               .add("modifiedBy", modifiedBy)
+               .add("remarks", remarks)
                .toString();
     }
 }
