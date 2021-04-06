@@ -25,6 +25,7 @@ public class OnehubSMSRestClient
 {
     static Logger log = LoggerFactory.getLogger(OnehubSMSRestClient.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static String token;
 
     private WebTarget wsTarget;
     private WebTarget oauthTarget;
@@ -67,13 +68,26 @@ public class OnehubSMSRestClient
         checkNotNull(smsInbound, "smsInbound should not be null.");
         try
         {
+            if(null == token)
+            {
+                token = getToken();
+            }
             Form form = new Form();
             form.param("from", smsInbound.getMobileNumber());
             form.param("text", smsInbound.getMessage());
             // async call
-            wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded")
-                              .header("Authorization", "Bearer " + getToken())
-                              .async().post(Entity.form(form)).get().close();
+            Response response = wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded")
+                              .header("Authorization", "Bearer " + token)
+                              .async().post(Entity.form(form)).get();
+            if(response.getStatus() == 401)
+            {
+                response.close();
+                token = getToken(); //get new token
+                //retry call
+                wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").header("Authorization", "Bearer " + token)
+                        .async().post(Entity.form(form)).get().close();;
+            }
+            response.close();
         }
         catch(Exception e)
         {
