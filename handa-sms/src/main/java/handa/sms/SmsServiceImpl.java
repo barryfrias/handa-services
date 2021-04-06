@@ -77,7 +77,13 @@ implements SmsService
         clientConfig.property(ClientProperties.READ_TIMEOUT, 30000);
         clientConfig.connectorProvider(new ApacheConnectorProvider());
         Client client = ClientBuilder.newBuilder().withConfig(clientConfig).sslContext(SSL_CTX).hostnameVerifier(HOSTNAME_VERIFIER).build();
-        this.onehubSMSRestClient = new OnehubSMSRestClient(client, handaProperties.get("onehub.sms.ws.url"));
+        this.onehubSMSRestClient = new OnehubSMSRestClient(client,
+                                                 handaProperties.get("onehub.sms.ws.url"),
+                                                 handaProperties.get("onehub.oauth.ws.url"),
+                                                 handaProperties.get("onehub.oauth.clientid"),
+                                                 handaProperties.get("onehub.oauth.clientsecret"),
+                                                 handaProperties.get("onehub.oauth.username"),
+                                                 handaProperties.get("onehub.oauth.password"));
     }
 
     @Override
