@@ -78,14 +78,14 @@ public class OnehubSMSRestClient
             // async call
             Response response = wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded")
                               .header("Authorization", "Bearer " + token)
-                              .async().post(Entity.form(form)).get();
+                              .post(Entity.form(form));
             if(response.getStatus() == 401)
             {
                 response.close();
                 token = getToken(); //get new token
                 //retry call
                 wsTarget.request().header("Content-Type", "application/x-www-form-urlencoded").header("Authorization", "Bearer " + token)
-                        .async().post(Entity.form(form)).get().close();;
+                        .post(Entity.form(form)).close();
             }
             response.close();
         }
